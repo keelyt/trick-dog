@@ -49,12 +49,28 @@
           "builtin",
           "external",
           "internal",
-          "parent",
-          "sibling",
+          ["parent", "sibling"],
           "index",
           "object",
           "type"
-        ]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "./*.scss",
+            "group": "sibling",
+            "position": "after"
+          }
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },
