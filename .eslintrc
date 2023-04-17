@@ -49,12 +49,34 @@
           "builtin",
           "external",
           "internal",
-          "parent",
-          "sibling",
+          ["parent", "sibling"],
           "index",
           "object",
           "type"
-        ]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "vite",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "^react(.*)",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "./*.scss",
+            "group": "sibling",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },
