@@ -1,13 +1,13 @@
-@import './variables';
+@use './variables' as var;
 
 $themes: (
   light: (
-    bg: $bg--light,
-    text: $text--light,
+    bg: var.$bg--light,
+    text: var.$text--light,
   ),
   dark: (
-    bg: $bg--dark,
-    text: $text--dark,
+    bg: var.$bg--dark,
+    text: var.$text--dark,
   ),
 );
 
