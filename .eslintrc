@@ -56,7 +56,12 @@
         ],
         "pathGroups": [
           {
-            "pattern": "react",
+            "pattern": "vite",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "^react(.*)",
             "group": "external",
             "position": "before"
           },
