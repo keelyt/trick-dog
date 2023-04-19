@@ -1,12 +1,10 @@
 // import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useContext } from 'react';
-
-import { ThemeContext } from './contexts/ThemeContext';
+import { useTheme } from './contexts/ThemeContext';
 
 import styles from './App.module.scss';
 
 export default function App() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className={`${styles.container} ${styles[`theme--${theme}`]}`}>
