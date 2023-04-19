@@ -61,9 +61,14 @@
             "position": "before"
           },
           {
-            "pattern": "^react(.*)",
+            "pattern": "^react(-dom)?$",
             "group": "external",
             "position": "before"
+          },
+          {
+            "pattern": "@tanstack/react-query*",
+            "group": "external",
+            "position": "after"
           },
           {
             "pattern": "./*.scss",
