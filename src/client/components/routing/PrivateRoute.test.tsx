@@ -5,26 +5,6 @@ import { describe, it, expect } from 'vitest';
 import PrivateRoute from './PrivateRoute';
 import { AuthContext } from '../../contexts/AuthContext';
 
-const router = createMemoryRouter(
-  [
-    {
-      path: '/login',
-      element: <>Navigated from Start</>,
-    },
-    {
-      path: '/private',
-      element: (
-        <PrivateRoute>
-          <>Starting Path</>
-        </PrivateRoute>
-      ),
-    },
-  ],
-  {
-    initialEntries: ['/private'],
-  }
-);
-
 describe('PrivateRoute', () => {
   it('renders the child components when authenticated', async () => {
     const mockAuthContext = {
@@ -32,6 +12,8 @@ describe('PrivateRoute', () => {
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
     };
+
+    const router = createRouter();
 
     render(
       <AuthContext.Provider value={mockAuthContext}>
@@ -51,6 +33,8 @@ describe('PrivateRoute', () => {
       logout: () => Promise.resolve(),
     };
 
+    const router = createRouter();
+
     render(
       <AuthContext.Provider value={mockAuthContext}>
         <RouterProvider router={router} />
@@ -62,3 +46,25 @@ describe('PrivateRoute', () => {
     });
   });
 });
+
+function createRouter() {
+  return createMemoryRouter(
+    [
+      {
+        path: '/login',
+        element: <>Navigated from Start</>,
+      },
+      {
+        path: '/private',
+        element: (
+          <PrivateRoute>
+            <>Starting Path</>
+          </PrivateRoute>
+        ),
+      },
+    ],
+    {
+      initialEntries: ['/private'],
+    }
+  );
+}
