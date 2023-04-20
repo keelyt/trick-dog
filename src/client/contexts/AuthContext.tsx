@@ -9,7 +9,7 @@ interface AuthContextType {
 }
 
 // Create a new React context for auth using default values.
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   authed: false,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
