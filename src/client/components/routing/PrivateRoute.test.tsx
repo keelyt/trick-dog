@@ -1,22 +1,44 @@
 import { render, waitFor } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 import PrivateRoute from './PrivateRoute';
 import { AuthContext } from '../../contexts/AuthContext';
 
 describe('PrivateRoute', () => {
-  it('renders the child components when authenticated', async () => {
-    const mockAuthContext = {
+  let router: ReturnType<typeof createMemoryRouter>;
+
+  beforeEach(() => {
+    router = createMemoryRouter(
+      [
+        {
+          path: '/login',
+          element: <>Navigated from Start</>,
+        },
+        {
+          path: '/private',
+          element: (
+            <PrivateRoute>
+              <>Starting Path</>
+            </PrivateRoute>
+          ),
+        },
+      ],
+      {
+        initialEntries: ['/private'],
+      }
+    );
+  });
+
+  it('renders the child components when the user is authenticated', async () => {
+    const authedAuthContext = {
       authed: true,
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
     };
 
-    const router = createRouter();
-
     render(
-      <AuthContext.Provider value={mockAuthContext}>
+      <AuthContext.Provider value={authedAuthContext}>
         <RouterProvider router={router} />
       </AuthContext.Provider>
     );
@@ -26,17 +48,15 @@ describe('PrivateRoute', () => {
     });
   });
 
-  it('redirects to login page when not authenticated', async () => {
-    const mockAuthContext = {
+  it('redirects to login page when the user is not authenticated', async () => {
+    const unauthedAuthContext = {
       authed: false,
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
     };
 
-    const router = createRouter();
-
     render(
-      <AuthContext.Provider value={mockAuthContext}>
+      <AuthContext.Provider value={unauthedAuthContext}>
         <RouterProvider router={router} />
       </AuthContext.Provider>
     );
@@ -46,25 +66,3 @@ describe('PrivateRoute', () => {
     });
   });
 });
-
-function createRouter() {
-  return createMemoryRouter(
-    [
-      {
-        path: '/login',
-        element: <>Navigated from Start</>,
-      },
-      {
-        path: '/private',
-        element: (
-          <PrivateRoute>
-            <>Starting Path</>
-          </PrivateRoute>
-        ),
-      },
-    ],
-    {
-      initialEntries: ['/private'],
-    }
-  );
-}
