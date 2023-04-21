@@ -10,11 +10,13 @@
   border: 2px solid;
   border-radius: 50%;
   font-size: 1.5em;
+  width: fit-content;
+  height: fit-content;
   @include themes.themed {
     border-color: themes.t('text');
   }
 
-  svg {
+  .icon {
     @include themes.themed {
       color: themes.t('text');
     }
