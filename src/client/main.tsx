@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App';
 import { ThemeProvider } from './contexts/ThemeContext';
 
-import './index.css';
+import './styles/GlobalStyles.scss';
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {

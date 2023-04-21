@@ -1,3 +1,13 @@
+@use './themes' as *;
+
+.theme--dark {
+  color: map-get(map-get($themes, 'dark'), 'text');
+}
+
+.theme--light {
+  color: map-get(map-get($themes, 'light'), 'text');
+}
+
 html,
 body,
 #root {

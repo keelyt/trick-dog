@@ -17,6 +17,30 @@ $themes: (
 @mixin themed() {
   // For each theme defined in the $themes variable
   @each $theme, $map in $themes {
+    :global(.theme--#{$theme}) & {
+      // Create a global map ($theme-map) that contains values for each key in the theme.
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        // Merge each key-value pair into the theme-specific map.
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      // Execute the contents of the mixin.
+      @content;
+      // Unset the theme map to ensure that the $theme-map does not affect other themes.
+      $theme-map: null !global;
+    }
+  }
+}
+
+@mixin gthemed() {
+  // For each theme defined in the $themes variable
+  @each $theme, $map in $themes {
     .theme--#{$theme} & {
       // Create a global map ($theme-map) that contains values for each key in the theme.
       $theme-map: () !global;
