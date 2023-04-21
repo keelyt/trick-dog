@@ -11,7 +11,7 @@ export default function DarkLightToggle() {
     <button
       onClick={toggleTheme}
       aria-label={theme === 'light' ? 'Activate dark mode' : 'Activate light mode'}
-      className={styles.btn}
+      className={`${styles.btn} ${theme === 'dark' ? styles.rotate : ''}`}
     >
       {theme === 'light' ? (
         <RiMoonClearLine aria-hidden='true' className={styles.icon} />

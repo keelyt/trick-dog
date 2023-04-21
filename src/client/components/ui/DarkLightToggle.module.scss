@@ -12,8 +12,19 @@
   font-size: 1.5em;
   width: fit-content;
   height: fit-content;
+  -ms-transform: rotate(0deg); /* IE 9 */
+  -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+  transition: transform 1s;
   @include themes.themed {
     border-color: themes.t('text');
+  }
+
+  &.rotate {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transition: transform 1s;
   }
 
   .icon {
