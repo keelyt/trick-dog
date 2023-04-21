@@ -4,13 +4,13 @@ import type { ReactNode } from 'react';
 
 type ThemeMode = 'light' | 'dark';
 
-interface ThemeContextType {
+export interface ThemeContextType {
   theme: ThemeMode;
   toggleTheme: () => void;
 }
 
 // Create a new React context for the theme using default values.
-const ThemeContext = createContext<ThemeContextType>({
+export const ThemeContext = createContext<ThemeContextType>({
   theme: 'dark',
   toggleTheme: (): void => undefined,
 });

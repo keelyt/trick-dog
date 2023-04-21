@@ -1,0 +1,22 @@
+@use '@styles/themes';
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 0.5rem;
+  box-shadow: none;
+  border: 2px solid;
+  border-radius: 50%;
+  font-size: 1.5em;
+  @include themes.themed {
+    border-color: themes.t('text');
+  }
+
+  svg {
+    @include themes.themed {
+      color: themes.t('text');
+    }
+  }
+}
