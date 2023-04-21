@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 
+import Navbar from './components/routing/Navbar';
 import PrivateRoute from './components/routing/PrivateRoute';
 import PublicRoute from './components/routing/PublicRoute';
-import Navbar from './components/ui/Navbar';
 import { useAuth } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
 import Decks from './pages/Decks';
@@ -22,44 +22,46 @@ export default function App() {
   const authed = true;
 
   return (
-    <div className={`${styles.container} ${styles[`theme--${theme}`]}`}>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
-        <Route
-          path='/decks'
-          element={
-            <PrivateRoute>
-              <Decks />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/study'
-          element={
-            <PrivateRoute>
-              <Study />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/profile'
-          element={
-            <PrivateRoute>
-              <Profile />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path='/login'
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route path='*' element={<PageNotFound />} />
-      </Routes>
+    <div className={`theme--${theme}`}>
+      <div className={styles.App}>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
+          <Route
+            path='/decks'
+            element={
+              <PrivateRoute>
+                <Decks />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/study'
+            element={
+              <PrivateRoute>
+                <Study />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/login'
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </div>
     </div>
   );
 }
