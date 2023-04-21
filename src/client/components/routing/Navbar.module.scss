@@ -1,0 +1,89 @@
+@use '@styles/themes';
+@use '@styles/variables';
+
+// TODO: make partially persistent on mobile
+
+.container {
+  width: 100%;
+  @include themes.themed {
+    background-color: themes.t('bg-nav');
+    box-shadow: 0 4px 2px -3px themes.t('shadow');
+  }
+}
+
+.skew {
+  transform: skew(-20deg);
+}
+
+.unskew {
+  transform: skew(20deg);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    height: 100%;
+
+    li {
+      height: 100%;
+    }
+  }
+
+  &__logo {
+    height: 3rem;
+    width: 3rem;
+    fill: variables.$trick-dog;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25em 1rem;
+    height: 100%;
+
+    &:not(&--logo):hover {
+      @include themes.themed {
+        background-color: themes.t('bg-nav-hover');
+      }
+    }
+
+    &:not(&--logo):global(.active) {
+      @include themes.themed {
+        background: themes.t('bg-nav-gradient-primary');
+        background: -webkit-linear-gradient(
+          45deg,
+          themes.t('bg-nav-gradient-primary'),
+          themes.t('bg-nav-gradient-secondary')
+        );
+        background: linear-gradient(
+          45deg,
+          themes.t('bg-nav-gradient-primary'),
+          themes.t('bg-nav-gradient-secondary')
+        );
+      }
+    }
+
+    &--logo {
+      font-family: 'Figtree';
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+  }
+}

@@ -3,10 +3,20 @@
 $themes: (
   light: (
     bg: var.$bg--light,
+    bg-nav: var.$bg-nav--light,
+    bg-nav-gradient-primary: var.$bg-nav-gradient-primary--light,
+    bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--light,
+    bg-nav-hover: var.$bg-nav-hover--light,
+    shadow: var.$shadow--light,
     text: var.$text--light,
   ),
   dark: (
     bg: var.$bg--dark,
+    bg-nav: var.$bg-nav--dark,
+    bg-nav-gradient-primary: var.$bg-nav-gradient-primary--dark,
+    bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--dark,
+    bg-nav-hover: var.$bg-nav-hover--dark,
+    shadow: var.$shadow--dark,
     text: var.$text--dark,
   ),
 );
