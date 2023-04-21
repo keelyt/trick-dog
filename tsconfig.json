@@ -14,7 +14,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src"],
+      "@/components/*": ["./src/client/components"],
+      "@/styles/*": ["./src/client/styles"]
+    }
   },
   "include": ["src/**/*", "vite.config.ts", "vitest.setup.ts", ".eslintrc"],
   "references": [{ "path": "./tsconfig.node.json" }]

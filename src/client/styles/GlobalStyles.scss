@@ -1,4 +1,4 @@
-@use './themes' as *;
+@use '@styles/themes' as *;
 
 .theme--dark {
   color: map-get(map-get($themes, 'dark'), 'text');
