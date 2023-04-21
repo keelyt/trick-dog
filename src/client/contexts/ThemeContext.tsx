@@ -45,8 +45,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
    * Toggles the theme state and updates local storage.
    */
   const toggleTheme = (): void => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-    localStorage.setItem('ThemeContext:theme', theme);
+    localStorage.setItem('ThemeContext:theme', theme === 'light' ? 'dark' : 'light');
+    setTheme((theme) => (theme === 'light' ? 'dark' : 'light'));
   };
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
