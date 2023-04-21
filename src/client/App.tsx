@@ -17,9 +17,7 @@ import styles from './App.module.scss';
 
 export default function App() {
   const { theme } = useTheme();
-  // TODO: authed set to true for development--change to useAuth after implementing auth
-  // const { authed } = useAuth();
-  const authed = true;
+  const { authed } = useAuth();
 
   return (
     <div className={`theme--${theme}`}>

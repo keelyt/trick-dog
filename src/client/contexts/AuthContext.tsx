@@ -10,7 +10,8 @@ interface AuthContextType {
 
 // Create a new React context for auth using default values.
 export const AuthContext = createContext<AuthContextType>({
-  authed: false,
+  // TODO: Change to authed: false -- set to true by default for development
+  authed: true,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 });
@@ -28,7 +29,9 @@ export function useAuth(): AuthContextType {
  * @returns A React component that provides the auth context to its child components.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [authed, setAuthed] = useState(false);
+  // TODO: Change to useState(false) -- set to true by default for development
+  // const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(true);
 
   // Logs in the user.
   // This is currently a placeholder that will set authed to true and resolve immediately.
