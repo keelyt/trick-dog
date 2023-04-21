@@ -1,3 +1,4 @@
+import { FcGoogle } from 'react-icons/fc';
 import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
@@ -18,51 +19,63 @@ export default function Navbar() {
           <Logo className={styles.nav__logo} />
           Trick Dog
         </NavLink>
-        <ul className={styles.nav__list}>
+        <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
           <li className={styles.skew}>
-            <NavLink to='/' className={styles.nav__link}>
+            <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
               <span className={styles.unskew}>Home</span>
             </NavLink>
           </li>
           {authed && (
             <li className={styles.skew}>
-              <NavLink to='/decks' className={styles.nav__link}>
+              <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
                 <span className={styles.unskew}>Decks</span>
               </NavLink>
             </li>
           )}
           {authed && (
             <li className={styles.skew}>
-              <NavLink to='/study' className={styles.nav__link}>
+              <NavLink to='/study' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
                 <span className={styles.unskew}>Study</span>
               </NavLink>
             </li>
           )}
           {authed && (
             <li className={styles.skew}>
-              <NavLink to='/stats' className={styles.nav__link}>
+              <NavLink to='/stats' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
                 <span className={styles.unskew}>Stats</span>
               </NavLink>
             </li>
           )}
         </ul>
-        <ul className={styles.nav__list}>
+        <ul className={`${styles.nav__list} ${styles['nav__list--right']}`}>
           {authed && (
             <li>
-              <NavLink to='/profile' className={styles.nav__link}>
-                Profile
+              <NavLink
+                to='/profile'
+                aria-label='Profile'
+                className={`${styles.nav__link} ${styles['nav__link--icon']}`}
+              >
+                <FcGoogle aria-hidden='true' />
+                {/* Profile */}
               </NavLink>
             </li>
           )}
           {!authed && (
             <li>
-              <NavLink to='/login' className={styles.nav__link}>
+              <NavLink
+                to='/login'
+                aria-label='Login'
+                className={`${styles.nav__link} ${styles['nav__link--icon']}`}
+              >
+                <FcGoogle aria-hidden='true' />
                 Login
               </NavLink>
             </li>
           )}
+          <li>
+            <DarkLightToggle />
+          </li>
         </ul>
-        <DarkLightToggle />
       </nav>
     </div>
   );

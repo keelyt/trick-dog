@@ -20,6 +20,7 @@
 }
 
 .nav {
+  $self: &;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,9 +40,15 @@
     justify-content: center;
     list-style: none;
     height: 100%;
+    margin: 0;
+    padding: 0;
 
-    li {
+    &--left li {
       height: 100%;
+    }
+
+    &--right {
+      gap: 1rem;
     }
   }
 
@@ -55,28 +62,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25em 1rem;
     height: 100%;
 
-    &:not(&--logo):hover {
-      @include themes.themed {
-        background-color: themes.t('bg-nav-hover');
+    &--text {
+      padding: 0.25em 1rem;
+      :global(.active) {
+        @include themes.themed {
+          background: themes.t('bg-nav-gradient-primary');
+          background: -webkit-linear-gradient(
+            45deg,
+            themes.t('bg-nav-gradient-primary'),
+            themes.t('bg-nav-gradient-secondary')
+          );
+          background: linear-gradient(
+            45deg,
+            themes.t('bg-nav-gradient-primary'),
+            themes.t('bg-nav-gradient-secondary')
+          );
+        }
       }
-    }
 
-    &:not(&--logo):global(.active) {
-      @include themes.themed {
-        background: themes.t('bg-nav-gradient-primary');
-        background: -webkit-linear-gradient(
-          45deg,
-          themes.t('bg-nav-gradient-primary'),
-          themes.t('bg-nav-gradient-secondary')
-        );
-        background: linear-gradient(
-          45deg,
-          themes.t('bg-nav-gradient-primary'),
-          themes.t('bg-nav-gradient-secondary')
-        );
+      &:hover {
+        @include themes.themed {
+          background-color: themes.t('bg-nav-hover');
+        }
       }
     }
 
@@ -84,6 +93,22 @@
       font-family: 'Figtree';
       font-weight: 700;
       font-size: 1.2rem;
+    }
+
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      padding: 0.5rem;
+      border: 2px solid;
+      border-radius: 50%;
+      font-size: 1.5em;
+      width: fit-content;
+      height: fit-content;
+      @include themes.themed {
+        border-color: themes.t('text');
+      }
     }
   }
 }
