@@ -17,7 +17,6 @@ vi.mock('../../contexts/ThemeContext', () => ({
 describe('DarkLightToggle', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    vi.resetModules();
     theme = 'light';
   });
 
