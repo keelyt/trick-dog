@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiUser } from 'react-icons/bi';
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
 import { useAuth } from '../../contexts/AuthContext';
@@ -11,7 +11,10 @@ import styles from './Navbar.module.scss';
 
 export default function Navbar() {
   const { authed } = useAuth();
+  const { pathname } = useLocation();
   const [showNav, setShowNav] = useState(false);
+
+  useEffect(() => setShowNav(false), [pathname]);
 
   const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
