@@ -133,4 +133,28 @@ describe('Navbar', () => {
     await userEvent.click(link);
     expect(router.state.location.pathname).toEqual('/login');
   });
+
+  it('toggles aria-label when mobile menu toggle button is clicked', async () => {
+    authed = true;
+    render(<RouterProvider router={router} />);
+    const button = screen.getByRole('button', { name: /open navigation menu/i });
+    await userEvent.click(button);
+    expect(screen.getByRole('button', { name: /close navigation menu/i })).toBeInTheDocument();
+  });
+
+  it('toggles aria-expanded when mobile menu toggle button is clicked', async () => {
+    authed = true;
+    render(<RouterProvider router={router} />);
+    const button = screen.getByRole('button', {
+      name: /(open|close) navigation menu/i,
+      expanded: false,
+    });
+    await userEvent.click(button);
+    expect(
+      screen.getByRole('button', {
+        name: /(open|close) navigation menu/i,
+        expanded: true,
+      })
+    ).toBeInTheDocument();
+  });
 });
