@@ -1,4 +1,4 @@
-import { FcGoogle } from 'react-icons/fc';
+import { BiUser } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
@@ -55,8 +55,7 @@ export default function Navbar() {
                 aria-label='Profile'
                 className={`${styles.nav__link} ${styles['nav__link--icon']}`}
               >
-                <FcGoogle aria-hidden='true' />
-                {/* Profile */}
+                <BiUser aria-hidden='true' />
               </NavLink>
             </li>
           )}
@@ -67,8 +66,7 @@ export default function Navbar() {
                 aria-label='Login'
                 className={`${styles.nav__link} ${styles['nav__link--icon']}`}
               >
-                <FcGoogle aria-hidden='true' />
-                Login
+                <BiUser aria-hidden='true' />
               </NavLink>
             </li>
           )}

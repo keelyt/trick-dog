@@ -63,10 +63,11 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    white-space: nowrap;
 
-    &--text {
-      padding: 0.25em 1rem;
-      :global(.active) {
+    &--text,
+    &--icon {
+      &:global(.active) {
         @include themes.themed {
           background: themes.t('bg-nav-gradient-primary');
           background: -webkit-linear-gradient(
@@ -87,6 +88,10 @@
           background-color: themes.t('bg-nav-hover');
         }
       }
+    }
+
+    &--text {
+      padding: 0.25em 1rem;
     }
 
     &--logo {
