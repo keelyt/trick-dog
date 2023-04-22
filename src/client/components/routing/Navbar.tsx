@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { BiUser } from 'react-icons/bi';
+import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 import { NavLink } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
@@ -9,8 +11,9 @@ import styles from './Navbar.module.scss';
 
 export default function Navbar() {
   const { authed } = useAuth();
+  const [showNav, setShowNav] = useState(false);
 
-  // TODO: Use circle next to theme toggle for profile and login (profile picture if logged in, google icon if not)
+  const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
   return (
     <div className={styles.container}>
@@ -19,61 +22,77 @@ export default function Navbar() {
           <Logo className={styles.nav__logo} />
           Trick Dog
         </NavLink>
-        <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
-          <li className={styles.skew}>
-            <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-              <span className={styles.unskew}>Home</span>
-            </NavLink>
-          </li>
-          {authed && (
+        <button
+          className={`${styles.nav__toggle} ${showNav ? styles.rotate : ''}`}
+          onClick={toggleNav}
+          aria-label={showNav ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={showNav}
+          aria-controls='nav-menu'
+        >
+          {showNav ? <RiCloseLine aria-hidden='true' /> : <RiMenuLine aria-hidden='true' />}
+        </button>
+        <div
+          id='nav-menu'
+          className={`${styles.nav__menu} ${
+            showNav ? styles['nav__menu--expanded'] : styles['nav__menu--collapsed']
+          }`}
+        >
+          <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
             <li className={styles.skew}>
-              <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                <span className={styles.unskew}>Decks</span>
+              <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
+                <span className={styles.unskew}>Home</span>
               </NavLink>
             </li>
-          )}
-          {authed && (
-            <li className={styles.skew}>
-              <NavLink to='/study' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                <span className={styles.unskew}>Study</span>
-              </NavLink>
-            </li>
-          )}
-          {authed && (
-            <li className={styles.skew}>
-              <NavLink to='/stats' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                <span className={styles.unskew}>Stats</span>
-              </NavLink>
-            </li>
-          )}
-        </ul>
-        <ul className={`${styles.nav__list} ${styles['nav__list--right']}`}>
-          {authed && (
+            {authed && (
+              <li className={styles.skew}>
+                <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
+                  <span className={styles.unskew}>Decks</span>
+                </NavLink>
+              </li>
+            )}
+            {authed && (
+              <li className={styles.skew}>
+                <NavLink to='/study' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
+                  <span className={styles.unskew}>Study</span>
+                </NavLink>
+              </li>
+            )}
+            {authed && (
+              <li className={styles.skew}>
+                <NavLink to='/stats' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
+                  <span className={styles.unskew}>Stats</span>
+                </NavLink>
+              </li>
+            )}
+          </ul>
+          <ul className={`${styles.nav__list} ${styles['nav__list--right']}`}>
+            {authed && (
+              <li>
+                <NavLink
+                  to='/profile'
+                  aria-label='Profile'
+                  className={`${styles.nav__link} ${styles['nav__link--icon']}`}
+                >
+                  <BiUser aria-hidden='true' />
+                </NavLink>
+              </li>
+            )}
+            {!authed && (
+              <li>
+                <NavLink
+                  to='/login'
+                  aria-label='Login'
+                  className={`${styles.nav__link} ${styles['nav__link--icon']}`}
+                >
+                  <BiUser aria-hidden='true' />
+                </NavLink>
+              </li>
+            )}
             <li>
-              <NavLink
-                to='/profile'
-                aria-label='Profile'
-                className={`${styles.nav__link} ${styles['nav__link--icon']}`}
-              >
-                <BiUser aria-hidden='true' />
-              </NavLink>
+              <DarkLightToggle />
             </li>
-          )}
-          {!authed && (
-            <li>
-              <NavLink
-                to='/login'
-                aria-label='Login'
-                className={`${styles.nav__link} ${styles['nav__link--icon']}`}
-              >
-                <BiUser aria-hidden='true' />
-              </NavLink>
-            </li>
-          )}
-          <li>
-            <DarkLightToggle />
-          </li>
-        </ul>
+          </ul>
+        </div>
       </nav>
     </div>
   );

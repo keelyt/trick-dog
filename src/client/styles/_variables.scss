@@ -1,26 +1,32 @@
 $floral-white: #fffaf0;
+$black-russian: #111827;
 $blue-charcoal: #19212c;
 $blue-grey: #2a384c;
 $bone: #e4dbcd;
 $chinese-violet: #7a6174;
 $deep-ocean: #314158;
+$frostee: #dee8d5;
 $isabelline: #f4f0ec;
 $ivory: #fffff0;
 $linen: #f6f1ea;
 $midnight: #1f2937;
 $midnight-light: #3a4d68;
+$mint-mist: #d1e4d6;
 $pale-dogwood: #e0c1b3;
 $peach: #f7c59f;
 $pink-lavender: #d1b1c8;
 $pink-lavender-light: #e4d1df;
 $pink-pearl: #ede1ea;
 $puce: #c37d92;
+$purple-dark: #381d2a;
+$purple-taupe: #4c3b4d;
 $rosy-brown: #d89a9e;
 $seashell: #fff5ee;
 $slate-dark: #283548;
 $smoky: #100c08;
 $space-grey: #4a5966;
 $steel-blue: #4682b4;
+$tea-green: #cddfa0;
 $thistle: #cfbcdf;
 $trick-dog: #38b6ff;
 
@@ -36,5 +42,19 @@ $bg-nav-gradient-secondary--dark: $midnight-light;
 $bg-nav-gradient-secondary--light: $pink-lavender;
 $bg-nav-hover--light: $pink-pearl;
 $bg-nav-hover--dark: $slate-dark;
+$bg-nav-mobile--dark: $midnight;
+$bg-nav-mobile--light: $mint-mist;
 $shadow--dark: $blue-charcoal;
 $shadow--light: $bone;
+
+// X-Small devices (portrait phones, less than 576px)
+// Small devices (landscape phones, 576px and up)
+$breakpoint-sm: 576px;
+// Medium devices (tablets, 768px and up)
+$breakpoint-md: 768px;
+// Large devices (desktops, 992px and up)
+$breakpoint-lg: 992px;
+// X-Large devices (large desktops, 1200px and up)
+$breakpoint-xl: 1200px;
+// XX-Large devices (larger desktops, 1400px and up)
+$breakpoint-xxl: 1400px;
