@@ -59,7 +59,7 @@ describe('Navbar', () => {
     expect(screen.getByText('Decks')).toBeInTheDocument();
     expect(screen.getByText('Study')).toBeInTheDocument();
     expect(screen.getByText('Stats')).toBeInTheDocument();
-    expect(screen.getByText('Profile')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Profile' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /activate (dark|light) mode/i })).toBeInTheDocument();
   });
 
@@ -67,7 +67,7 @@ describe('Navbar', () => {
     authed = false;
     render(<RouterProvider router={router} />);
     expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Login' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /activate (dark|light) mode/i })).toBeInTheDocument();
   });
 
