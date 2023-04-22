@@ -18,6 +18,7 @@
   transition: transform 1s;
   @include themes.themed {
     border-color: themes.t('text');
+    color: themes.t('text');
   }
 
   &.rotate {
@@ -25,11 +26,5 @@
     -webkit-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transition: transform 1s;
-  }
-
-  .icon {
-    @include themes.themed {
-      color: themes.t('text');
-    }
   }
 }

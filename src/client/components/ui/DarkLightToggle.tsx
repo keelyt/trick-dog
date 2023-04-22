@@ -14,9 +14,9 @@ export default function DarkLightToggle() {
       className={`${styles.btn} ${theme === 'dark' ? styles.rotate : ''}`}
     >
       {theme === 'light' ? (
-        <RiMoonClearLine aria-hidden='true' className={styles.icon} />
+        <RiMoonClearLine aria-hidden='true' />
       ) : (
-        <RiSunLine aria-hidden='true' className={styles.icon} />
+        <RiSunLine aria-hidden='true' />
       )}
     </button>
   );
