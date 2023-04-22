@@ -11,6 +11,7 @@ import HomeLoggedOut from './pages/HomeLoggedOut';
 import Login from './pages/Login';
 import PageNotFound from './pages/PageNotFound';
 import Profile from './pages/Profile';
+import Stats from './pages/Stats';
 import Study from './pages/Study';
 
 import styles from './App.module.scss';
@@ -38,6 +39,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Study />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/stats'
+            element={
+              <PrivateRoute>
+                <Stats />
               </PrivateRoute>
             }
           />
