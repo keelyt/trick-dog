@@ -1,7 +1,39 @@
+@use '@styles/themes' as *;
+
+// TODO: remove unneeded selections
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.theme--dark {
+  color: map-get(map-get($themes, 'dark'), 'text');
+}
+
+.theme--light {
+  color: map-get(map-get($themes, 'light'), 'text');
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
 html,
 body,
 #root {
   height: 100%;
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 /* ! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */

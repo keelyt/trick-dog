@@ -1,0 +1,225 @@
+@use '@styles/themes';
+@use '@styles/variables' as var;
+
+// TODO: make partially persistent on mobile
+
+.container {
+  width: 100%;
+  @include themes.themed {
+    background-color: themes.t('bg-nav');
+    box-shadow: 0 4px 2px -3px themes.t('shadow');
+  }
+}
+
+.skew {
+  transform: skew(-20deg);
+
+  @media screen and (max-width: var.$breakpoint-md) {
+    transform: skew(0deg);
+  }
+}
+
+.unskew {
+  transform: skew(20deg);
+
+  @media screen and (max-width: var.$breakpoint-md) {
+    transform: skew(0deg);
+  }
+}
+
+.nav {
+  $self: &;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+
+    @media screen and (max-width: var.$breakpoint-md) {
+      position: absolute;
+      flex-direction: column;
+      justify-content: space-around;
+      transition: height 0.4s ease;
+
+      @include themes.themed {
+        background-color: themes.t('bg-nav-mobile');
+      }
+
+      &--expanded {
+        width: 100vw;
+        height: calc(100vh - 4rem);
+        top: 4rem;
+      }
+
+      // Screen reader only
+      &--collapsed {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        width: 1px;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    @media screen and (max-width: var.$breakpoint-md) {
+      width: 100%;
+      height: auto;
+    }
+
+    &--left {
+      flex-grow: 1;
+
+      @media screen and (max-width: var.$breakpoint-md) {
+        flex-direction: column;
+        justify-content: space-around;
+        width: 100%;
+      }
+    }
+
+    &--left li {
+      height: 100%;
+
+      @media screen and (max-width: var.$breakpoint-md) {
+        width: 100%;
+      }
+    }
+
+    &--right {
+      padding-right: 0.75rem;
+      gap: 1rem;
+      flex-grow: 0.5;
+
+      @media screen and (max-width: var.$breakpoint-md) {
+        padding-right: 0;
+        gap: 3rem;
+        height: auto;
+      }
+    }
+  }
+
+  &__logo {
+    height: 3rem;
+    width: 3rem;
+    fill: var.$trick-dog;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    white-space: nowrap;
+
+    &--text,
+    &--icon {
+      &:global(.active) {
+        @include themes.themed {
+          background: themes.t('bg-nav-gradient-primary');
+          background: -webkit-linear-gradient(
+            45deg,
+            themes.t('bg-nav-gradient-primary'),
+            themes.t('bg-nav-gradient-secondary')
+          );
+          background: linear-gradient(
+            45deg,
+            themes.t('bg-nav-gradient-primary'),
+            themes.t('bg-nav-gradient-secondary')
+          );
+        }
+      }
+
+      &:hover {
+        @include themes.themed {
+          background-color: themes.t('bg-nav-hover');
+        }
+      }
+    }
+
+    &--text {
+      padding: 0.25em 1rem;
+    }
+
+    &--logo {
+      font-family: 'Figtree';
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding-left: 0.75rem;
+    }
+
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      padding: 0.5rem;
+      border: 2px solid;
+      border-radius: 50%;
+      font-size: 1.5em;
+      width: fit-content;
+      height: fit-content;
+      @include themes.themed {
+        border-color: themes.t('text');
+      }
+    }
+  }
+
+  &__toggle {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 0.5rem;
+    box-shadow: none;
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 1.5em;
+    width: fit-content;
+    height: fit-content;
+    margin-right: 0.75rem;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+    transform: rotate(0deg);
+    transition: transform 0.25s;
+    @include themes.themed {
+      border-color: themes.t('text');
+      color: themes.t('text');
+    }
+
+    &.rotate {
+      transform: rotate(90deg);
+      -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transition: transform 0.25s;
+    }
+
+    @media screen and (max-width: var.$breakpoint-md) {
+      display: flex;
+    }
+  }
+}

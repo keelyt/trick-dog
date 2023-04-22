@@ -1,28 +1,33 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 import type { ReactNode } from 'react';
 
 type ThemeMode = 'light' | 'dark';
 
-interface ThemeContextType {
+export interface ThemeContextType {
   theme: ThemeMode;
   toggleTheme: () => void;
 }
 
-/**
- * Creates a new React context for the theme.
- */
+// Create a new React context for the theme using default values.
 export const ThemeContext = createContext<ThemeContextType>({
   theme: 'dark',
   toggleTheme: (): void => undefined,
 });
 
 /**
+ * A hook to access the theme context.
+ */
+export function useTheme(): ThemeContextType {
+  return useContext(ThemeContext);
+}
+
+/**
  * Provides the theme context to its child components.
  * @param children The child components to be wrapped by the provider.
  * @returns A React component that provides the theme context to its child components.
  */
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   // Use dark theme by default.
   const [theme, setTheme] = useState<ThemeMode>('dark');
 
@@ -40,11 +45,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
    * Toggles the theme state and updates local storage.
    */
   const toggleTheme = (): void => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-    localStorage.setItem('ThemeContext:theme', theme);
+    localStorage.setItem('ThemeContext:theme', theme === 'light' ? 'dark' : 'light');
+    setTheme((theme) => (theme === 'light' ? 'dark' : 'light'));
   };
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
-};
-
-export default ThemeProvider;
+}

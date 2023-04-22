@@ -1,19 +1,74 @@
-// import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useContext } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import { ThemeContext } from './contexts/ThemeContext';
+import Navbar from './components/routing/Navbar';
+import PrivateRoute from './components/routing/PrivateRoute';
+import PublicRoute from './components/routing/PublicRoute';
+import { useAuth } from './contexts/AuthContext';
+import { useTheme } from './contexts/ThemeContext';
+import Decks from './pages/Decks';
+import HomeLoggedIn from './pages/HomeLoggedIn';
+import HomeLoggedOut from './pages/HomeLoggedOut';
+import Login from './pages/Login';
+import PageNotFound from './pages/PageNotFound';
+import Profile from './pages/Profile';
+import Stats from './pages/Stats';
+import Study from './pages/Study';
 
 import styles from './App.module.scss';
 
 export default function App() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useTheme();
+  const { authed } = useAuth();
 
   return (
-    <div className={`${styles.container} ${styles[`theme--${theme}`]}`}>
-      <button className={styles.btn} type='button' onClick={toggleTheme}>
-        Toggle
-      </button>
-      <div>hi</div>
+    <div className={`theme--${theme}`}>
+      <div className={styles.App}>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
+          <Route
+            path='/decks'
+            element={
+              <PrivateRoute>
+                <Decks />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/study'
+            element={
+              <PrivateRoute>
+                <Study />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/stats'
+            element={
+              <PrivateRoute>
+                <Stats />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/login'
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </div>
     </div>
   );
 }
