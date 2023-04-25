@@ -6,6 +6,7 @@ import PublicRoute from './components/routing/PublicRoute';
 import { useAuth } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
 import Decks from './pages/Decks';
+import EditDeck from './pages/EditDeck';
 import HomeLoggedIn from './pages/HomeLoggedIn';
 import HomeLoggedOut from './pages/HomeLoggedOut';
 import Login from './pages/Login';
@@ -28,6 +29,7 @@ export default function App() {
           <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
           <Route element={<PrivateRoute />}>
             <Route path='/decks' element={<Decks />} />
+            <Route path='/decks/:deckId' element={<EditDeck />} />
             <Route path='/study' element={<Study />} />
             <Route path='/stats' element={<Stats />} />
             <Route path='/profile' element={<Profile />} />
