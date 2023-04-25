@@ -1,0 +1,28 @@
+@use '@styles/themes';
+
+.deck {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  width: 100%;
+
+  @include themes.themed {
+    background-color: themes.t('bg-tertiary');
+  }
+
+  // Deck borders
+  // border-bottom: 1px solid black;
+  // &:first-of-type {
+  //   border-top: 1px solid black;
+  // }
+
+  h1,
+  p {
+    margin: 0;
+
+    // Cut off text that exceeds 1 line
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+}
