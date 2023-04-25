@@ -34,12 +34,11 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "indent": ["error", 2],
     "no-console": 1,
     "no-var": 1,
     "no-nested-ternary": 1,
     "no-template-curly-in-string": 1,
-    "camelcase": "error",
+    "camelcase": 1,
     "spaced-comment": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
