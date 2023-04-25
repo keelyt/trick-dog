@@ -26,46 +26,15 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
-          <Route
-            path='/decks'
-            element={
-              <PrivateRoute>
-                <Decks />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/study'
-            element={
-              <PrivateRoute>
-                <Study />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/stats'
-            element={
-              <PrivateRoute>
-                <Stats />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/profile'
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/login'
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
+          <Route element={<PrivateRoute />}>
+            <Route path='/decks' element={<Decks />} />
+            <Route path='/study' element={<Study />} />
+            <Route path='/stats' element={<Stats />} />
+            <Route path='/profile' element={<Profile />} />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route path='/login' element={<Login />} />
+          </Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>
