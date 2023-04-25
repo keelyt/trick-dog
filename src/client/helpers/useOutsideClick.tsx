@@ -16,7 +16,7 @@ export default function useOutsideClick(
    * @param event - The mouse event object.
    */
   const handleClick = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       if (
         ref?.current?.contains &&
         event.target instanceof Element &&
@@ -30,12 +30,14 @@ export default function useOutsideClick(
   );
 
   useEffect(() => {
-    // Add the event listener to the document object when the component mounts.
+    // Add the event listeners (click and touch) to the document object when the component mounts.
     document.addEventListener('mouseup', handleClick);
+    document.addEventListener('touchend', handleClick);
 
-    // Cleanup function to remove the event listener when the component unmounts.
+    // Cleanup function to remove the event listeners when the component unmounts.
     return () => {
       document.removeEventListener('mouseup', handleClick);
+      document.removeEventListener('touchend', handleClick);
     };
   }, [handleClick]);
 }

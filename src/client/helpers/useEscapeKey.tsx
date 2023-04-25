@@ -20,11 +20,11 @@ export default function useEscapeKey(handleClose: () => void) {
 
   useEffect(() => {
     // Add the event listener to the document object when the component mounts.
-    document.addEventListener('keyup', handleEscKey);
+    document.addEventListener('keydown', handleEscKey);
 
     // Cleanup function to remove the event listener when the component unmounts.
     return () => {
-      document.removeEventListener('keyup', handleEscKey);
+      document.removeEventListener('keydown', handleEscKey);
     };
   }, [handleEscKey]);
 }
