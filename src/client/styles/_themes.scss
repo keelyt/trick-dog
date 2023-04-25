@@ -8,7 +8,9 @@ $themes: (
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--light,
     bg-nav-hover: var.$bg-nav-hover--light,
     bg-nav-mobile: var.$bg-nav-mobile--light,
-    shadow: var.$shadow--light,
+    bg-secondary: var.$bg-secondary--light,
+    bg-tertiary: var.$bg-tertiary--light,
+    nav-shadow: var.$nav-shadow--light,
     text: var.$text--light,
   ),
   dark: (
@@ -18,7 +20,9 @@ $themes: (
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--dark,
     bg-nav-hover: var.$bg-nav-hover--dark,
     bg-nav-mobile: var.$bg-nav-mobile--dark,
-    shadow: var.$shadow--dark,
+    bg-secondary: var.$bg-secondary--dark,
+    bg-tertiary: var.$bg-tertiary--dark,
+    nav-shadow: var.$nav-shadow--dark,
     text: var.$text--dark,
   ),
 );
