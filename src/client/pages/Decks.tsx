@@ -16,10 +16,11 @@ export interface DeckData {
   card_count: number;
 }
 
-export interface DeckResponse {
-  data?: DeckData;
-  error?: string;
+export interface ServerError {
+  error: string;
 }
+
+export type DeckResponse = DeckData[] | ServerError;
 
 interface FormData {
   name: string;
@@ -40,8 +41,8 @@ export default function Decks() {
     }
   }, [modalIsOpen]);
 
-  const addDeck = useMutation(
-    async (deckName: string) => {
+  const addDeck = useMutation({
+    mutationFn: async (deckName: string) => {
       return fetch('/api/decks', {
         method: 'POST',
         headers: {
@@ -50,43 +51,44 @@ export default function Decks() {
         body: JSON.stringify({ deck_name: deckName }),
       }).then((res) => res.json());
     },
-    {
-      onMutate: async (deckName: string) => {
-        // Cancel outgoing refetches (so they don't overwrite our optimistic update)
-        await queryClient.cancelQueries(['decks']);
-        // Snapshot the previous value.
-        const previousDecks = queryClient.getQueryData(['decks']);
-        // Optimistically update with the new deck, using a random number for the ID.
-        queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => {
-          const newDeck: DeckData = {
-            id: Math.random(),
-            deck_name: deckName,
-            card_count: 0,
-          };
-          return [...(old ?? []), newDeck];
-        });
-        // Return a rollback function.
-        return () => queryClient.setQueryData(['decks'], previousDecks);
-      },
-      onError: (data, variables, rollback) => {
-        // If the mutation fails, roll back.
-        if (rollback) rollback();
-      },
-      onSettled: () => {
-        // Always refetch after error or success
-        // Using void to explicitly mark floating promise as intentionally not awaited.
-        void queryClient.invalidateQueries(['decks'], { exact: true });
-      },
-    }
-  );
+    onMutate: async (deckName: string) => {
+      // Cancel outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(['decks']);
+      // Snapshot the previous value.
+      const previousDecks = queryClient.getQueryData(['decks']);
+      // Optimistically update with the new deck, using a random number for the ID.
+      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => {
+        const newDeck: DeckData = {
+          id: Math.random(),
+          deck_name: deckName,
+          card_count: 0,
+        };
+        return [...(old ?? []), newDeck];
+      });
+      // Return a rollback function.
+      return () => queryClient.setQueryData(['decks'], previousDecks);
+    },
+    onError: (data, variables, rollback) => {
+      // If the mutation fails, roll back.
+      if (rollback) rollback();
+    },
+    onSettled: () => {
+      // Always refetch after error or success
+      // Using void to explicitly mark floating promise as intentionally not awaited.
+      void queryClient.invalidateQueries(['decks'], { exact: true });
+    },
+  });
 
-  const decksQuery = useQuery(['decks'], async ({ signal }): Promise<DeckResponse> => {
-    const response: Response = await fetch('/api/decks', { signal });
-    if (response.status !== 200)
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    const result: DeckResponse = (await response.json()) as DeckResponse;
-    if (result.error) throw new Error(result.error);
-    return result;
+  const decksQuery = useQuery({
+    queryKey: ['decks'] as const,
+    queryFn: async ({ signal }): Promise<DeckData[]> => {
+      const response: Response = await fetch('/api/decks', { signal });
+      if (response.status !== 200)
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      const result: DeckResponse = (await response.json()) as DeckResponse;
+      if ((result as ServerError).error) throw new Error((result as ServerError).error);
+      return result as DeckData[];
+    },
   });
 
   const {
@@ -105,6 +107,7 @@ export default function Decks() {
         <Modal
           onClose={() => {
             setModalIsOpen(false);
+            reset();
           }}
         >
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
