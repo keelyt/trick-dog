@@ -3,6 +3,8 @@
 $themes: (
   light: (
     bg: var.$bg--light,
+    bg-button: var.$bg-button--light,
+    bg-button-hover: var.$bg-button-hover--light,
     bg-nav: var.$bg-nav--light,
     bg-nav-gradient-primary: var.$bg-nav-gradient-primary--light,
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--light,
@@ -16,6 +18,8 @@ $themes: (
   ),
   dark: (
     bg: var.$bg--dark,
+    bg-button: var.$bg-button--dark,
+    bg-button-hover: var.$bg-button-hover--dark,
     bg-nav: var.$bg-nav--dark,
     bg-nav-gradient-primary: var.$bg-nav-gradient-primary--dark,
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--dark,

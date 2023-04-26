@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import Deck from '../components/deck/Deck';
 import AddDeckForm from '../components/form/AddDeckForm';
+import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
 
 import styles from './Decks.module.scss';
@@ -47,9 +48,9 @@ export default function Decks() {
           <AddDeckForm onCancel={handleFormClose} />
         </Modal>
       )}
-      <button ref={btnAddRef} onClick={() => setModalIsOpen(true)}>
+      <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
         New Deck
-      </button>
+      </Button>
       <ul className={styles.decks}>
         {decksQuery.isLoading
           ? null

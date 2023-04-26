@@ -1,0 +1,19 @@
+@use '@styles/themes';
+
+.button {
+  cursor: pointer;
+  width: fit-content;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  @include themes.themed {
+    background-color: themes.t('bg-button');
+    color: themes.t('text');
+
+    &:hover {
+      background-color: themes.t('bg-button-hover');
+    }
+  }
+}

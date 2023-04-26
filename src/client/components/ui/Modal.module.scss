@@ -29,14 +29,14 @@
 
 .btn {
   position: absolute;
+  cursor: pointer;
   top: 0px;
   right: 0px;
-  margin: 0;
+  margin: 0.25rem;
   padding: 0;
   background-color: transparent;
   border: none;
   font-size: 1.5rem;
-  margin: 0.25rem;
   @include themes.themed {
     color: themes.t('text');
   }

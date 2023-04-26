@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import TextInput from './TextInput';
+import Button from '../ui/Button';
+
 import styles from './AddDeckForm.module.scss';
 
 import type { DeckData } from '../../types';
 import type { SubmitHandler } from 'react-hook-form';
 
-interface FormData {
+interface FormValues {
   name: string;
 }
 
@@ -17,10 +20,12 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  // Reset the form when the component unmounts.
   useEffect(() => {
     return () => reset();
   }, []);
 
+  // Mutation for adding a new deck
   const addDeck = useMutation({
     mutationFn: async (deckName: string) => {
       return fetch('/api/decks', {
@@ -32,11 +37,11 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
       }).then((res) => res.json());
     },
     onMutate: async (deckName: string) => {
-      // Cancel outgoing refetches (so they don't overwrite our optimistic update)
+      // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks']);
       // Snapshot the previous value.
       const previousDecks = queryClient.getQueryData(['decks']);
-      // Optimistically update with the new deck, using a random number for the ID.
+      // Optimistically update the deck data with the new deck, using a random number for the ID.
       queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => {
         const newDeck: DeckData = {
           id: Math.random(),
@@ -45,19 +50,20 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
         };
         return [...(old ?? []), newDeck];
       });
-      // Return a rollback function.
+      // Return a rollback function to undo the optimistic update in case of a mutation failure.
       return () => queryClient.setQueryData(['decks'], previousDecks);
     },
     onError: (data, variables, rollback) => {
-      // If the mutation fails, roll back.
+      // If the mutation fails, roll back the optimistic updates.
       if (rollback) rollback();
     },
     onSuccess: (data: DeckData) => {
+      // Reset the form and navigate to the new deck page on successful mutation.
       reset();
       navigate(`/decks/${data.id}`);
     },
     onSettled: () => {
-      // Always refetch after error or success
+      // After either error or success, invalidate the decks query cache to trigger a refetch.
       // Using void to explicitly mark floating promise as intentionally not awaited.
       void queryClient.invalidateQueries(['decks'], { exact: true });
     },
@@ -68,23 +74,27 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormData> = (data: FormData) => addDeck.mutate(data.name);
+  // Handler function for form submission
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => addDeck.mutate(data.name);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor='name'>Enter a name for your new deck:</label>
-      <input id='name' {...register('name', { required: true })} />
-      {errors.name && errors.name.type === 'required' && (
-        <span className={styles.form__error}>*Deck name is required</span>
-      )}
-      <button type='button' onClick={onCancel}>
+      <h1>Create Deck</h1>
+      <TextInput<FormValues>
+        register={register}
+        name={'name'}
+        label='Deck Name'
+        errors={errors}
+        validation={{ required: true }}
+      />
+      <Button type='button' onClick={onCancel}>
         Cancel
-      </button>
-      <button type='submit' disabled={addDeck.isLoading}>
-        {addDeck.isLoading ? 'Adding Deck...' : 'Add Deck'}
-      </button>
+      </Button>
+      <Button type='submit' disabled={addDeck.isLoading}>
+        {addDeck.isLoading ? 'Creating Deck...' : 'Create Deck'}
+      </Button>
     </form>
   );
 }
