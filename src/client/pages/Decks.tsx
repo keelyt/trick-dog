@@ -49,7 +49,8 @@ export default function Decks() {
         </Modal>
       )}
       <div className={styles.content}>
-        <div className={styles.button}>
+        <div className={styles.top}>
+          <h1>Decks</h1>
           <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
             New Deck
           </Button>
