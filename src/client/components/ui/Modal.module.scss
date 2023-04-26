@@ -19,8 +19,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    border-radius: 4px;
+    padding: 2.5rem;
+    border-radius: 0.25rem;
+    box-shadow: rgba(0, 0, 0, 0.75) 0px 5px 15px;
     @include themes.themed {
       background-color: themes.t('bg');
     }
@@ -32,11 +33,11 @@
   cursor: pointer;
   top: 0px;
   right: 0px;
-  margin: 0.25rem;
+  margin: 0.5rem;
   padding: 0;
   background-color: transparent;
   border: none;
-  font-size: 1.5rem;
+  font-size: 2rem;
   @include themes.themed {
     color: themes.t('text');
   }

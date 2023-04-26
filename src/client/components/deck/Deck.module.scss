@@ -8,8 +8,13 @@
   width: 100%;
 
   @include themes.themed {
-    background-color: themes.t('bg-tertiary');
-    box-shadow: 1px 2px 3px 0px themes.t('shadow-card');
+    background-color: themes.t('bg-card');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+
+    &:active,
+    &:hover {
+      background-color: themes.t('bg-card-hover');
+    }
   }
 
   h1,

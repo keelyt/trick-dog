@@ -1,10 +1,18 @@
+@use '@styles/themes';
+
 .label {
   display: block;
-  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .input {
   padding: 0.5rem;
   border-radius: 0.25rem;
   width: 100%;
+  margin: 0.25rem 0;
+
+  @include themes.themed {
+    border: 2px solid themes.t('border-input');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-input'), 0 1px 2px -1px themes.t('shadow-input');
+  }
 }

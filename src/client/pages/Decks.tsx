@@ -48,21 +48,25 @@ export default function Decks() {
           <AddDeckForm onCancel={handleFormClose} />
         </Modal>
       )}
-      <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
-        New Deck
-      </Button>
-      <ul className={styles.decks}>
-        {decksQuery.isLoading
-          ? null
-          : decksQuery.data?.map((deck: DeckData) => (
-              <Deck
-                key={deck.id}
-                id={deck.id}
-                deckName={deck.deck_name}
-                cardCount={deck.card_count}
-              />
-            ))}
-      </ul>
+      <div className={styles.content}>
+        <div className={styles.button}>
+          <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
+            New Deck
+          </Button>
+        </div>
+        <ul className={styles.decks}>
+          {decksQuery.isLoading
+            ? null
+            : decksQuery.data?.map((deck: DeckData) => (
+                <Deck
+                  key={deck.id}
+                  id={deck.id}
+                  deckName={deck.deck_name}
+                  cardCount={deck.card_count}
+                />
+              ))}
+        </ul>
+      </div>
     </div>
   );
 }

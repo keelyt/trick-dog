@@ -5,6 +5,7 @@
 
 .container {
   width: 100%;
+  position: relative;
   @include themes.themed {
     background-color: themes.t('bg-nav');
     box-shadow: 0 4px 2px -3px themes.t('shadow-nav');
