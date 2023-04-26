@@ -7,7 +7,12 @@
       "attempt_count": 6,
       "correct_count": 5,
       "date_created": "2023-04-22 01:19:18.291388+00",
-      "tags": [{ "id": 3, "tag_name": "food" }]
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
     },
     {
       "id": 5,
@@ -16,7 +21,12 @@
       "attempt_count": 6,
       "correct_count": 4,
       "date_created": "2023-04-22 03:11:15.170146+00",
-      "tags": [{ "id": 3, "tag_name": "food" }]
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
     },
     {
       "id": 11,
@@ -25,7 +35,12 @@
       "attempt_count": 6,
       "correct_count": 2,
       "date_created": "2023-04-22 00:23:34.377421+00",
-      "tags": [{ "id": 3, "tag_name": "food" }]
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
     },
     {
       "id": 16,
@@ -34,12 +49,22 @@
       "attempt_count": 6,
       "correct_count": 5,
       "date_created": "2023-04-22 01:20:33.534491+00",
-      "tags": [{ "id": 3, "tag_name": "food" }]
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
     }
   ],
   "user": {
     "decks": [1],
-    "tags": [{ "id": 3, "tag_name": "food" }]
+    "tags": [
+      {
+        "id": 3,
+        "tag_name": "food"
+      }
+    ]
   },
   "decks": [
     {
@@ -47,10 +72,22 @@
       "deck_name": "French ",
       "card_count": 16,
       "tags": [
-        { "id": 1, "tag_name": "places" },
-        { "id": 2, "tag_name": "family" },
-        { "id": 3, "tag_name": "food" },
-        { "id": 4, "tag_name": "travel" }
+        {
+          "id": 1,
+          "tag_name": "places"
+        },
+        {
+          "id": 2,
+          "tag_name": "family"
+        },
+        {
+          "id": 3,
+          "tag_name": "food"
+        },
+        {
+          "id": 4,
+          "tag_name": "travel"
+        }
       ],
       "cards": [
         {
@@ -60,7 +97,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 01:09:20.13869+00",
-          "tags": [{ "id": 1, "tag_name": "places" }]
+          "tags": [
+            {
+              "id": 1,
+              "tag_name": "places"
+            }
+          ]
         },
         {
           "id": 2,
@@ -69,7 +111,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 01:19:18.291388+00",
-          "tags": [{ "id": 3, "tag_name": "food" }]
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         },
         {
           "id": 3,
@@ -94,7 +141,12 @@
           "attempt_count": 6,
           "correct_count": 4,
           "date_created": "2023-04-22 03:11:15.170146+00",
-          "tags": [{ "id": 3, "tag_name": "food" }]
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         },
         {
           "id": 6,
@@ -103,7 +155,12 @@
           "attempt_count": 6,
           "correct_count": 1,
           "date_created": "2023-04-22 22:17:42.223858+00",
-          "tags": [{ "id": 1, "tag_name": "places" }]
+          "tags": [
+            {
+              "id": 1,
+              "tag_name": "places"
+            }
+          ]
         },
         {
           "id": 7,
@@ -144,7 +201,12 @@
           "attempt_count": 6,
           "correct_count": 2,
           "date_created": "2023-04-22 00:23:34.377421+00",
-          "tags": [{ "id": 3, "tag_name": "food" }]
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         },
         {
           "id": 12,
@@ -153,7 +215,12 @@
           "attempt_count": 6,
           "correct_count": 3,
           "date_created": "2023-04-22 00:36:37.606332+00",
-          "tags": [{ "id": 2, "tag_name": "family" }]
+          "tags": [
+            {
+              "id": 2,
+              "tag_name": "family"
+            }
+          ]
         },
         {
           "id": 13,
@@ -162,7 +229,12 @@
           "attempt_count": 6,
           "correct_count": 4,
           "date_created": "2023-04-22 01:10:04.891455+00",
-          "tags": [{ "id": 4, "tag_name": "travel" }]
+          "tags": [
+            {
+              "id": 4,
+              "tag_name": "travel"
+            }
+          ]
         },
         {
           "id": 14,
@@ -171,7 +243,12 @@
           "attempt_count": 6,
           "correct_count": 2,
           "date_created": "2023-04-22 01:38:00.775623+00",
-          "tags": [{ "id": 4, "tag_name": "travel" }]
+          "tags": [
+            {
+              "id": 4,
+              "tag_name": "travel"
+            }
+          ]
         },
         {
           "id": 15,
@@ -180,7 +257,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 2, "tag_name": "family" }]
+          "tags": [
+            {
+              "id": 2,
+              "tag_name": "family"
+            }
+          ]
         },
         {
           "id": 16,
@@ -189,7 +271,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 01:20:33.534491+00",
-          "tags": [{ "id": 3, "tag_name": "food" }]
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         }
       ]
     },
@@ -198,8 +285,14 @@
       "deck_name": "Spanish ",
       "card_count": 5,
       "tags": [
-        { "id": 11, "tag_name": "time" },
-        { "id": 12, "tag_name": "greetings" }
+        {
+          "id": 11,
+          "tag_name": "time"
+        },
+        {
+          "id": 12,
+          "tag_name": "greetings"
+        }
       ],
       "cards": [
         {
@@ -209,7 +302,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 11, "tag_name": "time" }]
+          "tags": [
+            {
+              "id": 11,
+              "tag_name": "time"
+            }
+          ]
         },
         {
           "id": 18,
@@ -218,7 +316,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 11, "tag_name": "time" }]
+          "tags": [
+            {
+              "id": 11,
+              "tag_name": "time"
+            }
+          ]
         },
         {
           "id": 19,
@@ -227,7 +330,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 12, "tag_name": "greetings" }]
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
         },
         {
           "id": 20,
@@ -236,7 +344,12 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 12, "tag_name": "greetings" }]
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
         },
         {
           "id": 21,
@@ -245,9 +358,18 @@
           "attempt_count": 6,
           "correct_count": 5,
           "date_created": "2023-04-22 00:39:05.571537+00",
-          "tags": [{ "id": 12, "tag_name": "greetings" }]
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
         }
       ]
+    },
+    {
+      "deck_name": "Diagnosis of Supraventricular Tachycardia",
+      "id": 8
     }
   ]
 }
