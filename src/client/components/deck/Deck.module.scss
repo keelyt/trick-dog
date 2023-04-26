@@ -4,10 +4,12 @@
   display: flex;
   flex-direction: column;
   padding: 1rem 1.25rem;
+  border-radius: 2px;
   width: 100%;
 
   @include themes.themed {
     background-color: themes.t('bg-tertiary');
+    box-shadow: 1px 2px 3px 0px themes.t('shadow-card');
   }
 
   // Deck borders

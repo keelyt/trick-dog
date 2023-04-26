@@ -34,11 +34,8 @@ export default function Decks() {
   useEffect(() => {
     // Prevent scrolling on the page when the modal is open.
     if (modalIsOpen) document.body.style.overflow = 'hidden';
-    else {
-      // When the modal closes, allow scrolling and set focus to the new deck button.
-      document.body.style.overflow = 'unset';
-      btnAddRef.current?.focus();
-    }
+    // When the modal closes, allow scrolling and set focus to the new deck button.
+    else document.body.style.overflow = 'unset';
   }, [modalIsOpen]);
 
   const addDeck = useMutation({
@@ -108,6 +105,7 @@ export default function Decks() {
           onClose={() => {
             setModalIsOpen(false);
             reset();
+            btnAddRef.current?.focus();
           }}
         >
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

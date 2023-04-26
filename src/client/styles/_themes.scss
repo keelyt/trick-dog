@@ -10,7 +10,8 @@ $themes: (
     bg-nav-mobile: var.$bg-nav-mobile--light,
     bg-secondary: var.$bg-secondary--light,
     bg-tertiary: var.$bg-tertiary--light,
-    nav-shadow: var.$nav-shadow--light,
+    shadow-card: var.$shadow-card--light,
+    shadow-nav: var.$shadow-nav--light,
     text: var.$text--light,
   ),
   dark: (
@@ -22,7 +23,8 @@ $themes: (
     bg-nav-mobile: var.$bg-nav-mobile--dark,
     bg-secondary: var.$bg-secondary--dark,
     bg-tertiary: var.$bg-tertiary--dark,
-    nav-shadow: var.$nav-shadow--dark,
+    shadow-card: var.$shadow-card--dark,
+    shadow-nav: var.$shadow-nav--dark,
     text: var.$text--dark,
   ),
 );
