@@ -9,7 +9,7 @@ import DarkLightToggle from '../ui/DarkLightToggle';
 
 import styles from './Navbar.module.scss';
 
-export default function Navbar() {
+export default function Navbar(): JSX.Element {
   const { authed } = useAuth();
   const { pathname } = useLocation();
   const [showNav, setShowNav] = useState(false);

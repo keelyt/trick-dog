@@ -6,6 +6,7 @@ import PublicRoute from './components/routing/PublicRoute';
 import { useAuth } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
 import Decks from './pages/Decks';
+import EditDeck from './pages/EditDeck';
 import HomeLoggedIn from './pages/HomeLoggedIn';
 import HomeLoggedOut from './pages/HomeLoggedOut';
 import Login from './pages/Login';
@@ -26,46 +27,16 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
-          <Route
-            path='/decks'
-            element={
-              <PrivateRoute>
-                <Decks />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/study'
-            element={
-              <PrivateRoute>
-                <Study />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/stats'
-            element={
-              <PrivateRoute>
-                <Stats />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/profile'
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path='/login'
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
+          <Route element={<PrivateRoute />}>
+            <Route path='/decks' element={<Decks />} />
+            <Route path='/decks/:deckId' element={<EditDeck />} />
+            <Route path='/study' element={<Study />} />
+            <Route path='/stats' element={<Stats />} />
+            <Route path='/profile' element={<Profile />} />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route path='/login' element={<Login />} />
+          </Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>

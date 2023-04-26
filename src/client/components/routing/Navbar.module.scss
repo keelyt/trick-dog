@@ -5,9 +5,10 @@
 
 .container {
   width: 100%;
+  position: relative;
   @include themes.themed {
     background-color: themes.t('bg-nav');
-    box-shadow: 0 4px 2px -3px themes.t('shadow');
+    box-shadow: 0 4px 2px -3px themes.t('shadow-nav');
   }
 }
 
@@ -169,7 +170,7 @@
       font-family: 'Figtree';
       font-weight: 700;
       font-size: 1.2rem;
-      padding-left: 0.75rem;
+      padding: 0 0.75rem;
     }
 
     &--icon {

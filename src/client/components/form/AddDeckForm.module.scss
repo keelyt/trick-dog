@@ -1,0 +1,25 @@
+@use '@styles/variables' as var;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (max-width: var.$breakpoint-md) {
+    padding: 0;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0 0.5rem;
+  gap: 2rem;
+}

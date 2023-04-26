@@ -1,245 +1,375 @@
 {
   "study": [
     {
-      "id": 10,
-      "question": "house",
-      "answer": "la maison",
-      "count_attempt": 6,
-      "count_correct": 5,
-      "date_created": "2023-04-22 01:09:20.13869+00",
-      "rate_success": 0.5,
-      "tags": [{ "id": 1, "tag_name": "places" }]
-    },
-    {
-      "id": 15,
+      "id": 2,
       "question": "potato",
       "answer": "la pomme de terre",
-      "count_attempt": 6,
-      "count_correct": 5,
+      "attempt_count": 6,
+      "correct_count": 5,
       "date_created": "2023-04-22 01:19:18.291388+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 9,
-      "question": "paper",
-      "answer": "le papier",
-      "count_attempt": 6,
-      "count_correct": 3,
-      "date_created": "2023-04-22 01:08:22.76537+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 3,
-      "question": "menu",
-      "answer": "le menu",
-      "count_attempt": 5,
-      "count_correct": 5,
-      "date_created": "2023-04-22 22:47:02.51375+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 20,
-      "question": "ice cream",
-      "answer": "la glace",
-      "count_attempt": 6,
-      "count_correct": 4,
-      "date_created": "2023-04-22 03:11:15.170146+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 53,
-      "question": "sea",
-      "answer": "la mer",
-      "count_attempt": 6,
-      "count_correct": 1,
-      "date_created": "2023-04-22 22:17:42.223858+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 18,
-      "question": "chair",
-      "answer": "la chaise",
-      "count_attempt": 6,
-      "count_correct": 1,
-      "date_created": "2023-04-22 01:22:08.61725+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 13,
-      "question": "water",
-      "answer": "l' eau (f.)",
-      "count_attempt": 6,
-      "count_correct": 3,
-      "date_created": "2023-04-22 01:13:22.661077+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 17,
-      "question": "flower",
-      "answer": "la fleur",
-      "count_attempt": 6,
-      "count_correct": 4,
-      "date_created": "2023-04-22 01:21:33.973047+00",
-      "rate_success": 0.5
-    },
-    {
-      "id": 14,
-      "question": "bed",
-      "answer": "le lit",
-      "count_attempt": 6,
-      "count_correct": 4,
-      "date_created": "2023-04-22 01:16:42.129703+00",
-      "rate_success": 0.5
-    }
-  ],
-  "user": {
-    "decks": [1, 2],
-    "tags": []
-  },
-  "decks": [
-    {
-      "id": 1,
-      "deck_name": "French 1",
-      "tags": [{ "id": 1, "tag_name": "places" }],
-      "cards": [
-        {
-          "id": 10,
-          "question": "house",
-          "answer": "la maison",
-          "count_attempt": 6,
-          "count_correct": 5,
-          "date_created": "2023-04-22 01:09:20.13869+00",
-          "tags": [{ "id": 1, "tag_name": "places" }]
-        },
-        {
-          "id": 15,
-          "question": "potato",
-          "answer": "la pomme de terre",
-          "count_attempt": 6,
-          "count_correct": 5,
-          "date_created": "2023-04-22 01:19:18.291388+00"
-        },
-        {
-          "id": 9,
-          "question": "paper",
-          "answer": "le papier",
-          "count_attempt": 6,
-          "count_correct": 3,
-          "date_created": "2023-04-22 01:08:22.76537+00"
-        },
+      "tags": [
         {
           "id": 3,
-          "question": "menu",
-          "answer": "le menu",
-          "count_attempt": 5,
-          "count_correct": 5,
-          "date_created": "2023-04-22 22:47:02.51375+00"
-        },
-        {
-          "id": 20,
-          "question": "ice cream",
-          "answer": "la glace",
-          "count_attempt": 6,
-          "count_correct": 4,
-          "date_created": "2023-04-22 03:11:15.170146+00"
-        },
-        {
-          "id": 53,
-          "question": "sea",
-          "answer": "la mer",
-          "count_attempt": 6,
-          "count_correct": 1,
-          "date_created": "2023-04-22 22:17:42.223858+00"
+          "tag_name": "food"
         }
       ]
     },
     {
-      "id": 2,
-      "deck_name": "French 2",
-      "tags": [{ "id": 2, "tag_name": "people" }],
-      "cards": [
+      "id": 5,
+      "question": "ice cream",
+      "answer": "la glace",
+      "attempt_count": 6,
+      "correct_count": 4,
+      "date_created": "2023-04-22 03:11:15.170146+00",
+      "tags": [
         {
-          "id": 18,
-          "question": "chair",
-          "answer": "la chaise",
-          "count_attempt": 6,
-          "count_correct": 1,
-          "date_created": "2023-04-22 01:22:08.61725+00"
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "apple",
+      "answer": "la pomme",
+      "attempt_count": 6,
+      "correct_count": 2,
+      "date_created": "2023-04-22 00:23:34.377421+00",
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "cake",
+      "answer": "le gâteau",
+      "attempt_count": 6,
+      "correct_count": 5,
+      "date_created": "2023-04-22 01:20:33.534491+00",
+      "tags": [
+        {
+          "id": 3,
+          "tag_name": "food"
+        }
+      ]
+    }
+  ],
+  "user": {
+    "decks": [1],
+    "tags": [
+      {
+        "id": 3,
+        "tag_name": "food"
+      }
+    ]
+  },
+  "decks": [
+    {
+      "id": 1,
+      "deck_name": "French ",
+      "card_count": 16,
+      "tags": [
+        {
+          "id": 1,
+          "tag_name": "places"
         },
         {
-          "id": 13,
-          "question": "water",
-          "answer": "l' eau (f.)",
-          "count_attempt": 6,
-          "count_correct": 3,
-          "date_created": "2023-04-22 01:13:22.661077+00"
+          "id": 2,
+          "tag_name": "family"
         },
         {
-          "id": 17,
-          "question": "flower",
-          "answer": "la fleur",
-          "count_attempt": 6,
-          "count_correct": 4,
-          "date_created": "2023-04-22 01:21:33.973047+00"
-        },
-        {
-          "id": 14,
-          "question": "bed",
-          "answer": "le lit",
-          "count_attempt": 6,
-          "count_correct": 4,
-          "date_created": "2023-04-22 01:16:42.129703+00"
+          "id": 3,
+          "tag_name": "food"
         },
         {
           "id": 4,
-          "question": "apple",
-          "answer": "la pomme",
-          "count_attempt": 6,
-          "count_correct": 2,
-          "date_created": "2023-04-22 00:23:34.377421+00"
+          "tag_name": "travel"
+        }
+      ],
+      "cards": [
+        {
+          "id": 1,
+          "question": "house",
+          "answer": "la maison",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 01:09:20.13869+00",
+          "tags": [
+            {
+              "id": 1,
+              "tag_name": "places"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "question": "potato",
+          "answer": "la pomme de terre",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 01:19:18.291388+00",
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "question": "paper",
+          "answer": "le papier",
+          "attempt_count": 6,
+          "correct_count": 3,
+          "date_created": "2023-04-22 01:08:22.76537+00"
+        },
+        {
+          "id": 4,
+          "question": "menu",
+          "answer": "le menu",
+          "attempt_count": 5,
+          "correct_count": 5,
+          "date_created": "2023-04-22 22:47:02.51375+00"
         },
         {
           "id": 5,
-          "question": "sister",
-          "answer": "la sœur",
-          "count_attempt": 6,
-          "count_correct": 3,
-          "date_created": "2023-04-22 00:36:37.606332+00",
-          "tags": [{ "id": 2, "tag_name": "people" }]
+          "question": "ice cream",
+          "answer": "la glace",
+          "attempt_count": 6,
+          "correct_count": 4,
+          "date_created": "2023-04-22 03:11:15.170146+00",
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         },
         {
-          "id": 11,
-          "question": "car",
-          "answer": "la voiture",
-          "count_attempt": 6,
-          "count_correct": 4,
-          "date_created": "2023-04-22 01:10:04.891455+00"
-        },
-        {
-          "id": 19,
-          "question": "A round trip ticket to Paris, please.",
-          "answer": "Un billet aller-retour pour Paris, s'il vous plaît.",
-          "count_attempt": 6,
-          "count_correct": 2,
-          "date_created": "2023-04-22 01:38:00.775623+00"
+          "id": 6,
+          "question": "sea",
+          "answer": "la mer",
+          "attempt_count": 6,
+          "correct_count": 1,
+          "date_created": "2023-04-22 22:17:42.223858+00",
+          "tags": [
+            {
+              "id": 1,
+              "tag_name": "places"
+            }
+          ]
         },
         {
           "id": 7,
+          "question": "chair",
+          "answer": "la chaise",
+          "attempt_count": 6,
+          "correct_count": 1,
+          "date_created": "2023-04-22 01:22:08.61725+00"
+        },
+        {
+          "id": 8,
+          "question": "water",
+          "answer": "l' eau (f.)",
+          "attempt_count": 6,
+          "correct_count": 3,
+          "date_created": "2023-04-22 01:13:22.661077+00"
+        },
+        {
+          "id": 9,
+          "question": "flower",
+          "answer": "la fleur",
+          "attempt_count": 6,
+          "correct_count": 4,
+          "date_created": "2023-04-22 01:21:33.973047+00"
+        },
+        {
+          "id": 10,
+          "question": "bed",
+          "answer": "le lit",
+          "attempt_count": 6,
+          "correct_count": 4,
+          "date_created": "2023-04-22 01:16:42.129703+00"
+        },
+        {
+          "id": 11,
+          "question": "apple",
+          "answer": "la pomme",
+          "attempt_count": 6,
+          "correct_count": 2,
+          "date_created": "2023-04-22 00:23:34.377421+00",
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "question": "sister",
+          "answer": "la sœur",
+          "attempt_count": 6,
+          "correct_count": 3,
+          "date_created": "2023-04-22 00:36:37.606332+00",
+          "tags": [
+            {
+              "id": 2,
+              "tag_name": "family"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "question": "car",
+          "answer": "la voiture",
+          "attempt_count": 6,
+          "correct_count": 4,
+          "date_created": "2023-04-22 01:10:04.891455+00",
+          "tags": [
+            {
+              "id": 4,
+              "tag_name": "travel"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "question": "A round trip ticket to Paris, please.",
+          "answer": "Un billet aller-retour pour Paris, s'il vous plaît.",
+          "attempt_count": 6,
+          "correct_count": 2,
+          "date_created": "2023-04-22 01:38:00.775623+00",
+          "tags": [
+            {
+              "id": 4,
+              "tag_name": "travel"
+            }
+          ]
+        },
+        {
+          "id": 15,
           "question": "mother",
           "answer": "la mère",
-          "count_attempt": 6,
-          "count_correct": 5,
-          "date_created": "2023-04-22 00:39:05.571537+00"
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 2,
+              "tag_name": "family"
+            }
+          ]
         },
         {
           "id": 16,
           "question": "cake",
           "answer": "le gâteau",
-          "count_attempt": 6,
-          "count_correct": 5,
-          "date_created": "2023-04-22 01:20:33.534491+00"
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 01:20:33.534491+00",
+          "tags": [
+            {
+              "id": 3,
+              "tag_name": "food"
+            }
+          ]
         }
       ]
+    },
+    {
+      "id": 2,
+      "deck_name": "Spanish ",
+      "card_count": 5,
+      "tags": [
+        {
+          "id": 11,
+          "tag_name": "time"
+        },
+        {
+          "id": 12,
+          "tag_name": "greetings"
+        }
+      ],
+      "cards": [
+        {
+          "id": 17,
+          "question": "year",
+          "answer": "año (n) masc",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 11,
+              "tag_name": "time"
+            }
+          ]
+        },
+        {
+          "id": 18,
+          "question": "calendar",
+          "answer": "calendario (n) masc",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 11,
+              "tag_name": "time"
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "question": "Hello",
+          "answer": "Hola",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "question": "Good evening",
+          "answer": "Buenas noches",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
+        },
+        {
+          "id": 21,
+          "question": "Good morning",
+          "answer": "Buenos días",
+          "attempt_count": 6,
+          "correct_count": 5,
+          "date_created": "2023-04-22 00:39:05.571537+00",
+          "tags": [
+            {
+              "id": 12,
+              "tag_name": "greetings"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "deck_name": "Diagnosis of Supraventricular Tachycardia",
+      "id": 8
     }
   ]
 }
