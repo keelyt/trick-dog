@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 import styles from './Deck.module.scss';
 
 interface DeckProps {
@@ -8,11 +10,13 @@ interface DeckProps {
 
 export default function Deck({ id, deckName, cardCount }: DeckProps): JSX.Element {
   return (
-    <a href={`/decks/${id}`} className={styles.deck}>
-      <h1>{deckName}</h1>
-      <p>
-        {cardCount} card{cardCount === 1 ? '' : 's'}
-      </p>
-    </a>
+    <li>
+      <NavLink to={`/decks/${id}`} className={styles.deck}>
+        <h1>{deckName}</h1>
+        <p>
+          {cardCount} card{cardCount === 1 ? '' : 's'}
+        </p>
+      </NavLink>
+    </li>
   );
 }

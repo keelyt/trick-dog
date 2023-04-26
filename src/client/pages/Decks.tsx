@@ -35,35 +35,22 @@ export default function Decks() {
     },
   });
 
+  const handleFormClose = () => {
+    setModalIsOpen(false);
+    btnAddRef.current?.focus();
+  };
+
   return (
     <div className={styles.container}>
       {modalIsOpen && (
-        <Modal
-          onClose={() => {
-            setModalIsOpen(false);
-            btnAddRef.current?.focus();
-          }}
-        >
-          <AddDeckForm onCancel={() => setModalIsOpen(false)} />
-          {/* <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor='name'>Enter a name for your new deck:</label>
-            <input id='name' {...register('name', { required: true })} />
-            {errors.name && errors.name.type === 'required' && (
-              <span className={styles.error}>Deck name is required</span>
-            )}
-            <button type='button' onClick={() => setModalIsOpen(false)}>
-              Cancel
-            </button>
-            <button type='submit' disabled={addDeck.isLoading}>
-              {addDeck.isLoading ? 'Adding Deck...' : 'Add Deck'}
-            </button>
-          </form> */}
+        <Modal onClose={handleFormClose}>
+          <AddDeckForm onCancel={handleFormClose} />
         </Modal>
       )}
       <button ref={btnAddRef} onClick={() => setModalIsOpen(true)}>
         New Deck
       </button>
-      <div className={styles.decks}>
+      <ul className={styles.decks}>
         {decksQuery.isLoading
           ? null
           : decksQuery.data?.map((deck: DeckData) => (
@@ -74,7 +61,7 @@ export default function Decks() {
                 cardCount={deck.card_count}
               />
             ))}
-      </div>
+      </ul>
     </div>
   );
 }
