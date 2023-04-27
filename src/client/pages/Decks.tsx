@@ -6,12 +6,11 @@ import Deck from '../components/deck/Deck';
 import AddDeckForm from '../components/form/AddDeckForm';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
+import fetchWithError from '../helpers/fetchWithError';
 
 import styles from './Decks.module.scss';
 
-import type { DeckData, ServerError } from '../types';
-
-type DeckResponse = DeckData[] | ServerError;
+import type { DeckData } from '../types';
 
 export default function Decks() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -26,14 +25,8 @@ export default function Decks() {
 
   const decksQuery = useQuery({
     queryKey: ['decks'] as const,
-    queryFn: async ({ signal }): Promise<DeckData[]> => {
-      const response: Response = await fetch('/api/decks', { signal });
-      if (response.status !== 200)
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
-      const result: DeckResponse = (await response.json()) as DeckResponse;
-      if ((result as ServerError).error) throw new Error((result as ServerError).error);
-      return result as DeckData[];
-    },
+    queryFn: async ({ signal }): Promise<DeckData[]> =>
+      await fetchWithError<DeckData[]>('/api/decks', { signal }),
   });
 
   const handleFormClose = () => {
