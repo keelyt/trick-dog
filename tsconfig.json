@@ -21,6 +21,6 @@
       "@/styles/*": ["./src/client/styles"]
     }
   },
-  "include": ["src/**/*", "vite.config.ts", "vitest.setup.ts", ".eslintrc"],
+  "include": ["src/**/*", "vite.config.ts", "vitest.setup.ts", ".eslintrc", "./mock-api/server.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
