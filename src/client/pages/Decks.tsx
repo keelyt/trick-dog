@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
+import AddDeckForm from '../components/deck/AddDeckForm';
 import Deck from '../components/deck/Deck';
-import AddDeckForm from '../components/form/AddDeckForm';
 import Button from '../components/ui/Button';
 import Modal from '../components/ui/Modal';
 import fetchWithError from '../helpers/fetchWithError';
@@ -13,6 +13,7 @@ import styles from './Decks.module.scss';
 import type { DeckData } from '../types';
 
 export default function Decks() {
+  const queryClient = useQueryClient();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const btnAddRef = useRef<HTMLButtonElement>(null);
 
@@ -25,8 +26,14 @@ export default function Decks() {
 
   const decksQuery = useQuery({
     queryKey: ['decks'] as const,
-    queryFn: async ({ signal }): Promise<DeckData[]> =>
-      await fetchWithError<DeckData[]>('/api/decks', { signal }),
+    queryFn: async ({ signal }): Promise<DeckData[]> => {
+      const results = await fetchWithError<DeckData[]>('/api/decks', { signal });
+
+      // Add each deck to the cache.
+      results.forEach((deck) => queryClient.setQueryData(['decks', deck.id], deck));
+
+      return results;
+    },
   });
 
   const handleFormClose = () => {

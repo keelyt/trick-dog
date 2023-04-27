@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import TextInput from './TextInput';
+import TextInput from '../form/TextInput';
 import Button from '../ui/Button';
 
 import styles from './AddDeckForm.module.scss';
