@@ -23,3 +23,9 @@ export interface TagData {
 export interface ServerError {
   error: string;
 }
+
+export interface CardsFetchParams {
+  signal?: AbortSignal;
+  deckId: number;
+  before?: string;
+}
