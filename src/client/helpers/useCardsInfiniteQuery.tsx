@@ -17,6 +17,7 @@ const fetchCards = async ({
   deckId,
   before = '',
 }: CardsFetchParams): Promise<CardData[]> => {
+  if (!deckId) return [];
   const queryString = before ? `?before=${encodeURIComponent(before)}` : '';
   const deckIdParam = encodeURIComponent(deckId);
   return await fetchWithError(`/api/decks/${deckIdParam}/cards${queryString}`, { signal });
@@ -27,7 +28,7 @@ const fetchCards = async ({
  * @param deckId The ID of the deck to fetch cards from.
  * @returns The result of the query.
  */
-export default function useCardsInfiniteQuery(deckId: number) {
+export default function useCardsInfiniteQuery(deckId: number | undefined) {
   return useInfiniteQuery<CardData[]>({
     queryKey: ['decks', deckId, 'cards'] as const,
     queryFn: async ({ signal, pageParam = '' }: { signal?: AbortSignal; pageParam?: string }) =>

@@ -26,6 +26,6 @@ export interface ServerError {
 
 export interface CardsFetchParams {
   signal?: AbortSignal;
-  deckId: number;
+  deckId?: number;
   before?: string;
 }
