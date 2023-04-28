@@ -12,7 +12,7 @@ import type { CardData, CardsFetchParams } from '../types';
  * @param [params.before=''] The date to fetch cards before (default is empty string).
  * @returns The card data for the requested page.
  */
-const fetchCards = async ({
+export const fetchCards = async ({
   signal,
   deckId,
   before = '',
