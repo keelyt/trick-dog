@@ -48,7 +48,7 @@ export default function Decks() {
           <AddDeckForm onCancel={handleFormClose} />
         </Modal>
       )}
-      <div className={styles.content}>
+      <main role='main' className={styles.content}>
         <div className={styles.top}>
           <h1>Decks</h1>
           <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
@@ -67,7 +67,7 @@ export default function Decks() {
                 />
               ))}
         </ul>
-      </div>
+      </main>
     </div>
   );
 }
