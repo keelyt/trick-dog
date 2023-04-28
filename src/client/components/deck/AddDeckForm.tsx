@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import fetchWithError from '../../helpers/fetchWithError';
 import TextInput from '../form/TextInput';
 import Button from '../ui/Button';
 
@@ -27,39 +28,42 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
 
   // Mutation for adding a new deck
   const addDeck = useMutation({
-    mutationFn: async (deckName: string) => {
-      return fetch('/api/decks', {
+    mutationFn: async (deckName: string) =>
+      fetchWithError<DeckData>('/api/decks', {
         method: 'POST',
         headers: {
-          'content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ deck_name: deckName }),
-      }).then((res) => res.json());
-    },
+      }),
     onMutate: async (deckName: string) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks']);
       // Snapshot the previous value.
       const previousDecks = queryClient.getQueryData(['decks']);
-      // Optimistically update the deck data with the new deck, using a random number for the ID.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => {
-        const newDeck: DeckData = {
-          id: Math.random(),
-          deck_name: deckName,
-          card_count: 0,
-        };
-        return [...(old ?? []), newDeck];
-      });
-      // Return a rollback function to undo the optimistic update in case of a mutation failure.
-      return () => queryClient.setQueryData(['decks'], previousDecks);
+      // Create optimistic deck, using a random number for the ID.
+      const optimisticDeck: DeckData = { id: Math.random(), deck_name: deckName, card_count: 0 };
+      // Optimistically update the deck data with the new deck.
+      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => [
+        ...(old ?? []),
+        optimisticDeck,
+      ]);
+      // Return context with the optimistic deck.
+      return { optimisticDeck, previousDecks };
     },
-    onError: (data, variables, rollback) => {
+    onError: (data, variables, context) => {
       // If the mutation fails, roll back the optimistic updates.
-      if (rollback) rollback();
+      queryClient.setQueryData(['decks'], context?.previousDecks);
     },
-    onSuccess: (data: DeckData) => {
-      // Reset the form and navigate to the new deck page on successful mutation.
+    onSuccess: (data: DeckData, variables, context) => {
+      // Reset the form.
       reset();
+      // Replace optimistic deck with actual deck.
+      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
+        old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data : deck))
+      );
+      queryClient.setQueryData(['decks', data.id], data);
+      // Navigate to the new deck page.
       navigate(`/decks/${data.id}`);
     },
     onSettled: () => {
