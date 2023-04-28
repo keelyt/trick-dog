@@ -1,0 +1,14 @@
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+
+  &:hover {
+    svg {
+      transition: transform 0.25s ease-in-out;
+      transform: translateX(-0.25rem);
+    }
+  }
+}
