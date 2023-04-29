@@ -5,15 +5,15 @@ import fetchWithError from './fetchWithError';
 import type { DeckData } from '../types';
 
 /**
- * A React hook that uses React Query to delete a given deck.
- * @param deckId The ID of the deck to be deleted.
- * @returns The result of the delete mutation.
+ * A React hook that provides a mutation function for deleting a deck.
+ * @returns A mutation function for deleting a deck.
  */
-export default function useDeleteDeck(deckId: number) {
+export default function useDeleteDeck() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async () => fetchWithError<DeckData>(`/api/decks/${deckId}`, { method: 'DELETE' }),
+    mutationFn: async (deckId: number) =>
+      fetchWithError<DeckData>(`/api/decks/${deckId}`, { method: 'DELETE' }),
     onMutate: async (deckId: number) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks']);

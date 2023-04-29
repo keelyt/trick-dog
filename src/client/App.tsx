@@ -29,7 +29,7 @@ export default function App() {
           <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
           <Route element={<PrivateRoute />}>
             <Route path='/decks' element={<Decks />} />
-            <Route path='/decks/:deckId' element={<EditDeck />} />
+            <Route path='/decks/:id' element={<EditDeck />} />
             <Route path='/study' element={<Study />} />
             <Route path='/stats' element={<Stats />} />
             <Route path='/profile' element={<Profile />} />

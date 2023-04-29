@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
 import CardView from '../components/card/CardView';
 import BackButton from '../components/ui/BackButton';
+import Button from '../components/ui/Button';
+import DeleteDialog from '../components/ui/DeleteDialog';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Modal from '../components/ui/Modal';
 import fetchWithError from '../helpers/fetchWithError';
 import useCardsInfiniteQuery from '../helpers/useCardsInfiniteQuery';
+import useDeleteDeck from '../helpers/useDeleteDeck';
 
 import styles from './EditDeck.module.scss';
 
-import type { CardData, DeckData } from '../types';
+import type { DeckData } from '../types';
 
 // TODO: Because user could have a lot of cards in one deck,
 // should add pagination, caching (react query), search functionality
@@ -25,15 +29,19 @@ import type { CardData, DeckData } from '../types';
 
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
-  const { deckId } = useParams();
+  const { id } = useParams();
+  const deckId: number = parseInt(id!);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const { ref, inView } = useInView();
-  const cardsQuery = useCardsInfiniteQuery(deckId ? parseInt(deckId) : undefined);
+  const cardsQuery = useCardsInfiniteQuery(deckId);
+  const deleteDeck = useDeleteDeck();
+  const navigate = useNavigate();
 
   const deckQuery = useQuery({
     queryKey: ['decks', deckId] as const,
     queryFn: async ({ signal }): Promise<DeckData> =>
-      await fetchWithError<DeckData>(`/api/decks/${deckId!}`, { signal }),
+      await fetchWithError<DeckData>(`/api/decks/${deckId}`, { signal }),
   });
 
   // Fetch the next page if the last card is in view.
@@ -47,8 +55,29 @@ export default function EditDeck(): JSX.Element {
     if (inView && cardsQuery.hasNextPage) void cardsQuery.fetchNextPage();
   }, [inView, cardsQuery.fetchNextPage, cardsQuery.hasNextPage]);
 
+  const handleDialogCancel = () => setModalIsOpen(false);
+  const handleDialogOk = () => {
+    // Delete the current deck.
+    deleteDeck.mutate(deckId, {
+      onSuccess: () => {
+        // Navigate back to the decks page.
+        navigate('/decks');
+      },
+    });
+  };
+
   return (
     <div className={styles.container}>
+      {modalIsOpen && (
+        <Modal onClose={handleDialogCancel}>
+          <DeleteDialog
+            onOk={handleDialogOk}
+            onCancel={handleDialogCancel}
+            title='Are you sure?'
+            text='Are you sure you want to delete this deck? This cannot be undone.'
+          />
+        </Modal>
+      )}
       <main role='main' className={styles.content}>
         <div className={styles.top}>
           <div>
@@ -56,6 +85,9 @@ export default function EditDeck(): JSX.Element {
           </div>
           <div>
             <h1>{deckQuery.isSuccess ? `${deckQuery.data.deck_name}` : 'Deck'}</h1>
+            <Button type='button' onClick={() => setModalIsOpen(true)}>
+              Delete
+            </Button>
           </div>
         </div>
         <div className={styles['list-container']}>

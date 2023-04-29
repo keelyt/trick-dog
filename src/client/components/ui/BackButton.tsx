@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './BackButton.module.scss';
 
-export default function BackButton({ href, label }: { href: string; label: string }) {
+export default function BackButton({ href, label }: { href: string; label: string }): JSX.Element {
   return (
     <NavLink to={href} className={styles.link}>
       <HiOutlineArrowLeft aria-hidden='true' />
