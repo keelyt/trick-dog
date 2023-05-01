@@ -2,21 +2,19 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import CardView from './CardView';
-import useCardsInfiniteQuery from '../../helpers/useCardsInfiniteQuery';
+import useInfiniteCardsData from '../../helpers/useInfiniteCardsData';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 import styles from './CardsList.module.scss';
 
-import type { TagData } from '../../../types';
-
 interface CardsListProps {
   deckId: number;
-  tags: TagData[];
+  tagId: number | null;
 }
 
-export default function CardsList({ deckId, tags }: CardsListProps) {
+export default function CardsList({ deckId, tagId }: CardsListProps) {
   const { ref, inView } = useInView();
-  const cardsQuery = useCardsInfiniteQuery(deckId);
+  const cardsQuery = useInfiniteCardsData(deckId, tagId);
 
   // Fetch the next page if the last card is in view.
   // TODO: After styling, update this to fetch a little earlier.

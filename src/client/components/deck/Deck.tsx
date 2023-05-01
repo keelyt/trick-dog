@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { fetchCards } from '../../helpers/useCardsInfiniteQuery';
+import { fetchCards } from '../../helpers/useInfiniteCardsData';
 
 import styles from './Deck.module.scss';
 

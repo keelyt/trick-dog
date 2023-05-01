@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
@@ -15,6 +15,7 @@ import useDeleteDeck from '../helpers/useDeleteDeck';
 import styles from './EditDeck.module.scss';
 
 import type { DeckData, DeckResponse } from '../../types';
+import type { ChangeEvent } from 'react';
 
 // TODO: Because user could have a lot of cards in one deck,
 // should add pagination, caching (react query), search functionality
@@ -30,7 +31,8 @@ export default function EditDeck(): JSX.Element {
   const { id } = useParams();
   const deckId: number = parseInt(id!);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [tag, setTag] = useState<number | null>(null);
 
   const deleteDeck = useDeleteDeck();
   const navigate = useNavigate();
@@ -55,6 +57,12 @@ export default function EditDeck(): JSX.Element {
     });
   };
 
+  const handleTagChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newSelection = event.target.value;
+    if (!newSelection) setTag(null);
+    setTag(parseInt(newSelection));
+  };
+
   return (
     <div className={styles.container}>
       {modalIsOpen && (
@@ -74,13 +82,13 @@ export default function EditDeck(): JSX.Element {
           </div>
           <div>
             <h1>{deckQuery.isSuccess ? `${deckQuery.data.deck_name}` : 'Deck'}</h1>
-            <TagSelect tags={[]} onChange={() => undefined} />
+            <TagSelect deckId={deckId} onChange={handleTagChange} />
             <Button type='button' onClick={() => setModalIsOpen(true)}>
               Delete
             </Button>
           </div>
         </div>
-        <CardsList deckId={deckId} tags={[]} />
+        <CardsList deckId={deckId} tagId={tag} />
       </main>
     </div>
   );
