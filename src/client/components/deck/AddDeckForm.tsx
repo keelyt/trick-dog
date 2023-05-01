@@ -44,10 +44,14 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
       // Create optimistic deck, using a random number for the ID.
       const optimisticDeck: DeckData = { id: Math.random(), deck_name: deckName, card_count: 0 };
       // Optimistically update the deck data with the new deck.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => [
-        ...(old ?? []),
-        optimisticDeck,
-      ]);
+      // TODO: Since this is adding one element to a sorted array, could be done more efficiently.
+      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
+        [...(old ?? []), optimisticDeck].sort((a, b) => {
+          if (a.deck_name.toLowerCase() > b.deck_name.toLowerCase()) return 1;
+          if (b.deck_name.toLowerCase() > a.deck_name.toLowerCase()) return -1;
+          return 0;
+        })
+      );
       // Return context with the optimistic deck.
       return { optimisticDeck, previousDecks };
     },

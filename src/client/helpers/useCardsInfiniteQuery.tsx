@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 
-import type { CardData, CardsFetchParams } from '../../types';
+import type { CardData } from '../../types';
 
 interface FetchCardsParams {
   signal?: AbortSignal;

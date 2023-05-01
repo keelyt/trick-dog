@@ -25,8 +25,8 @@ export default class DeckSerializer extends RestSerializer {
       return {
         decks: json.decks
           .sort((a, b) => {
-            if (a.deckName > b.deckName) return 1;
-            if (b.deckName > a.deckName) return -1;
+            if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
+            if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
             return 0;
           })
           .map((deck) => ({
