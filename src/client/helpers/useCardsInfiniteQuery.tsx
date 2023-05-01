@@ -2,7 +2,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 
-import type { CardData, CardsFetchParams } from '../types';
+import type { CardData, CardsFetchParams } from '../../types';
+
+interface FetchCardsParams {
+  signal?: AbortSignal;
+  deckId?: number;
+  before?: string;
+}
 
 /**
  * Fetches a page of cards for a given deck.
@@ -16,11 +22,17 @@ export const fetchCards = async ({
   signal,
   deckId,
   before = '',
-}: CardsFetchParams): Promise<CardData[]> => {
+}: FetchCardsParams): Promise<CardData[]> => {
   if (!deckId) return [];
   const queryString = before ? `?before=${encodeURIComponent(before)}` : '';
   const deckIdParam = encodeURIComponent(deckId);
-  return await fetchWithError(`/api/decks/${deckIdParam}/cards${queryString}`, { signal });
+  const response = await fetchWithError<{ cards: CardData[] }>(
+    `/api/decks/${deckIdParam}/cards${queryString}`,
+    {
+      signal,
+    }
+  );
+  return response.cards;
 };
 
 /**

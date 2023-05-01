@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 
-import type { DeckData } from '../types';
+import type { DeckData } from '../../types';
 
 /**
  * A React hook that provides a mutation function for deleting a deck.

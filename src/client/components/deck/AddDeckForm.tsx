@@ -10,7 +10,7 @@ import Button from '../ui/Button';
 
 import styles from './AddDeckForm.module.scss';
 
-import type { DeckData } from '../../types';
+import type { DeckData, DeckResponse } from '../../../types';
 import type { SubmitHandler } from 'react-hook-form';
 
 interface FormValues {
@@ -29,7 +29,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
   // Mutation for adding a new deck
   const addDeck = useMutation({
     mutationFn: async (deckName: string) =>
-      fetchWithError<DeckData>('/api/decks', {
+      fetchWithError<DeckResponse>('/api/decks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,16 +55,16 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
       // If the mutation fails, roll back the optimistic updates.
       queryClient.setQueryData(['decks'], context?.previousDecks);
     },
-    onSuccess: (data: DeckData, variables, context) => {
+    onSuccess: (data: DeckResponse, variables, context) => {
       // Reset the form.
       reset();
       // Replace optimistic deck with actual deck.
       queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data : deck))
+        old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data.deck : deck))
       );
-      queryClient.setQueryData(['decks', data.id], data);
+      queryClient.setQueryData(['decks', data.deck.id], data.deck);
       // Navigate to the new deck page.
-      navigate(`/decks/${data.id}`);
+      navigate(`/decks/${data.deck.id}`);
     },
     onSettled: () => {
       // After either error or success, invalidate the decks query cache to trigger a refetch.

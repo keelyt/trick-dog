@@ -10,7 +10,7 @@ import fetchWithError from '../helpers/fetchWithError';
 
 import styles from './Decks.module.scss';
 
-import type { DeckData } from '../types';
+import type { DeckData, DecksResponse } from '../../types';
 
 export default function Decks() {
   const queryClient = useQueryClient();
@@ -27,12 +27,12 @@ export default function Decks() {
   const decksQuery = useQuery({
     queryKey: ['decks'] as const,
     queryFn: async ({ signal }): Promise<DeckData[]> => {
-      const results = await fetchWithError<DeckData[]>('/api/decks', { signal });
+      const result = await fetchWithError<DecksResponse>('/api/decks', { signal });
 
       // Add each deck to the cache.
-      results.forEach((deck) => queryClient.setQueryData(['decks', deck.id], deck));
+      result.decks.forEach((deck) => queryClient.setQueryData(['decks', deck.id], deck));
 
-      return results;
+      return result.decks;
     },
   });
 

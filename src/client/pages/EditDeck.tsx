@@ -16,7 +16,7 @@ import useDeleteDeck from '../helpers/useDeleteDeck';
 
 import styles from './EditDeck.module.scss';
 
-import type { DeckData } from '../types';
+import type { DeckData, DeckResponse } from '../../types';
 
 // TODO: Because user could have a lot of cards in one deck,
 // should add pagination, caching (react query), search functionality
@@ -40,8 +40,10 @@ export default function EditDeck(): JSX.Element {
 
   const deckQuery = useQuery({
     queryKey: ['decks', deckId] as const,
-    queryFn: async ({ signal }): Promise<DeckData> =>
-      await fetchWithError<DeckData>(`/api/decks/${deckId}`, { signal }),
+    queryFn: async ({ signal }): Promise<DeckData> => {
+      const result = await fetchWithError<DeckResponse>(`/api/decks/${deckId}`, { signal });
+      return result.deck;
+    },
   });
 
   // Fetch the next page if the last card is in view.

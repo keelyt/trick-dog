@@ -1,4 +1,4 @@
-import type { ServerError } from '../types';
+import type { ServerError } from '../../types';
 
 /**
  * A React hook that fetches data from a URL and throws an error if the response status is not 200
@@ -11,7 +11,7 @@ import type { ServerError } from '../types';
 export default async function fetchWithError<T>(url: string, options?: RequestInit) {
   const response: Response = await fetch(url, options);
 
-  if (response.status !== 200) throw new Error(`Error ${response.status}: ${response.statusText}`);
+  if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
   const result: T | ServerError = (await response.json()) as T | ServerError;
 
