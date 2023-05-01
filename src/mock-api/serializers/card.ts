@@ -12,9 +12,6 @@ export default class CardSerializer extends RestSerializer {
     );
 
     if ('card' in json) {
-      // Convert ID to numbers
-      // delete json.card.deck;
-      // return json;
       return {
         card: {
           id: Number(json.card.id),

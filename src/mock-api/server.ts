@@ -15,8 +15,8 @@ export function makeServer({ environment = 'test' } = {}) {
     serializers,
 
     seeds(server) {
-      const tags = server.createList('tag', faker.datatype.number({ min: 2, max: 25 }));
       server.createList('deck', faker.datatype.number({ min: 2, max: 10 })).forEach((deck) => {
+        const tags = server.createList('tag', faker.datatype.number({ min: 3, max: 6 }), { deck });
         const cards = server.createList('card', faker.datatype.number({ min: 2, max: 25 }), {
           deck,
         });
@@ -74,13 +74,23 @@ export function makeServer({ environment = 'test' } = {}) {
 
       this.get('/decks/:id/cards', (schema: AppSchema, request) => {
         const { id } = request.params;
-        const { before } = request.queryParams;
+        const { before, tag } = request.queryParams;
 
         return schema.where(
           'card',
           (card) =>
-            card.deckId === id && (!before || Date.parse(card.dateCreated) < Date.parse(before))
+            card.deckId === id &&
+            (!before || Date.parse(card.dateCreated) < Date.parse(before)) &&
+            (!tag || card.tagIds.includes(tag))
         );
+      });
+
+      this.get('/decks/:id/tags', (schema: AppSchema, request) => {
+        const { id } = request.params;
+
+        if (!id || isNaN(parseInt(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
+
+        return schema.where('tag', (tag) => tag.deckId === id);
       });
     },
   });

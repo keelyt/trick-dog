@@ -16,6 +16,7 @@ export interface Card {
   correctCount: number;
   dateCreated: string;
   tags: Tag[];
+  tagIds: string[];
 }
 
 export interface CardObject {
@@ -30,6 +31,9 @@ export interface Deck {
   id: string;
   deckName: string;
   cards: Card[];
+  cardIds: string[];
+  tags: Tag[];
+  tagIds: string[];
 }
 
 export interface DeckObject {
@@ -43,4 +47,11 @@ export interface DecksObject {
 export interface Tag {
   id: string;
   tagName: string;
+  deckId: string;
+  cards: Card[];
+  cardIds: string[];
+}
+
+export interface TagsObject {
+  tags: Tag[];
 }

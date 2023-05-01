@@ -33,6 +33,11 @@ export interface CardsResponse {
 export interface TagData {
   id: number;
   tag_name: string;
+  deck_id: number;
+}
+
+export interface TagsResponse {
+  tags: TagData[];
 }
 
 export type ServerResponse = CardResponse | CardsResponse | DeckResponse | DecksResponse;
