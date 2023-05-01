@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
-import CardView from '../components/card/CardView';
+import CardsList from '../components/card/CardsList';
+import TagSelect from '../components/tag/TagSelect';
 import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
 import DeleteDialog from '../components/ui/DeleteDialog';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
 import Modal from '../components/ui/Modal';
 import fetchWithError from '../helpers/fetchWithError';
-import useCardsInfiniteQuery from '../helpers/useCardsInfiniteQuery';
 import useDeleteDeck from '../helpers/useDeleteDeck';
 
 import styles from './EditDeck.module.scss';
@@ -33,8 +31,7 @@ export default function EditDeck(): JSX.Element {
   const deckId: number = parseInt(id!);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { ref, inView } = useInView();
-  const cardsQuery = useCardsInfiniteQuery(deckId);
+
   const deleteDeck = useDeleteDeck();
   const navigate = useNavigate();
 
@@ -46,18 +43,8 @@ export default function EditDeck(): JSX.Element {
     },
   });
 
-  // Fetch the next page if the last card is in view.
-  // TODO: After styling, update this to fetch a little earlier.
-  /*
-   * In mapping the pages, change which card has the ref --
-   * e.g. to fetch the next page when the 5th-from-bottom element is in view,
-   * change if (i === page.length - 1) to if (i === page.length - 5)
-   */
-  useEffect(() => {
-    if (inView && cardsQuery.hasNextPage) void cardsQuery.fetchNextPage();
-  }, [inView, cardsQuery.fetchNextPage, cardsQuery.hasNextPage]);
-
   const handleDialogCancel = () => setModalIsOpen(false);
+
   const handleDialogOk = () => {
     // Delete the current deck.
     deleteDeck.mutate(deckId, {
@@ -87,32 +74,13 @@ export default function EditDeck(): JSX.Element {
           </div>
           <div>
             <h1>{deckQuery.isSuccess ? `${deckQuery.data.deck_name}` : 'Deck'}</h1>
+            <TagSelect tags={[]} onChange={() => undefined} />
             <Button type='button' onClick={() => setModalIsOpen(true)}>
               Delete
             </Button>
           </div>
         </div>
-        <div className={styles['list-container']}>
-          {cardsQuery.isError && cardsQuery.error instanceof Error && (
-            <span>{cardsQuery.error.message}</span>
-          )}
-          {cardsQuery.isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <ul className={styles.list}>
-              {cardsQuery.data?.pages.map((page) =>
-                page.map((card, i) => (
-                  <CardView
-                    key={card.id}
-                    ref={i === page.length - 1 ? ref : undefined}
-                    question={card.question}
-                  />
-                ))
-              )}
-            </ul>
-          )}
-          {cardsQuery.isFetchingNextPage ? <LoadingSpinner /> : null}
-        </div>
+        <CardsList deckId={deckId} tags={[]} />
       </main>
     </div>
   );
