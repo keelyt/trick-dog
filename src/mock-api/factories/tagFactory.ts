@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Factory } from 'miragejs';
 
-export const TagFactory = Factory.extend({
+export const tagFactory = Factory.extend({
   id(i) {
     return i;
   },

@@ -3,7 +3,7 @@ import { RestSerializer } from 'miragejs';
 import type { TagsResponse } from '../../types';
 import type { TagsObject } from '../types';
 
-export default class TagSerializer extends RestSerializer {
+export const tagSerializer = RestSerializer.extend({
   serialize(): TagsResponse {
     // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
     const json: TagsObject = RestSerializer.prototype.serialize.apply(this, arguments);
@@ -25,5 +25,5 @@ export default class TagSerializer extends RestSerializer {
     }
 
     return json;
-  }
-}
+  },
+});

@@ -1,9 +1,10 @@
 import type { models } from './models';
-import type { Registry } from 'miragejs';
+import type { Registry, Server } from 'miragejs';
 import type Schema from 'miragejs/orm/schema';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type AppRegistry = Registry<typeof models, {}>;
+export type AppRegistry = Registry<typeof models, {}>;
+export type AppServer = Server<AppRegistry>;
 export type AppSchema = Schema<AppRegistry>;
 
 export interface Card {

@@ -1,9 +1,9 @@
-import { CardFactory } from './card';
-import { DeckFactory } from './deck';
-import { TagFactory } from './tag';
+import { cardFactory } from './cardFactory';
+import { deckFactory } from './deckFactory';
+import { tagFactory } from './tagFactory';
 
 export const factories = {
-  deck: DeckFactory,
-  card: CardFactory,
-  tag: TagFactory,
+  deck: deckFactory,
+  card: cardFactory,
+  tag: tagFactory,
 };

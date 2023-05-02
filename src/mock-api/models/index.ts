@@ -11,7 +11,6 @@ const DeckModel: ModelDefinition<Deck> = Model.extend({ cards: hasMany(), tags: 
 const TagModel: ModelDefinition<Tag> = Model.extend({ cards: hasMany(), deck: belongsTo() });
 
 export const models = {
-  // cardTag: CardTagModel,
   card: CardModel,
   deck: DeckModel,
   tag: TagModel,

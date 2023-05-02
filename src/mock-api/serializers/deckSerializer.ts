@@ -3,7 +3,7 @@ import { RestSerializer } from 'miragejs';
 import type { DeckResponse, DecksResponse } from '../../types';
 import type { DeckObject, DecksObject } from '../types';
 
-export default class DeckSerializer extends RestSerializer {
+export const deckSerializer = RestSerializer.extend({
   serialize(): DeckResponse | DecksResponse {
     // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
     const json: DeckObject | DecksObject = RestSerializer.prototype.serialize.apply(
@@ -38,5 +38,5 @@ export default class DeckSerializer extends RestSerializer {
     }
 
     return json;
-  }
-}
+  },
+});

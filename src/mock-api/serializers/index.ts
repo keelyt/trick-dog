@@ -1,9 +1,9 @@
-import CardSerializer from './card';
-import DeckSerializer from './deck';
-import TagSerializer from './tag';
+import { cardSerializer } from './cardSerializer';
+import { deckSerializer } from './deckSerializer';
+import { tagSerializer } from './tagSerializer';
 
 export const serializers = {
-  deck: DeckSerializer,
-  card: CardSerializer,
-  tag: TagSerializer,
+  deck: deckSerializer,
+  card: cardSerializer,
+  tag: tagSerializer,
 };
