@@ -14,6 +14,7 @@ export function makeServer({ environment = 'test' } = {}) {
     factories,
     serializers,
 
+    // Create seed data for use in development
     seeds(server) {
       server.createList('deck', faker.datatype.number({ min: 2, max: 10 })).forEach((deck) => {
         const tags = server.createList('tag', faker.datatype.number({ min: 3, max: 6 }), { deck });
@@ -29,7 +30,7 @@ export function makeServer({ environment = 'test' } = {}) {
     },
 
     routes() {
-      this.namespace = 'api';
+      this.namespace = 'api'; // Base namespace used for all requests
       this.timing = 1000; // 1000ms delay for responses
 
       this.get('/decks', (schema: AppSchema, request) => {
@@ -74,14 +75,17 @@ export function makeServer({ environment = 'test' } = {}) {
 
       this.get('/decks/:id/cards', (schema: AppSchema, request) => {
         const { id } = request.params;
-        const { before, tag } = request.queryParams;
+        const { before, tag, q } = request.queryParams;
 
         return schema.where(
           'card',
           (card) =>
             card.deckId === id &&
             (!before || Date.parse(card.dateCreated) < Date.parse(before)) &&
-            (!tag || card.tagIds.includes(tag))
+            (!tag || card.tagIds.includes(tag)) &&
+            (!q ||
+              card.question.toLowerCase().includes(q.toLowerCase()) ||
+              card.answer.toLowerCase().includes(q.toLowerCase()))
         );
       });
 

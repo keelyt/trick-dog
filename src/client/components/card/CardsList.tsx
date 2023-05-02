@@ -10,11 +10,12 @@ import styles from './CardsList.module.scss';
 interface CardsListProps {
   deckId: number;
   tagId: number | null;
+  search: string;
 }
 
-export default function CardsList({ deckId, tagId }: CardsListProps) {
+export default function CardsList({ deckId, tagId, search }: CardsListProps) {
   const { ref, inView } = useInView();
-  const cardsQuery = useInfiniteCardsData(deckId, tagId);
+  const cardsQuery = useInfiniteCardsData(deckId, tagId, search);
 
   // Fetch the next page if the last card is in view.
   // TODO: After styling, update this to fetch a little earlier.

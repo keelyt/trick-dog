@@ -28,8 +28,8 @@ export default class CardSerializer extends RestSerializer {
     if ('cards' in json) {
       return {
         cards: json.cards
-          .sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated)) // Sort by date descending.
           .slice(0, 10) // Limit to 10 cards per page.
+          .sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated)) // Sort by date descending.
           .map((card) => ({
             id: Number(card.id),
             deck_id: Number(card.deck),

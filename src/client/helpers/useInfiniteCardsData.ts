@@ -8,6 +8,7 @@ interface FetchCardsParams {
   signal?: AbortSignal;
   deckId?: number;
   tagId?: number | null;
+  search?: string;
   before?: string;
 }
 
@@ -23,11 +24,13 @@ export const fetchCards = async ({
   signal,
   deckId,
   tagId = null,
+  search = '',
   before = '',
 }: FetchCardsParams): Promise<CardData[]> => {
   if (!deckId) return [];
   const query = [];
   if (tagId) query.push(`tag=${encodeURIComponent(tagId)}`);
+  if (search) query.push(`q=${encodeURIComponent(search)}`);
   if (before) query.push(`before=${encodeURIComponent(before)}`);
   const deckIdParam = encodeURIComponent(deckId);
   const response = await fetchWithError<{ cards: CardData[] }>(
@@ -44,11 +47,15 @@ export const fetchCards = async ({
  * @param deckId The ID of the deck to fetch cards from.
  * @returns The result of the query.
  */
-export default function useInfiniteCardsData(deckId: number | undefined, tagId: number | null) {
+export default function useInfiniteCardsData(
+  deckId: number | undefined,
+  tagId: number | null,
+  search = ''
+) {
   return useInfiniteQuery<CardData[]>({
-    queryKey: ['decks', deckId, 'cards', { tagId }] as const,
+    queryKey: ['decks', deckId, 'cards', { tagId, search }] as const,
     queryFn: async ({ signal, pageParam = '' }: { signal?: AbortSignal; pageParam?: string }) =>
-      await fetchCards({ signal, deckId, tagId, before: pageParam }),
+      await fetchCards({ signal, deckId, tagId, search, before: pageParam }),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length === 0) return;
       // Get the timestamp from the oldest card we have.

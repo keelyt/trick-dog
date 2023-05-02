@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
+import CardSearchForm from '../components/card/CardSearchForm';
 import CardsList from '../components/card/CardsList';
 import TagSelect from '../components/tag/TagSelect';
 import BackButton from '../components/ui/BackButton';
@@ -33,6 +34,7 @@ export default function EditDeck(): JSX.Element {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [tag, setTag] = useState<number | null>(null);
+  const [search, setSearch] = useState<string>('');
 
   const deleteDeck = useDeleteDeck();
   const navigate = useNavigate();
@@ -63,6 +65,15 @@ export default function EditDeck(): JSX.Element {
     setTag(parseInt(newSelection));
   };
 
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value.length === 0) setSearch('');
+  };
+
+  const handleSearchSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearch((event.target.search as HTMLInputElement).value);
+  };
+
   return (
     <div className={styles.container}>
       {modalIsOpen && (
@@ -86,9 +97,10 @@ export default function EditDeck(): JSX.Element {
             <Button type='button' onClick={() => setModalIsOpen(true)}>
               Delete
             </Button>
+            <CardSearchForm onChange={handleSearchChange} onSubmit={handleSearchSubmit} />
           </div>
         </div>
-        <CardsList deckId={deckId} tagId={tag} />
+        <CardsList deckId={deckId} tagId={tag} search={search} />
       </main>
     </div>
   );
