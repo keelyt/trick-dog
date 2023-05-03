@@ -15,7 +15,7 @@ export default function useAddDeck() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ deck_name: deckName }),
+        body: JSON.stringify({ deckName }),
       }),
     onMutate: async (deckName: string) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
@@ -25,16 +25,16 @@ export default function useAddDeck() {
       // Create optimistic deck, using a random number for the ID.
       const optimisticDeck: DeckData = {
         id: Math.random(),
-        deck_name: deckName,
-        card_count: 0,
+        deckName: deckName,
+        cardCount: 0,
         tags: [],
       };
       // Optimistically update the deck list with the new deck.
       // TODO: Since this is adding one element to a sorted array, could be done more efficiently.
       queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
         [...(old ?? []), optimisticDeck].sort((a, b) => {
-          if (a.deck_name.toLowerCase() > b.deck_name.toLowerCase()) return 1;
-          if (b.deck_name.toLowerCase() > a.deck_name.toLowerCase()) return -1;
+          if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
+          if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
           return 0;
         })
       );

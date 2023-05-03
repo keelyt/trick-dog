@@ -15,12 +15,12 @@ export const cardSerializer = RestSerializer.extend({
       return {
         card: {
           id: Number(json.card.id),
-          deck_id: Number(json.card.deck),
+          deckId: Number(json.card.deck),
           question: json.card.question,
           answer: json.card.answer,
-          attempt_count: json.card.attemptCount,
-          correct_count: json.card.correctCount,
-          date_created: json.card.dateCreated,
+          attemptCount: json.card.attemptCount,
+          correctCount: json.card.correctCount,
+          dateCreated: json.card.dateCreated,
         },
       };
     }
@@ -29,12 +29,12 @@ export const cardSerializer = RestSerializer.extend({
       return {
         cards: json.cards.map((card) => ({
           id: Number(card.id),
-          deck_id: Number(card.deck),
+          deckId: Number(card.deck),
           question: card.question,
           answer: card.answer,
-          attempt_count: card.attemptCount,
-          correct_count: card.correctCount,
-          date_created: card.dateCreated,
+          attemptCount: card.attemptCount,
+          correctCount: card.correctCount,
+          dateCreated: card.dateCreated,
         })),
       };
     }

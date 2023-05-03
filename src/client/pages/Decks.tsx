@@ -48,8 +48,8 @@ export default function Decks() {
                 <Deck
                   key={deck.id}
                   deckId={deck.id}
-                  deckName={deck.deck_name}
-                  cardCount={deck.card_count}
+                  deckName={deck.deckName}
+                  cardCount={deck.cardCount}
                 />
               ))}
         </ul>

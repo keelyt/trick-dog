@@ -12,8 +12,8 @@ export const tagSerializer = RestSerializer.extend({
       return {
         tags: json.tags.map((tag) => ({
           id: Number(tag.id),
-          tag_name: tag.tagName,
-          deck_id: Number(tag.deck),
+          tagName: tag.tagName,
+          deckId: Number(tag.deck),
         })),
       };
     }

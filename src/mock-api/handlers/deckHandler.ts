@@ -12,13 +12,13 @@ export default function deckHandler(server: AppServer) {
   });
 
   server.post('/decks', (schema: AppSchema, request) => {
-    const attrs: { deck_name: string } = JSON.parse(request.requestBody) as {
-      deck_name: string;
+    const attrs: { deckName: string } = JSON.parse(request.requestBody) as {
+      deckName: string;
     };
 
-    if (!attrs.deck_name) return new Response(400, {}, { error: 'Deck name is required' });
+    if (!attrs.deckName) return new Response(400, {}, { error: 'Deck name is required' });
 
-    const newDeck = schema.create('deck', { deckName: attrs.deck_name });
+    const newDeck = schema.create('deck', { deckName: attrs.deckName });
     return schema.find('deck', newDeck.id);
   });
 

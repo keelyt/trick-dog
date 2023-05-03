@@ -85,7 +85,7 @@ export default function EditDeck(): JSX.Element {
             <BackButton href='/decks' label='Back to all decks' />
           </div>
           <div>
-            <h1>{deckQuery.isSuccess ? `${deckQuery.data.deck_name}` : 'Deck'}</h1>
+            <h1>{deckQuery.isSuccess ? `${deckQuery.data.deckName}` : 'Deck'}</h1>
             <TagSelect
               tags={deckQuery.isSuccess ? deckQuery.data.tags : []}
               onChange={handleTagChange}

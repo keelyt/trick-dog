@@ -110,7 +110,7 @@ export function useInfiniteCards({
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < limit) return;
       // Get the timestamp from the oldest card we have.
-      return lastPage[lastPage.length - 1].date_created;
+      return lastPage[lastPage.length - 1].dateCreated;
     },
     staleTime: Infinity,
   });

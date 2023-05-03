@@ -39,7 +39,7 @@
     "no-var": 1,
     "no-nested-ternary": 1,
     "no-template-curly-in-string": 1,
-    // "camelcase": 1,
+    "camelcase": 1,
     "spaced-comment": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
