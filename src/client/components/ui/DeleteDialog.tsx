@@ -9,6 +9,9 @@ interface DeleteDialogProps {
   onCancel?: () => void;
   title: string;
   text: string;
+  okLabel?: string;
+  cancelLabel?: string;
+  okDisabled: boolean;
 }
 
 export default function DeleteDialog({
@@ -16,6 +19,9 @@ export default function DeleteDialog({
   onCancel,
   title,
   text,
+  okLabel = 'Delete',
+  cancelLabel = 'Cancel',
+  okDisabled = false,
 }: DeleteDialogProps): JSX.Element {
   return (
     <div
@@ -34,11 +40,11 @@ export default function DeleteDialog({
       <div className={styles.dialog__buttons}>
         {onCancel && (
           <Button type='button' onClick={onCancel}>
-            Cancel
+            {cancelLabel}
           </Button>
         )}
-        <Button type='button' onClick={onOk}>
-          Delete
+        <Button type='button' onClick={onOk} disabled={okDisabled}>
+          {okLabel}
         </Button>
       </div>
     </div>

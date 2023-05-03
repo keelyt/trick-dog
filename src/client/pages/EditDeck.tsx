@@ -83,6 +83,8 @@ export default function EditDeck(): JSX.Element {
             onCancel={handleDialogCancel}
             title='Are you sure?'
             text='Are you sure you want to delete this deck? This cannot be undone.'
+            okLabel={deleteDeck.isLoading ? 'Deleting...' : 'Delete'}
+            okDisabled={deleteDeck.isLoading}
           />
         </Modal>
       )}
