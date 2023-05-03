@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { usePrefetchInfiniteCards } from '../../helpers/useInfiniteCards';
+import { usePrefetchInfiniteCards } from '../../helpers/useInfiniteCardsData';
 
 import styles from './Deck.module.scss';
 

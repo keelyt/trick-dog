@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import CardListItem from './CardListItem';
-import { useInfiniteCards } from '../../helpers/useInfiniteCards';
+import { useInfiniteCards } from '../../helpers/useInfiniteCardsData';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 import styles from './CardsList.module.scss';
