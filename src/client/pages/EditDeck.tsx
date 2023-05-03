@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
-import CardSearchForm from '../components/card/CardSearchForm';
 import CardsList from '../components/card/CardsList';
+import SearchForm from '../components/form/SearchForm';
 import TagSelect from '../components/tag/TagSelect';
 import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
@@ -97,7 +97,13 @@ export default function EditDeck(): JSX.Element {
             <Button type='button' onClick={() => setModalIsOpen(true)}>
               Delete
             </Button>
-            <CardSearchForm onChange={handleSearchChange} onSubmit={handleSearchSubmit} />
+            <SearchForm
+              onChange={handleSearchChange}
+              onSubmit={handleSearchSubmit}
+              maxLength={50}
+              placeholder='Search cards by text'
+              label='Search cards by text'
+            />
           </div>
         </div>
         <CardsList deckId={deckId} tagId={tag} search={search} />

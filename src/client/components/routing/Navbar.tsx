@@ -32,7 +32,11 @@ export default function Navbar(): JSX.Element {
           aria-expanded={showNav}
           aria-controls='nav-menu'
         >
-          {showNav ? <RiCloseLine aria-hidden='true' /> : <RiMenuLine aria-hidden='true' />}
+          {showNav ? (
+            <RiCloseLine aria-hidden='true' focusable='false' />
+          ) : (
+            <RiMenuLine aria-hidden='true' focusable='false' />
+          )}
         </button>
         <div
           id='nav-menu'
@@ -76,7 +80,7 @@ export default function Navbar(): JSX.Element {
                   aria-label='Profile'
                   className={`${styles.nav__link} ${styles['nav__link--icon']}`}
                 >
-                  <BiUser aria-hidden='true' />
+                  <BiUser aria-hidden='true' focusable='false' />
                 </NavLink>
               </li>
             )}
@@ -87,7 +91,7 @@ export default function Navbar(): JSX.Element {
                   aria-label='Login'
                   className={`${styles.nav__link} ${styles['nav__link--icon']}`}
                 >
-                  <BiUser aria-hidden='true' />
+                  <BiUser aria-hidden='true' focusable='false' />
                 </NavLink>
               </li>
             )}

@@ -24,7 +24,7 @@ export default function DeleteDialog({
       aria-labelledby='dialogTitle'
       aria-describedby='dialogDesc'
     >
-      <BsXCircle className={styles.icon} aria-hidden='true' />
+      <BsXCircle className={styles.icon} aria-hidden='true' focusable='false' />
       <h2 className={styles.dialog__title} id='dialogTitle'>
         {title}
       </h2>
