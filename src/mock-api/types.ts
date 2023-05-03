@@ -60,7 +60,7 @@ export interface DeckObject {
     id: string;
     deckName: string;
     cards: string[];
-    tags: string[];
+    tags: Tag[];
   };
 }
 
@@ -69,7 +69,7 @@ export interface DecksObject {
     id: string;
     deckName: string;
     cards: string[];
-    tags: string[];
+    tags: Tag[];
   }[];
 }
 

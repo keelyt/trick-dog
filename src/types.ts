@@ -2,6 +2,7 @@ export interface DeckData {
   id: number;
   deck_name: string;
   card_count: number;
+  tags: TagData[];
 }
 
 export interface DeckResponse {
@@ -39,9 +40,6 @@ export interface TagData {
 export interface TagsResponse {
   tags: TagData[];
 }
-
-export type ServerResponse = CardResponse | CardsResponse | DeckResponse | DecksResponse;
-export type ServerData = CardData | CardData[] | DeckData | DeckData[];
 
 export interface ServerError {
   error: string;

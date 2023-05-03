@@ -97,7 +97,7 @@ export function useInfiniteCards({
   limit = LIMIT,
 }: InfiniteQueryParams) {
   const queryClient = useQueryClient();
-  return useInfiniteQuery<CardData[]>({
+  return useInfiniteQuery({
     queryKey: getCardsQueryKey({ deckId, tagId, search, limit }),
     queryFn: async ({ signal, pageParam = '' }: { signal?: AbortSignal; pageParam?: string }) => {
       const cards = await fetchCards({ signal, deckId, tagId, search, before: pageParam, limit });

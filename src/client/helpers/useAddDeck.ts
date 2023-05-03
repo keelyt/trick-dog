@@ -23,7 +23,12 @@ export default function useAddDeck() {
       // Snapshot the previous value.
       const previousDecks = queryClient.getQueryData(['decks']);
       // Create optimistic deck, using a random number for the ID.
-      const optimisticDeck: DeckData = { id: Math.random(), deck_name: deckName, card_count: 0 };
+      const optimisticDeck: DeckData = {
+        id: Math.random(),
+        deck_name: deckName,
+        card_count: 0,
+        tags: [],
+      };
       // Optimistically update the deck list with the new deck.
       // TODO: Since this is adding one element to a sorted array, could be done more efficiently.
       queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
@@ -52,8 +57,6 @@ export default function useAddDeck() {
         getCardsQueryKey({ deckId: data.deck.id, tagId: null, search: '' }),
         { pages: [[]], pageParams: [null] }
       );
-      // New decks will not have any tags.
-      queryClient.setQueryData(['decks', data.deck.id, 'tags'], []);
     },
     onSettled: () => {
       // After either error or success, invalidate the decks query cache to trigger a refetch.

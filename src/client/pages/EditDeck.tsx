@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useQuery } from '@tanstack/react-query';
-
 import CardsList from '../components/card/CardsList';
 import SearchForm from '../components/form/SearchForm';
 import TagSelect from '../components/tag/TagSelect';
@@ -10,12 +8,11 @@ import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
 import DeleteDialog from '../components/ui/DeleteDialog';
 import Modal from '../components/ui/Modal';
-import fetchWithError from '../helpers/fetchWithError';
+import useDeckData from '../helpers/useDeckData';
 import useDeleteDeck from '../helpers/useDeleteDeck';
 
 import styles from './EditDeck.module.scss';
 
-import type { DeckData, DeckResponse } from '../../types';
 import type { ChangeEvent } from 'react';
 
 // TODO: Because user could have a lot of cards in one deck,
@@ -37,15 +34,9 @@ export default function EditDeck(): JSX.Element {
   const [search, setSearch] = useState<string>('');
 
   const deleteDeck = useDeleteDeck();
-  const navigate = useNavigate();
+  const deckQuery = useDeckData(deckId);
 
-  const deckQuery = useQuery({
-    queryKey: ['decks', deckId],
-    queryFn: async ({ signal }): Promise<DeckData> => {
-      const result = await fetchWithError<DeckResponse>(`/api/decks/${deckId}`, { signal });
-      return result.deck;
-    },
-  });
+  const navigate = useNavigate();
 
   const handleDialogCancel = () => setModalIsOpen(false);
 
@@ -95,7 +86,10 @@ export default function EditDeck(): JSX.Element {
           </div>
           <div>
             <h1>{deckQuery.isSuccess ? `${deckQuery.data.deck_name}` : 'Deck'}</h1>
-            <TagSelect deckId={deckId} onChange={handleTagChange} />
+            <TagSelect
+              tags={deckQuery.isSuccess ? deckQuery.data.tags : []}
+              onChange={handleTagChange}
+            />
             <Button type='button' onClick={() => setModalIsOpen(true)}>
               Delete
             </Button>
