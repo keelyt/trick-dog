@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import CardView from './CardView';
+import CardListItem from './CardListItem';
 import { useInfiniteCards } from '../../helpers/useInfiniteCards';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
@@ -39,7 +39,7 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
         <ul className={styles.list}>
           {cardsQuery.data?.pages.map((page) =>
             page.map((card, i) => (
-              <CardView
+              <CardListItem
                 key={card.id}
                 ref={i === page.length - 1 ? ref : undefined}
                 question={card.question}
