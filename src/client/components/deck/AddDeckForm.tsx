@@ -2,15 +2,12 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import fetchWithError from '../../helpers/fetchWithError';
+import useAddDeck from '../../helpers/useAddDeck';
 import TextInput from '../form/TextInput';
 import Button from '../ui/Button';
 
 import styles from './AddDeckForm.module.scss';
 
-import type { DeckData, DeckResponse } from '../../../types';
 import type { SubmitHandler } from 'react-hook-form';
 
 interface FormValues {
@@ -18,64 +15,13 @@ interface FormValues {
 }
 
 export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const addDeck = useAddDeck();
 
   // Reset the form when the component unmounts.
   useEffect(() => {
     return () => reset();
   }, []);
-
-  // Mutation for adding a new deck
-  const addDeck = useMutation({
-    mutationFn: async (deckName: string) =>
-      fetchWithError<DeckResponse>('/api/decks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ deck_name: deckName }),
-      }),
-    onMutate: async (deckName: string) => {
-      // Cancel outgoing refetches (so they don't overwrite our optimistic update).
-      await queryClient.cancelQueries(['decks']);
-      // Snapshot the previous value.
-      const previousDecks = queryClient.getQueryData(['decks']);
-      // Create optimistic deck, using a random number for the ID.
-      const optimisticDeck: DeckData = { id: Math.random(), deck_name: deckName, card_count: 0 };
-      // Optimistically update the deck data with the new deck.
-      // TODO: Since this is adding one element to a sorted array, could be done more efficiently.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        [...(old ?? []), optimisticDeck].sort((a, b) => {
-          if (a.deck_name.toLowerCase() > b.deck_name.toLowerCase()) return 1;
-          if (b.deck_name.toLowerCase() > a.deck_name.toLowerCase()) return -1;
-          return 0;
-        })
-      );
-      // Return context with the optimistic deck.
-      return { optimisticDeck, previousDecks };
-    },
-    onError: (data, variables, context) => {
-      // If the mutation fails, roll back the optimistic updates.
-      queryClient.setQueryData(['decks'], context?.previousDecks);
-    },
-    onSuccess: (data: DeckResponse, variables, context) => {
-      // Reset the form.
-      reset();
-      // Replace optimistic deck with actual deck.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data.deck : deck))
-      );
-      queryClient.setQueryData(['decks', data.deck.id], data.deck);
-      // Navigate to the new deck page.
-      navigate(`/decks/${data.deck.id}`);
-    },
-    onSettled: () => {
-      // After either error or success, invalidate the decks query cache to trigger a refetch.
-      // Using void to explicitly mark floating promise as intentionally not awaited.
-      void queryClient.invalidateQueries(['decks'], { exact: true });
-    },
-  });
 
   const {
     register,
@@ -85,7 +31,15 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
   } = useForm<FormValues>();
 
   // Handler function for form submission
-  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => addDeck.mutate(data.name);
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
+    addDeck.mutate(data.name, {
+      onSuccess: (data) => {
+        // Reset the form.
+        reset();
+        // Navigate to the new deck page.
+        navigate(`/decks/${data.deck.id}`);
+      },
+    });
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
