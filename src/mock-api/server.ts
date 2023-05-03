@@ -24,8 +24,7 @@ export function makeServer({ environment = 'test' } = {}) {
         });
         cards.forEach((card) => {
           const numTags = faker.datatype.number({ min: 1, max: 3 });
-          card.tags = faker.helpers.arrayElements(tags, numTags);
-          card.save();
+          card.update({ tags: faker.helpers.arrayElements(tags, numTags) });
         });
       });
     },

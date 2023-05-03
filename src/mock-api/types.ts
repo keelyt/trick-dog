@@ -9,8 +9,8 @@ export type AppSchema = Schema<AppRegistry>;
 
 export interface Card {
   id: string;
-  deckId?: string;
-  deck?: string;
+  deck: Deck;
+  deckId: string;
   question: string;
   answer: string;
   attemptCount: number;
@@ -21,11 +21,29 @@ export interface Card {
 }
 
 export interface CardObject {
-  card: Card;
+  card: {
+    id: string;
+    deck: string;
+    question: string;
+    answer: string;
+    attemptCount: number;
+    correctCount: number;
+    dateCreated: string;
+    tags: string[];
+  };
 }
 
 export interface CardsObject {
-  cards: Card[];
+  cards: {
+    id: string;
+    deck: string;
+    question: string;
+    answer: string;
+    attemptCount: number;
+    correctCount: number;
+    dateCreated: string;
+    tags: string[];
+  }[];
 }
 
 export interface Deck {
@@ -38,21 +56,37 @@ export interface Deck {
 }
 
 export interface DeckObject {
-  deck: Deck;
+  deck: {
+    id: string;
+    deckName: string;
+    cards: string[];
+    tags: string[];
+  };
 }
 
 export interface DecksObject {
-  decks: Deck[];
+  decks: {
+    id: string;
+    deckName: string;
+    cards: string[];
+    tags: string[];
+  }[];
 }
 
 export interface Tag {
   id: string;
   tagName: string;
+  deck: Deck;
   deckId: string;
   cards: Card[];
   cardIds: string[];
 }
 
 export interface TagsObject {
-  tags: Tag[];
+  tags: {
+    id: string;
+    tagName: string;
+    deck: string;
+    cards: string[];
+  }[];
 }

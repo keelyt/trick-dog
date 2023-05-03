@@ -10,17 +10,11 @@ export const tagSerializer = RestSerializer.extend({
 
     if ('tags' in json) {
       return {
-        tags: json.tags
-          .sort((a, b) => {
-            if (a.tagName.toLowerCase() > b.tagName.toLowerCase()) return 1;
-            if (b.tagName.toLowerCase() > a.tagName.toLowerCase()) return -1;
-            return 0;
-          })
-          .map((tag) => ({
-            id: Number(tag.id),
-            tag_name: tag.tagName,
-            deck_id: Number(tag.deckId),
-          })),
+        tags: json.tags.map((tag) => ({
+          id: Number(tag.id),
+          tag_name: tag.tagName,
+          deck_id: Number(tag.deck),
+        })),
       };
     }
 

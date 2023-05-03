@@ -4,7 +4,11 @@ import type { AppSchema, AppServer } from '../types';
 
 export default function deckHandler(server: AppServer) {
   server.get('/decks', (schema: AppSchema, request) => {
-    return schema.all('deck');
+    return schema.all('deck').sort((a, b) => {
+      if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
+      if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
+      return 0;
+    });
   });
 
   server.post('/decks', (schema: AppSchema, request) => {

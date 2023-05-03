@@ -27,18 +27,15 @@ export const cardSerializer = RestSerializer.extend({
 
     if ('cards' in json) {
       return {
-        cards: json.cards
-          .slice(0, 10) // Limit to 10 cards per page.
-          .sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated)) // Sort by date descending.
-          .map((card) => ({
-            id: Number(card.id),
-            deck_id: Number(card.deck),
-            question: card.question,
-            answer: card.answer,
-            attempt_count: card.attemptCount,
-            correct_count: card.correctCount,
-            date_created: card.dateCreated,
-          })),
+        cards: json.cards.map((card) => ({
+          id: Number(card.id),
+          deck_id: Number(card.deck),
+          question: card.question,
+          answer: card.answer,
+          attempt_count: card.attemptCount,
+          correct_count: card.correctCount,
+          date_created: card.dateCreated,
+        })),
       };
     }
 

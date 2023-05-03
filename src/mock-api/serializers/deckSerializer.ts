@@ -23,17 +23,11 @@ export const deckSerializer = RestSerializer.extend({
 
     if ('decks' in json) {
       return {
-        decks: json.decks
-          .sort((a, b) => {
-            if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
-            if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
-            return 0;
-          })
-          .map((deck) => ({
-            id: Number(deck.id),
-            deck_name: deck.deckName,
-            card_count: deck.cards.length,
-          })),
+        decks: json.decks.map((deck) => ({
+          id: Number(deck.id),
+          deck_name: deck.deckName,
+          card_count: deck.cards.length,
+        })),
       };
     }
 

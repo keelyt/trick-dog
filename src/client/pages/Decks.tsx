@@ -61,7 +61,7 @@ export default function Decks() {
             : decksQuery.data?.map((deck: DeckData) => (
                 <Deck
                   key={deck.id}
-                  id={deck.id}
+                  deckId={deck.id}
                   deckName={deck.deck_name}
                   cardCount={deck.card_count}
                 />
