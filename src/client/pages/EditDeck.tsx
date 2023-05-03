@@ -40,7 +40,7 @@ export default function EditDeck(): JSX.Element {
   const navigate = useNavigate();
 
   const deckQuery = useQuery({
-    queryKey: ['decks', deckId] as const,
+    queryKey: ['decks', deckId],
     queryFn: async ({ signal }): Promise<DeckData> => {
       const result = await fetchWithError<DeckResponse>(`/api/decks/${deckId}`, { signal });
       return result.deck;

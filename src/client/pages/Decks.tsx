@@ -25,7 +25,7 @@ export default function Decks() {
   }, [modalIsOpen]);
 
   const decksQuery = useQuery({
-    queryKey: ['decks'] as const,
+    queryKey: ['decks'],
     queryFn: async ({ signal }): Promise<DeckData[]> => {
       const result = await fetchWithError<DecksResponse>('/api/decks', { signal });
 
