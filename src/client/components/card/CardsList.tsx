@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import CardListItem from './CardListItem';
 import { useInfiniteCards } from '../../helpers/useInfiniteCardsData';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import QueryError from '../ui/QueryError';
 
 import styles from './CardsList.module.scss';
 
@@ -30,11 +31,20 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
 
   return (
     <div className={styles['list-container']}>
-      {cardsQuery.isError && cardsQuery.error instanceof Error && (
-        <span>{cardsQuery.error.message}</span>
+      {cardsQuery.isError && (
+        <QueryError
+          label={
+            cardsQuery.error instanceof Error
+              ? cardsQuery.error.message
+              : 'Error retrieving information from server.'
+          }
+        />
       )}
+
       {cardsQuery.isLoading ? (
-        <p>Loading...</p>
+        <div className={styles.loading}>
+          <LoadingSpinner />
+        </div>
       ) : (
         <ul className={styles.list}>
           {cardsQuery.data?.pages.map((page) =>
@@ -46,9 +56,14 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
               />
             ))
           )}
+
+          {cardsQuery.isFetchingNextPage && (
+            <li>
+              <LoadingSpinner />
+            </li>
+          )}
         </ul>
       )}
-      {cardsQuery.isFetchingNextPage ? <LoadingSpinner /> : null}
     </div>
   );
 }

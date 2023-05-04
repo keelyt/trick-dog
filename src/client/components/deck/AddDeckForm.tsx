@@ -43,7 +43,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h1>Create Deck</h1>
+      <h1 className={styles.form__heading}>Create Deck</h1>
       <TextInput<FormValues>
         register={register}
         name={'name'}

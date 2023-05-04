@@ -7,7 +7,9 @@ import TagSelect from '../components/tag/TagSelect';
 import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
 import DeleteDialog from '../components/ui/DeleteDialog';
+import LoadingIndicator from '../components/ui/LoadingIndicator';
 import Modal from '../components/ui/Modal';
+import QueryError from '../components/ui/QueryError';
 import useDeckData from '../helpers/useDeckData';
 import useDeleteDeck from '../helpers/useDeleteDeck';
 
@@ -67,7 +69,7 @@ export default function EditDeck(): JSX.Element {
 
   return (
     <div className={styles.container}>
-      {modalIsOpen && (
+      {modalIsOpen && deckQuery.isSuccess && (
         <Modal onClose={handleDialogCancel}>
           <DeleteDialog
             onOk={handleDialogOk}
@@ -80,29 +82,41 @@ export default function EditDeck(): JSX.Element {
         </Modal>
       )}
       <main role='main' className={styles.content}>
-        <div className={styles.top}>
-          <div>
-            <BackButton href='/decks' label='Back to all decks' />
-          </div>
-          <div>
-            <h1>{deckQuery.isSuccess ? `${deckQuery.data.deckName}` : 'Deck'}</h1>
-            <TagSelect
-              tags={deckQuery.isSuccess ? deckQuery.data.tags : []}
-              onChange={handleTagChange}
-            />
-            <Button type='button' onClick={() => setModalIsOpen(true)}>
-              Delete
-            </Button>
-            <SearchForm
-              onChange={handleSearchChange}
-              onSubmit={handleSearchSubmit}
-              maxLength={50}
-              placeholder='Search cards by text'
-              label='Search cards by text'
-            />
-          </div>
-        </div>
-        <CardsList deckId={deckId} tagId={tag} search={search} />
+        {deckQuery.isLoading && <LoadingIndicator />}
+        {deckQuery.isError && (
+          <QueryError
+            label={
+              deckQuery.error instanceof Error
+                ? deckQuery.error.message
+                : 'Error retrieving information from server.'
+            }
+            refetchFn={() => deckQuery.refetch()}
+          />
+        )}
+        {deckQuery.isSuccess && (
+          <>
+            <div className={styles.top}>
+              <div>
+                <BackButton href='/decks' label='Back to all decks' />
+              </div>
+              <div>
+                <h1 className={styles.top__heading}>{deckQuery.data.deckName}</h1>
+                <TagSelect tags={deckQuery.data.tags} onChange={handleTagChange} />
+                <Button type='button' onClick={() => setModalIsOpen(true)}>
+                  Delete
+                </Button>
+                <SearchForm
+                  onChange={handleSearchChange}
+                  onSubmit={handleSearchSubmit}
+                  maxLength={50}
+                  placeholder='Search cards by text'
+                  label='Search cards by text'
+                />
+              </div>
+            </div>
+            <CardsList deckId={deckId} tagId={tag} search={search} />
+          </>
+        )}
       </main>
     </div>
   );

@@ -1,0 +1,22 @@
+import Button from './Button';
+
+import styles from './QueryError.module.scss';
+
+export default function QueryError({
+  label,
+  refetchFn,
+}: {
+  label: string;
+  refetchFn?: () => void;
+}): JSX.Element {
+  return (
+    <div className={styles.error}>
+      <p className={styles.error__label}>{label}</p>
+      {refetchFn && (
+        <Button type='button' onClick={refetchFn}>
+          Retry
+        </Button>
+      )}
+    </div>
+  );
+}
