@@ -18,7 +18,7 @@ export default function TagSelect({ tags, onChange }: TagSelectProps): JSX.Eleme
         <option value=''>Select a tag to filter</option>
         {tags.map((tag) => (
           <option key={tag.id} value={tag.id}>
-            {tag.tag_name}
+            {tag.tagName}
           </option>
         ))}
       </select>
