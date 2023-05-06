@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { usePrefetchInfiniteCards } from '../../helpers/useInfiniteCardsData';
 
@@ -18,12 +18,12 @@ export default function Deck({ deckId, deckName, cardCount }: DeckProps): JSX.El
 
   return (
     <li onMouseEnter={prefetchCards}>
-      <NavLink to={`/decks/${deckId}`} className={styles.deck}>
+      <Link to={`/decks/${deckId}`} className={styles.deck}>
         <h2>{deckName}</h2>
         <p>
           {cardCount} card{cardCount === 1 ? '' : 's'}
         </p>
-      </NavLink>
+      </Link>
     </li>
   );
 }

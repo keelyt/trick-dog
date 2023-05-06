@@ -6,6 +6,7 @@ import PublicRoute from './components/routing/PublicRoute';
 import { useAuth } from './contexts/AuthContext';
 import { useTheme } from './contexts/ThemeContext';
 import Decks from './pages/Decks';
+import EditCard from './pages/EditCard';
 import EditDeck from './pages/EditDeck';
 import HomeLoggedIn from './pages/HomeLoggedIn';
 import HomeLoggedOut from './pages/HomeLoggedOut';
@@ -29,7 +30,9 @@ export default function App() {
           <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
           <Route element={<PrivateRoute />}>
             <Route path='/decks' element={<Decks />} />
-            <Route path='/decks/:id' element={<EditDeck />} />
+            <Route path='/decks/:deckId' element={<EditDeck />} />
+            <Route path='/decks/:deckId/cards/new' element={<EditCard isNew={true} />} />
+            <Route path='/decks/:deckId/cards/:cardId' element={<EditCard isNew={false} />} />
             <Route path='/study' element={<Study />} />
             <Route path='/stats' element={<Stats />} />
             <Route path='/profile' element={<Profile />} />

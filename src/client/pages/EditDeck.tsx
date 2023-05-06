@@ -26,9 +26,12 @@ import type { ChangeEvent } from 'react';
 
 // TODO: Adjust styling to use partially persistent nav instead of fixed-size content window.
 
+// TODO: Add ability to select and delete multiple cards at once.
+
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
-  const { id } = useParams();
+  const { deckId: id } = useParams();
+
   const deckId: number = parseInt(id!);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
