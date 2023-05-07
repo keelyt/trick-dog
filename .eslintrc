@@ -76,7 +76,7 @@
             "position": "before"
           },
           {
-            "pattern": "^@tanstack/react-query*",
+            "pattern": "@tanstack/react-query*",
             "group": "external",
             "position": "after"
           },

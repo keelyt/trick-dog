@@ -44,3 +44,8 @@ export interface TagsResponse {
 export interface ServerError {
   error: string;
 }
+
+export interface InfiniteCardData {
+  pages?: CardData[][];
+  pageParams?: (string | null)[];
+}

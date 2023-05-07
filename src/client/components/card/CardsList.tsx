@@ -52,7 +52,10 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
               <CardListItem
                 key={card.id}
                 ref={i === page.length - 1 ? ref : undefined}
+                deckId={deckId}
+                cardId={card.id}
                 question={card.question}
+                answer={card.answer}
               />
             ))
           )}
