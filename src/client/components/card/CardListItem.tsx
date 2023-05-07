@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { BsTrash3 } from 'react-icons/bs';
+import { CiEdit } from 'react-icons/ci';
 
 import useDeleteCard from '../../helpers/useDeleteCard';
 import Button from '../ui/Button';
@@ -26,8 +27,8 @@ const CardListItem = forwardRef(
 
     return (
       <li ref={ref} className={styles.card}>
-        {question}
-        {answer}
+        <div className={styles.card__row}>{question}</div>
+        <div className={styles.card__row}>{answer}</div>
         <div className={styles.buttons}>
           <Button
             as='button'
@@ -38,10 +39,11 @@ const CardListItem = forwardRef(
             colorScheme='card'
           >
             {deleteCard.isLoading ? 'Deleting...' : 'Delete'}
-            <BsTrash3 style={{ color: 'red' }} />
+            <BsTrash3 aria-hidden='true' focusable='false' />
           </Button>
           <Button as='link' href={`/decks/${deckId}/cards/${cardId}`} size='sm' colorScheme='card'>
             Edit
+            <CiEdit aria-hidden='true' focusable='false' />
           </Button>
         </div>
       </li>

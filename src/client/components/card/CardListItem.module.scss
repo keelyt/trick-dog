@@ -3,13 +3,34 @@
 .card {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  width: 20rem;
 
   @include themes.themed {
     background-color: themes.t('bg-card');
     box-shadow: 0 1px 3px 0 themes.t('shadow-deck'), 0 1px 2px -1px themes.t('shadow-deck');
   }
+
+  &__row {
+    height: 5rem;
+    padding: 0.25rem 0;
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
 }
 
 .buttons {
   display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
 }

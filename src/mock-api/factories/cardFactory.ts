@@ -6,10 +6,10 @@ export const cardFactory = Factory.extend({
     return i;
   },
   question() {
-    return faker.word.noun();
+    return faker.random.words(faker.datatype.number({ min: 2, max: 15 }));
   },
   answer() {
-    return faker.word.adjective();
+    return faker.random.words(faker.datatype.number({ min: 2, max: 50 }));
   },
   dateCreated() {
     return faker.date.past().toString();
