@@ -1,13 +1,13 @@
 import { HiOutlineArrowLeft } from 'react-icons/hi';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styles from './BackButton.module.scss';
 
 export default function BackButton({ href, label }: { href: string; label: string }): JSX.Element {
   return (
-    <NavLink to={href} className={styles.link}>
+    <Link to={href} className={styles.link}>
       <HiOutlineArrowLeft aria-hidden='true' />
       <span>{label}</span>
-    </NavLink>
+    </Link>
   );
 }

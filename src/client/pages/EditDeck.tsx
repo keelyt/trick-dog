@@ -105,7 +105,7 @@ export default function EditDeck(): JSX.Element {
               <div>
                 <h1 className={styles.top__heading}>{deckQuery.data.deckName}</h1>
                 <TagSelect tags={deckQuery.data.tags} onChange={handleTagChange} />
-                <Button type='button' onClick={() => setModalIsOpen(true)}>
+                <Button as='button' type='button' onClick={() => setModalIsOpen(true)}>
                   Delete
                 </Button>
                 <SearchForm

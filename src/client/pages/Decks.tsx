@@ -12,7 +12,7 @@ import styles from './Decks.module.scss';
 
 import type { DeckData } from '../../types';
 
-export default function Decks() {
+export default function Decks(): JSX.Element {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const btnAddRef = useRef<HTMLButtonElement>(null);
   const decksQuery = useDecksData();
@@ -50,7 +50,12 @@ export default function Decks() {
           <>
             <div className={styles.top}>
               <h1>Decks</h1>
-              <Button ref={btnAddRef} type='button' onClick={() => setModalIsOpen(true)}>
+              <Button
+                ref={btnAddRef}
+                as='button'
+                type='button'
+                onClick={() => setModalIsOpen(true)}
+              >
                 New Deck
               </Button>
             </div>
