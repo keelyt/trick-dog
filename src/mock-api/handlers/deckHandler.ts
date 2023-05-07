@@ -3,7 +3,7 @@ import { Response } from 'miragejs';
 import type { AppSchema, AppServer } from '../types';
 
 export default function deckHandler(server: AppServer) {
-  server.get('/decks', (schema: AppSchema, request) => {
+  server.get('/decks', (schema: AppSchema) => {
     return schema.all('deck').sort((a, b) => {
       if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
       if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
@@ -19,7 +19,7 @@ export default function deckHandler(server: AppServer) {
     if (!attrs.deckName) return new Response(400, {}, { error: 'Deck name is required' });
 
     const newDeck = schema.create('deck', { deckName: attrs.deckName });
-    return schema.find('deck', newDeck.id);
+    return schema.findBy('deck', { id: newDeck.id });
   });
 
   server.get('/decks/:id', (schema: AppSchema, request) => {
@@ -27,7 +27,7 @@ export default function deckHandler(server: AppServer) {
 
     if (!id || isNaN(parseInt(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
 
-    const deck = schema.find('deck', id);
+    const deck = schema.findBy('deck', { id });
 
     if (!deck) return new Response(404, {}, { error: 'Deck not found' });
 
@@ -39,7 +39,7 @@ export default function deckHandler(server: AppServer) {
 
     if (!id || isNaN(parseInt(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
 
-    const deck = schema.find('deck', id);
+    const deck = schema.findBy('deck', { id });
 
     if (!deck) return new Response(404, {}, { error: 'Deck not found' });
 

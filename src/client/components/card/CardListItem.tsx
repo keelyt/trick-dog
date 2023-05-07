@@ -32,7 +32,7 @@ const CardListItem = forwardRef(
             size='sm'
             colorScheme='card'
           >
-            Delete
+            {deleteCard.isLoading ? 'Deleting...' : 'Delete'}
             <BsTrash3 style={{ color: 'red' }} />
           </Button>
           <Button as='link' href={`/decks/${deckId}/cards/${cardId}`} size='sm' colorScheme='card'>

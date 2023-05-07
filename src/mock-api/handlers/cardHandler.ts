@@ -3,8 +3,25 @@ import { Response } from 'miragejs';
 import type { AppSchema, AppServer } from '../types';
 
 export default function cardHandler(server: AppServer) {
-  server.get('/decks/:id/cards', (schema: AppSchema, request) => {
-    const { id } = request.params;
+  server.delete('/decks/:deckId/cards/:cardId', (schema: AppSchema, request) => {
+    const { cardId, deckId } = request.params;
+
+    if (!deckId || isNaN(parseInt(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID' });
+
+    if (!cardId || isNaN(parseInt(cardId)))
+      return new Response(400, {}, { error: 'Invalid card ID' });
+
+    const card = schema.findBy('card', { id: cardId, deckId });
+
+    if (!card) return new Response(404, {}, { error: 'Card not found' });
+
+    card.destroy();
+    return card;
+  });
+
+  server.get('/decks/:deckId/cards', (schema: AppSchema, request) => {
+    const { deckId } = request.params;
     const { before, tag, q, limit } = request.queryParams;
 
     if (!limit || isNaN(parseInt(limit)))
@@ -14,7 +31,7 @@ export default function cardHandler(server: AppServer) {
       .where(
         'card',
         (card) =>
-          card.deckId === id &&
+          card.deckId === deckId &&
           (!before || Date.parse(card.dateCreated) < Date.parse(before)) &&
           (!tag || card.tagIds.includes(tag)) &&
           (!q ||
