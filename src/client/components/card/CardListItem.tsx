@@ -13,10 +13,15 @@ interface CardListItemProps {
   deckId: number;
   question: string;
   answer: string;
+  tagId: number | null; // The current tag filter (used for optimistic update)
+  search: string; // The current search string (used for optimistic update)
 }
 
 const CardListItem = forwardRef(
-  ({ cardId, deckId, question, answer }: CardListItemProps, ref?: ForwardedRef<HTMLLIElement>) => {
+  (
+    { cardId, deckId, question, answer, tagId, search }: CardListItemProps,
+    ref?: ForwardedRef<HTMLLIElement>
+  ) => {
     const deleteCard = useDeleteCard();
 
     return (
@@ -27,7 +32,7 @@ const CardListItem = forwardRef(
           <Button
             as='button'
             type='button'
-            onClick={() => deleteCard.mutate({ deckId, cardId })}
+            onClick={() => deleteCard.mutate({ deckId, cardId, tagId, search })}
             disabled={deleteCard.isLoading}
             size='sm'
             colorScheme='card'

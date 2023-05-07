@@ -56,6 +56,8 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
                 cardId={card.id}
                 question={card.question}
                 answer={card.answer}
+                tagId={tagId}
+                search={search}
               />
             ))
           )}
