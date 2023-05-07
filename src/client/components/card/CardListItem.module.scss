@@ -1,5 +1,15 @@
+@use '@styles/themes';
+
 .card {
-  min-height: 500px;
-  width: 500px;
-  background-color: green;
+  display: flex;
+  flex-direction: column;
+
+  @include themes.themed {
+    background-color: themes.t('bg-card');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-deck'), 0 1px 2px -1px themes.t('shadow-deck');
+  }
+}
+
+.buttons {
+  display: flex;
 }
