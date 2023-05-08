@@ -102,19 +102,31 @@ export default function EditDeck(): JSX.Element {
               <div>
                 <BackButton href='/decks' label='Back to all decks' />
               </div>
-              <div>
+              <div className={styles.top__row}>
                 <h1 className={styles.top__heading}>{deckQuery.data.deckName}</h1>
-                <TagSelect tags={deckQuery.data.tags} onChange={handleTagChange} />
-                <Button as='button' type='button' onClick={() => setModalIsOpen(true)}>
-                  Delete
+                <div className={styles.top__options}>
+                  <div className={styles.top__filters}>
+                    <SearchForm
+                      onChange={handleSearchChange}
+                      onSubmit={handleSearchSubmit}
+                      maxLength={50}
+                      placeholder='Search cards by text'
+                      label='Search cards by text'
+                    />
+                    <TagSelect
+                      tags={deckQuery.data.tags}
+                      onChange={handleTagChange}
+                      defaultSelected={!tag}
+                      defaultText={tag ? 'All tags' : 'Select a tag to filter'}
+                    />
+                  </div>
+                  <Button as='link' href={`/decks/${deckId}/cards/new`} size='md'>
+                    Add Card
+                  </Button>
+                </div>
+                <Button as='button' type='button' onClick={() => setModalIsOpen(true)} size='md'>
+                  Delete Deck
                 </Button>
-                <SearchForm
-                  onChange={handleSearchChange}
-                  onSubmit={handleSearchSubmit}
-                  maxLength={50}
-                  placeholder='Search cards by text'
-                  label='Search cards by text'
-                />
               </div>
             </div>
             <CardsList deckId={deckId} tagId={tag} search={search} />

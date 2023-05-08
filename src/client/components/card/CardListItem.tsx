@@ -38,12 +38,12 @@ const CardListItem = forwardRef(
             size='sm'
             colorScheme='card'
           >
-            {deleteCard.isLoading ? 'Deleting...' : 'Delete'}
             <BsTrash3 aria-hidden='true' focusable='false' />
+            {deleteCard.isLoading ? 'Deleting...' : 'Delete'}
           </Button>
           <Button as='link' href={`/decks/${deckId}/cards/${cardId}`} size='sm' colorScheme='card'>
-            Edit
             <CiEdit aria-hidden='true' focusable='false' />
+            Edit
           </Button>
         </div>
       </li>
