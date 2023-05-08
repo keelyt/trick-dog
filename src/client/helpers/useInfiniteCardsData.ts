@@ -128,6 +128,6 @@ export function usePrefetchInfiniteCards(deckId: number, limit = LIMIT) {
   return () =>
     queryClient.prefetchInfiniteQuery({
       queryKey: getCardsQueryKey({ deckId, tagId: null, search: '', limit }),
-      queryFn: ({ signal }) => fetchCards({ signal, deckId, limit }),
+      queryFn: () => fetchCards({ deckId, limit }),
     });
 }
