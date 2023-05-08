@@ -1,4 +1,4 @@
-import { GrSearch } from 'react-icons/gr';
+import { HiOutlineSearch } from 'react-icons/hi';
 
 import styles from './SearchForm.module.scss';
 
@@ -38,7 +38,8 @@ export default function SearchForm({
         className={styles.form__input}
       />
       <button type='submit' aria-label='Search' className={styles.button}>
-        <GrSearch aria-hidden='true' focusable='false' />
+        <span className={styles['visually-hidden']}>Search</span>
+        <HiOutlineSearch aria-hidden='true' focusable='false' />
       </button>
     </form>
   );

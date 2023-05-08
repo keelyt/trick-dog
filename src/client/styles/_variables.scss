@@ -34,8 +34,6 @@ $tea-green: #cddfa0;
 $thistle: #cfbcdf;
 $trick-dog: #38b6ff;
 
-$text--dark: $isabelline;
-$text--light: $smoky;
 $bg--dark: $midnight;
 $bg--light: $floral-white;
 $bg-button--dark: #626973;
@@ -52,6 +50,8 @@ $bg-deck--dark: $slate-dark;
 $bg-deck--light: $seashell;
 $bg-deck-hover--dark: #3f4c5f;
 $bg-deck-hover--light: $peach;
+$bg-form-element--dark: #565c65;
+$bg-form-element--light: #c1dac8;
 $bg-nav--dark: $blue-grey;
 $bg-nav--light: $linen;
 $bg-nav-gradient-primary--dark: $deep-ocean;
@@ -84,6 +84,10 @@ $shadow-deck--dark: hsl(221deg 63% 1% / 0.5);
 $shadow-deck--light: hsl(0deg 0% 53% / 0.5);
 $shadow-nav--dark: $blue-charcoal;
 $shadow-nav--light: $bone;
+$text--dark: $isabelline;
+$text--light: $smoky;
+$text-form-element-placeholder--dark: #a4a9b1;
+$text-form-element-placeholder--light: #7a828e;
 
 // X-Small devices (portrait phones, less than 576px)
 // Small devices (landscape phones, 576px and up)

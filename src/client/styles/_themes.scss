@@ -10,6 +10,7 @@ $themes: (
     bg-card: var.$bg-card--light,
     bg-deck: var.$bg-deck--light,
     bg-deck-hover: var.$bg-deck-hover--light,
+    bg-form-element: var.$bg-form-element--light,
     bg-nav: var.$bg-nav--light,
     bg-nav-gradient-primary: var.$bg-nav-gradient-primary--light,
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--light,
@@ -27,6 +28,7 @@ $themes: (
     shadow-input: var.$shadow-input--light,
     shadow-nav: var.$shadow-nav--light,
     text: var.$text--light,
+    text-form-element-placeholder: var.$text-form-element-placeholder--light,
   ),
   dark: (
     bg: var.$bg--dark,
@@ -37,6 +39,7 @@ $themes: (
     bg-card: var.$bg-card--dark,
     bg-deck: var.$bg-deck--dark,
     bg-deck-hover: var.$bg-deck-hover--dark,
+    bg-form-element: var.$bg-form-element--dark,
     bg-nav: var.$bg-nav--dark,
     bg-nav-gradient-primary: var.$bg-nav-gradient-primary--dark,
     bg-nav-gradient-secondary: var.$bg-nav-gradient-secondary--dark,
@@ -54,6 +57,7 @@ $themes: (
     shadow-input: var.$shadow-input--dark,
     shadow-nav: var.$shadow-nav--dark,
     text: var.$text--dark,
+    text-form-element-placeholder: var.$text-form-element-placeholder--dark,
   ),
 );
 
