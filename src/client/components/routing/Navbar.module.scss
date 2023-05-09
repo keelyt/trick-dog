@@ -114,12 +114,14 @@
     &--right {
       padding-right: 0.75rem;
       gap: 1rem;
-      flex-grow: 0.5;
+      justify-content: flex-end;
 
       @media screen and (max-width: var.$breakpoint-md) {
         padding-right: 0;
         gap: 3rem;
         height: auto;
+        flex-grow: 0.5;
+        justify-content: center;
       }
     }
   }

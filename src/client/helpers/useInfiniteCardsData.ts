@@ -4,8 +4,8 @@ import fetchWithError from './fetchWithError';
 
 import type { CardData } from '../../types';
 
-// Hardcoded page limit of 10 cards per page.
-const LIMIT = 10;
+// Hardcoded page limit of 12 cards per page.
+const LIMIT = 12;
 
 interface QueryKeyParams {
   deckId: number;
@@ -36,7 +36,7 @@ Generates a query key for the list of cards of a given deck with the specified p
 @param params.deckId The ID of the deck to fetch cards from.
 @param params.tagId The ID of the tag to filter cards by. Can be null.
 @param params.search The search query to filter cards by.
-@param [params.limit=10] The number of cards to limit the results to. Defaults to 10.
+@param [params.limit=12] The number of cards to limit the results to. Defaults to 12.
 @returns The generated query key.
 */
 export function getCardsQueryKey({ deckId, tagId, search, limit = LIMIT }: QueryKeyParams) {
@@ -87,7 +87,7 @@ export const fetchCards = async ({
  * @param params.deckId The ID of the deck to fetch cards from.
  * @param params.tagId The ID of the tag to filter cards by. Can be null.
  * @param [params.search=''] The search query to filter cards by. Defaults to empty string.
- * @param [params.limit=10] The number of cards to limit the results to. Defaults to 10.
+ * @param [params.limit=12] The number of cards to limit the results to. Defaults to 12.
  * @returns The result of the query.
  */
 export function useInfiniteCards({
@@ -119,7 +119,7 @@ export function useInfiniteCards({
 /**
  * A React hook that prefetches an infinite list of card data for a given deck.
  * @param deckId The ID of the deck to fetch cards from.
- * @param [limit=10] The number of cards to limit the results to. Defaults to 10.
+ * @param [limit=12] The number of cards to limit the results to. Defaults to 12.
  * @returns A function that can be called to prefetch the first page of cards.
  */
 export function usePrefetchInfiniteCards(deckId: number, limit = LIMIT) {

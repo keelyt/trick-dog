@@ -6,7 +6,10 @@
   align-items: stretch;
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem 0.75rem;
-  width: 20rem;
+  height: min-content;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 
   @include themes.themed {
     background-color: themes.t('bg-card');

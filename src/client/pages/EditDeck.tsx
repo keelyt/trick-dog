@@ -28,6 +28,8 @@ import type { ChangeEvent } from 'react';
 
 // TODO: Add ability to select and delete multiple cards at once.
 
+// TODO: Add 'Filter' button on smaller screens, hide search bar and select unless clicked.
+
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
   const { deckId: id } = useParams();
@@ -99,13 +101,16 @@ export default function EditDeck(): JSX.Element {
         {deckQuery.isSuccess && (
           <>
             <div className={styles.top}>
-              <div>
+              <div className={`${styles.top__row} ${styles['top__row--upper']}`}>
+                <h1 className={styles.top__heading}>{deckQuery.data.deckName}</h1>
                 <BackButton href='/decks' label='Back to all decks' />
               </div>
-              <div className={styles.top__row}>
-                <h1 className={styles.top__heading}>{deckQuery.data.deckName}</h1>
-                <div className={styles.top__options}>
-                  <div className={styles.top__filters}>
+              <div className={`${styles.top__row} ${styles['top__row--lower']}`}>
+                <Button as='button' type='button' onClick={() => setModalIsOpen(true)} size='md'>
+                  Delete Deck
+                </Button>
+                <div className={styles.cardOptions}>
+                  <div className={styles.filters}>
                     <SearchForm
                       onChange={handleSearchChange}
                       onSubmit={handleSearchSubmit}
@@ -124,9 +129,6 @@ export default function EditDeck(): JSX.Element {
                     Add Card
                   </Button>
                 </div>
-                <Button as='button' type='button' onClick={() => setModalIsOpen(true)} size='md'>
-                  Delete Deck
-                </Button>
               </div>
             </div>
             <CardsList deckId={deckId} tagId={tag} search={search} />
