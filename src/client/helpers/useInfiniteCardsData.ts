@@ -16,7 +16,7 @@ interface QueryKeyParams {
 
 interface FetchParams {
   signal?: AbortSignal;
-  deckId?: number;
+  deckId: number;
   tagId?: number | null;
   search?: string;
   before?: string;
@@ -62,8 +62,6 @@ export const fetchCards = async ({
   before = '',
   limit,
 }: FetchParams): Promise<CardData[]> => {
-  if (!deckId) return [];
-
   const query = [];
   if (tagId) query.push(`tag=${encodeURIComponent(tagId)}`);
   if (search) query.push(`q=${encodeURIComponent(search)}`);
