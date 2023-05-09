@@ -19,6 +19,8 @@ interface AsButtonProps {
   type: 'button' | 'submit' | 'reset';
   onClick?: () => void;
   disabled?: boolean;
+  ariaControls?: string;
+  ariaExpanded?: boolean;
 }
 
 interface AsLinkProps {
@@ -27,6 +29,8 @@ interface AsLinkProps {
   type?: never;
   onClick?: never;
   disabled?: never;
+  ariaControls?: never;
+  ariaExpanded?: never;
 }
 
 type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
@@ -41,6 +45,8 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
  * @param props.type The type of button: 'button', 'submit', or 'reset'.
  * @param [props.onClick] The click handler for the button element. Optional.
  * @param [props.disabled] Whether the button should be disabled. Optional.
+ * @param [props.ariaControls] ID of the expandable element that the button controls. Optional.
+ * @param [props.ariaExpanded] Whether or not the controlled element is expanded. Optional.
  * @param props.children The content to render inside the button or link.
  * @param [ref] The ref attached to the button element. Optional.
  * @returns The button JSX element.
@@ -56,6 +62,8 @@ const Button = forwardRef(
       size = 'lg',
       colorScheme = 'main',
       ariaLabel,
+      ariaControls,
+      ariaExpanded,
       children,
     }: ButtonProps,
     ref?: ForwardedRef<HTMLButtonElement>
@@ -78,6 +86,8 @@ const Button = forwardRef(
         ...(disabled && { disabled, 'aria-disabled': disabled }),
         ...(onClick && { onClick }),
         ...(ariaLabel && { 'aria-label': ariaLabel }),
+        ...(ariaControls && { 'aria-controls': ariaControls }),
+        ...(ariaExpanded && { 'aria-expanded': ariaExpanded }),
       };
 
       return (
