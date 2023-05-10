@@ -9,7 +9,6 @@
     "test": "vitest",
     "test-ui": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "mock-api": "nodemon --esm ./mock-api/server.ts",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "prettier": "prettier --write \"./**/*.{ts,tsx}\"",
