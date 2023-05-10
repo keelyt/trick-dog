@@ -5,6 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
 import { useAuth } from '../../contexts/AuthContext';
+import useScrollListener from '../../helpers/useScrollListener';
 import DarkLightToggle from '../ui/DarkLightToggle';
 
 import styles from './Navbar.module.scss';
@@ -12,8 +13,17 @@ import styles from './Navbar.module.scss';
 export default function Navbar(): JSX.Element {
   const { authed } = useAuth();
   const { pathname } = useLocation();
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState<boolean>(false);
+  const [navbarHidden, setNavbarHidden] = useState<boolean>(false);
 
+  const scroll = useScrollListener();
+
+  useEffect(() => {
+    if (scroll.y > 150 && scroll.y - scroll.prevY > 0) setNavbarHidden(true);
+    else setNavbarHidden(false);
+  }, [scroll.y, scroll.prevY]);
+
+  // Remove focus from nav link when path changes.
   useEffect(() => {
     setShowNav(false);
     if (document.activeElement instanceof HTMLElement) {
@@ -24,7 +34,7 @@ export default function Navbar(): JSX.Element {
   const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${navbarHidden ? styles['container--hidden'] : ''}`}>
       <nav className={styles.nav}>
         <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--logo']}`}>
           <Logo className={styles.nav__logo} />

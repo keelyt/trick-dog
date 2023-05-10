@@ -6,8 +6,15 @@
 
 .container {
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 10;
+  transition: transform 150ms ease-in-out;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
   @include themes.themed {
     background-color: themes.t('bg-nav');
     box-shadow: 0 4px 2px -3px themes.t('shadow-nav');
