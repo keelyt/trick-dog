@@ -17,13 +17,6 @@ export default function Decks(): JSX.Element {
   const btnAddRef = useRef<HTMLButtonElement>(null);
   const decksQuery = useDecksData();
 
-  useEffect(() => {
-    // Prevent scrolling on the page when the modal is open.
-    if (modalIsOpen) document.body.style.overflow = 'hidden';
-    // When the modal closes, allow scrolling and set focus to the new deck button.
-    else document.body.style.overflow = 'unset';
-  }, [modalIsOpen]);
-
   const handleFormClose = () => {
     setModalIsOpen(false);
     btnAddRef.current?.focus();

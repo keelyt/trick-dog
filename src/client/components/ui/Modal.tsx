@@ -22,8 +22,10 @@ export default function Modal({
   useTabFocus(innerModalRef);
 
   useEffect(() => {
+    // Prevent scrolling on the page when the modal mounts.
     document.body.style.overflow = 'hidden';
 
+    // Return cleanup function to allow scrolling when the modal unmounts.
     return () => {
       document.body.style.overflow = 'unset';
     };
