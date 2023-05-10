@@ -8,6 +8,8 @@ interface TagSelectProps {
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   defaultSelected: boolean;
   defaultText: string;
+  showLabel: boolean;
+  rounded: boolean;
 }
 
 export default function TagSelect({
@@ -15,17 +17,24 @@ export default function TagSelect({
   onChange,
   defaultSelected,
   defaultText,
+  showLabel,
+  rounded,
 }: TagSelectProps): JSX.Element {
   return (
-    <>
-      <label htmlFor='tag' className={styles['visually-hidden']}>
+    <div className={styles.dropdown}>
+      <label
+        htmlFor='tag'
+        className={showLabel ? styles.dropdown__label : styles['visually-hidden']}
+      >
         Filter by Tag
       </label>
       <select
         id='tag'
         name='tag'
         onChange={onChange}
-        className={`${styles.select} ${defaultSelected ? styles['select--default'] : ''}`}
+        className={`${styles.select} ${defaultSelected ? styles['select--default'] : ''} ${
+          rounded ? styles['select--rounded'] : ''
+        }`}
       >
         <option value=''>{defaultText}</option>
         {tags.map((tag) => (
@@ -34,6 +43,6 @@ export default function TagSelect({
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 }
