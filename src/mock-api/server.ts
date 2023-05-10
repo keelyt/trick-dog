@@ -19,7 +19,7 @@ export function makeServer({ environment = 'test' } = {}) {
     seeds(server) {
       server.createList('deck', faker.datatype.number({ min: 2, max: 10 })).forEach((deck) => {
         const tags = server.createList('tag', faker.datatype.number({ min: 3, max: 6 }), { deck });
-        const cards = server.createList('card', faker.datatype.number({ min: 2, max: 25 }), {
+        const cards = server.createList('card', faker.datatype.number({ min: 2, max: 75 }), {
           deck,
         });
         cards.forEach((card) => {

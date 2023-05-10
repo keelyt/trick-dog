@@ -3,6 +3,7 @@
 
 .modal {
   position: fixed;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +31,7 @@
       background-color: themes.t('bg');
     }
 
-    @media screen and (max-width: var.$breakpoint-md) {
+    @media (max-width: var.$breakpoint-md) {
       padding: 1.5rem;
     }
   }
@@ -51,7 +52,7 @@
     color: themes.t('text');
   }
 
-  @media screen and (max-width: var.$breakpoint-md) {
+  @media (max-width: var.$breakpoint-md) {
     margin: 0.15rem;
   }
 }

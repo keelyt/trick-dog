@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { RiCloseCircleLine } from 'react-icons/ri';
 
 import useEscapeKey from '../../helpers/useEscapeKey';
@@ -20,6 +20,14 @@ export default function Modal({
   useOutsideClick(onClose, innerModalRef);
   useEscapeKey(onClose);
   useTabFocus(innerModalRef);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   return (
     <div className={styles.modal} tabIndex={-1} aria-modal='true' role='dialog'>
