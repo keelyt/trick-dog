@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CardsList from '../components/card/CardsList';
@@ -12,6 +12,7 @@ import Modal from '../components/ui/Modal';
 import QueryError from '../components/ui/QueryError';
 import useDeckData from '../helpers/useDeckData';
 import useDeleteDeck from '../helpers/useDeleteDeck';
+import useMediaMatch from '../helpers/useMediaMatch';
 
 import styles from './EditDeck.module.scss';
 
@@ -34,28 +35,18 @@ export default function EditDeck(): JSX.Element {
   const [tag, setTag] = useState<number | null>(null);
   const [search, setSearch] = useState<string>('');
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [mediaMatch, setMediaMatch] = useState<boolean>(false);
 
   const deleteDeck = useDeleteDeck();
   const deckQuery = useDeckData(deckId);
 
-  const navigate = useNavigate();
-  const btnDeleteRef = useRef<HTMLButtonElement>(null);
-
   // This is used to adjust the label visibility and placeholder text of the filters
-  // based on window size.
-  useEffect(() => {
-    // The media query must match the width at which the the filter options are hidden
-    // and the "Filters" button is shown.
-    const mediaQueryList = window.matchMedia('(max-width: 992px)');
-    const mediaChange = () => setMediaMatch(mediaQueryList.matches);
-    // Call the handler when the component mounts to set the initial showLabels state.
-    mediaChange();
-    // Add an event listener for media query status changes.
-    mediaQueryList.addEventListener('change', mediaChange);
-    // Cleanup function to remove the event listener when the component unmounts.
-    return () => mediaQueryList.removeEventListener('change', mediaChange);
-  }, []);
+  // based on window size. The media query must match the width at which the the filter
+  // options are hidden and the "Filters" button is shown.
+  const mediaMatch = useMediaMatch('(max-width: 992px)');
+
+  const navigate = useNavigate();
+
+  const btnDeleteRef = useRef<HTMLButtonElement>(null);
 
   const handleDialogCancel = () => {
     setModalIsOpen(false);
