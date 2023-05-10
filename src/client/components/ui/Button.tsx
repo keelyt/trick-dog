@@ -10,6 +10,7 @@ interface CommonProps {
   size?: 'sm' | 'md' | 'lg';
   colorScheme?: 'main' | 'card';
   ariaLabel?: string;
+  rounded?: boolean;
   children: ReactNode;
 }
 
@@ -40,13 +41,14 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
  * @param props.as Whether to render the element as a button ('button') or a link ('link').
  * @param [props.size='lg'] The size of the button: 'sm', 'md', or 'lg'. Defaults to 'lg'.
  * @param [props.colorScheme='main'] The color scheme of the button or link. Optional.
+ * @param [props.rounded] Whether the button should have rounded edges. Optional.
  * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional.
  * @param props.href The URL to navigate to if the element is a link.
  * @param props.type The type of button: 'button', 'submit', or 'reset'.
  * @param [props.onClick] The click handler for the button element. Optional.
  * @param [props.disabled] Whether the button should be disabled. Optional.
  * @param [props.ariaControls] ID of the expandable element that the button controls. Optional.
- * @param [props.ariaExpanded] Whether or not the controlled element is expanded. Optional.
+ * @param [props.ariaExpanded] Whether the controlled element is expanded. Optional.
  * @param props.children The content to render inside the button or link.
  * @param [ref] The ref attached to the button element. Optional.
  * @returns The button JSX element.
@@ -61,6 +63,7 @@ const Button = forwardRef(
       disabled,
       size = 'lg',
       colorScheme = 'main',
+      rounded,
       ariaLabel,
       ariaControls,
       ariaExpanded,
@@ -70,7 +73,7 @@ const Button = forwardRef(
   ) => {
     const classes = `${styles.button} ${styles[`button--${size}`]} ${
       styles[`button--${colorScheme}`]
-    }`;
+    } ${rounded ? styles[`button--rounded`] : ''}`;
 
     if (as === 'link') {
       const linkAttributes = ariaLabel ? { 'aria-label': ariaLabel } : {};

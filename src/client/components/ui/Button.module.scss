@@ -2,6 +2,7 @@
 @use '@styles/variables' as var;
 
 .button {
+  $self: &;
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
@@ -13,6 +14,11 @@
   gap: 0.25rem;
   color: inherit;
   white-space: nowrap;
+  text-align: center;
+
+  @media (max-width: var.$breakpoint-sm) {
+    white-space: normal;
+  }
 
   &--lg {
     font-size: 1rem;
@@ -23,7 +29,7 @@
 
   &--md {
     font-size: 1rem;
-    padding: 0.35rem 0.5rem;
+    padding: 0.35rem 0.75rem;
     border-bottom: 2px solid;
     border-left: 2px solid;
   }
@@ -33,6 +39,20 @@
     padding: 0.25rem 0.5rem;
     border-bottom: 2px solid;
     border-left: 2px solid;
+  }
+
+  &--rounded {
+    &#{$self}--lg {
+      border-radius: 1.15rem;
+    }
+
+    &#{$self}--md {
+      border-radius: 1rem;
+    }
+
+    &#{$self}--sm {
+      border-radius: 0.88rem;
+    }
   }
 
   &--main {
