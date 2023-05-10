@@ -10,6 +10,8 @@ interface SearchFormProps {
   maxLength: number;
   label: string;
   placeholder: string;
+  showLabel: boolean;
+  rounded: boolean;
 }
 
 export default function SearchForm({
@@ -18,29 +20,40 @@ export default function SearchForm({
   maxLength = 50,
   label = '',
   placeholder = label,
+  showLabel,
+  rounded,
 }: SearchFormProps) {
   return (
-    <form onSubmit={onSubmit} role='search' className={styles.form}>
-      <label htmlFor='search' className={styles['visually-hidden']}>
+    <form
+      onSubmit={onSubmit}
+      role='search'
+      className={`${styles.form} ${rounded ? styles['form--rounded'] : ''}`}
+    >
+      <label
+        htmlFor='search'
+        className={showLabel ? styles.form__label : styles['visually-hidden']}
+      >
         {label}
       </label>
-      <input
-        type='search'
-        name='search'
-        id='search'
-        placeholder={placeholder}
-        enterKeyHint='search'
-        maxLength={maxLength}
-        autoComplete='off'
-        autoCorrect='off'
-        spellCheck='false'
-        onChange={onChange}
-        className={styles.form__input}
-      />
-      <button type='submit' aria-label='Search' className={styles.button}>
-        <span className={styles['visually-hidden']}>Search</span>
-        <HiOutlineSearch aria-hidden='true' focusable='false' />
-      </button>
+      <div className={styles.form__inner}>
+        <input
+          type='search'
+          name='search'
+          id='search'
+          placeholder={placeholder}
+          enterKeyHint='search'
+          maxLength={maxLength}
+          autoComplete='off'
+          autoCorrect='off'
+          spellCheck='false'
+          onChange={onChange}
+          className={styles.form__input}
+        />
+        <button type='submit' aria-label='Search' className={styles.form__button}>
+          <span className={styles['visually-hidden']}>Search</span>
+          <HiOutlineSearch aria-hidden='true' focusable='false' />
+        </button>
+      </div>
     </form>
   );
 }
