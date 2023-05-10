@@ -1,4 +1,5 @@
 @use '@styles/themes';
+@use '@styles/variables' as var;
 
 .list-container {
   display: flex;
@@ -14,6 +15,12 @@
   @include themes.themed {
     background-color: themes.t('bg-secondary');
   }
+
+  // Enable scrolling - must match media query used
+  // in EditDeck component.
+  @media (max-height: 800px) {
+    overflow-y: auto;
+  }
 }
 
 .list {
@@ -25,7 +32,7 @@
   list-style: none;
   padding: 0.4rem 1.5rem;
   margin: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
   flex-grow: 1;
@@ -37,7 +44,7 @@
     border-color: themes.t('bg-secondary');
   }
 
-  @media screen and (max-width: 300px) {
+  @media (max-width: var.$breakpoint-sm) {
     padding: 0.4rem 0.75rem;
   }
 }
@@ -45,4 +52,9 @@
 .loading {
   margin: auto;
   font-size: 3rem;
+}
+
+.spinner {
+  text-align: center;
+  grid-column: 1/-1;
 }

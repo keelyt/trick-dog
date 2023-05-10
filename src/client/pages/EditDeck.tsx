@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import CardsList from '../components/card/CardsList';
@@ -17,18 +17,12 @@ import styles from './EditDeck.module.scss';
 
 import type { ChangeEvent } from 'react';
 
-// TODO: Because user could have a lot of cards in one deck,
-// should add pagination, caching (react query), search functionality
-// filter functionality (filter by tag), and sort functionality
-
 // TODO: For now, will only give ability to sort newest to oldest.
 // If want to add ability to sort oldest to newest, will need to modify query.
 
 // TODO: Adjust styling to use partially persistent nav instead of fixed-size content window.
 
 // TODO: Add ability to select and delete multiple cards at once.
-
-// TODO: Add 'Filter' button on smaller screens, hide search bar and select unless clicked.
 
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
@@ -39,13 +33,34 @@ export default function EditDeck(): JSX.Element {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [tag, setTag] = useState<number | null>(null);
   const [search, setSearch] = useState<string>('');
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [mediaMatch, setMediaMatch] = useState<boolean>(false);
 
   const deleteDeck = useDeleteDeck();
   const deckQuery = useDeckData(deckId);
 
   const navigate = useNavigate();
+  const btnDeleteRef = useRef<HTMLButtonElement>(null);
 
-  const handleDialogCancel = () => setModalIsOpen(false);
+  // This is used to adjust the label visibility and placeholder text of the filters
+  // based on window size.
+  useEffect(() => {
+    // The media query must match the width at which the the filter options are hidden
+    // and the "Filters" button is shown.
+    const mediaQueryList = window.matchMedia('(max-width: 992px)');
+    const mediaChange = () => setMediaMatch(mediaQueryList.matches);
+    // Call the handler when the component mounts to set the initial showLabels state.
+    mediaChange();
+    // Add an event listener for media query status changes.
+    mediaQueryList.addEventListener('change', mediaChange);
+    // Cleanup function to remove the event listener when the component unmounts.
+    return () => mediaQueryList.removeEventListener('change', mediaChange);
+  }, []);
+
+  const handleDialogCancel = () => {
+    setModalIsOpen(false);
+    btnDeleteRef.current?.focus();
+  };
 
   const handleDialogOk = () => {
     // Delete the current deck.
@@ -71,6 +86,8 @@ export default function EditDeck(): JSX.Element {
     event.preventDefault();
     setSearch((event.target.search as HTMLInputElement).value);
   };
+
+  const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
 
   return (
     <div className={styles.container}>
@@ -106,26 +123,66 @@ export default function EditDeck(): JSX.Element {
                 <BackButton href='/decks' label='Back to all decks' />
               </div>
               <div className={`${styles.top__row} ${styles['top__row--lower']}`}>
-                <Button as='button' type='button' onClick={() => setModalIsOpen(true)} size='md'>
+                <Button
+                  ref={btnDeleteRef}
+                  as='button'
+                  type='button'
+                  onClick={() => setModalIsOpen(true)}
+                  size='md'
+                  rounded={true}
+                >
                   Delete Deck
                 </Button>
                 <div className={styles.cardOptions}>
                   <div className={styles.filters}>
-                    <SearchForm
-                      onChange={handleSearchChange}
-                      onSubmit={handleSearchSubmit}
-                      maxLength={50}
-                      placeholder='Search cards by text'
-                      label='Search cards by text'
-                    />
-                    <TagSelect
-                      tags={deckQuery.data.tags}
-                      onChange={handleTagChange}
-                      defaultSelected={!tag}
-                      defaultText={tag ? 'All tags' : 'Select a tag to filter'}
-                    />
+                    <div className={styles.filters__toggle}>
+                      <Button
+                        as='button'
+                        type='button'
+                        onClick={toggleFilters}
+                        aria-label={showFilters ? 'Hide filter options' : 'Show filter options'}
+                        aria-expanded={showFilters}
+                        aria-controls='card-filters'
+                        rounded={true}
+                        size='md'
+                      >
+                        {showFilters ? 'Hide Filters' : 'Filter'}
+                      </Button>
+                    </div>
+                    <div
+                      id='card-filters'
+                      className={`${styles.filters__container} ${
+                        showFilters ? '' : styles['filters__container--collapsed']
+                      }`}
+                    >
+                      <div className={styles.filters__search}>
+                        <SearchForm
+                          onChange={handleSearchChange}
+                          onSubmit={handleSearchSubmit}
+                          maxLength={50}
+                          placeholder={mediaMatch ? 'Search...' : 'Search cards by text'}
+                          label='Search Cards by Text'
+                          showLabel={mediaMatch}
+                          rounded={true}
+                          colorScheme={mediaMatch ? 'dropdown' : 'main'}
+                        />
+                      </div>
+                      <div className={styles.filters__select}>
+                        <TagSelect
+                          tags={deckQuery.data.tags}
+                          onChange={handleTagChange}
+                          defaultSelected={!tag}
+                          defaultText={
+                            tag ? 'All tags' : mediaMatch ? 'Select...' : 'Select a tag to filter'
+                          }
+                          showLabel={mediaMatch}
+                          rounded={true}
+                          colorScheme={mediaMatch ? 'dropdown' : 'main'}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <Button as='link' href={`/decks/${deckId}/cards/new`} size='md'>
+                  <Button as='link' href={`/decks/${deckId}/cards/new`} size='md' rounded={true}>
                     Add Card
                   </Button>
                 </div>

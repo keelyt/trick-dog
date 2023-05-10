@@ -63,7 +63,7 @@ export default function CardsList({ deckId, tagId, search }: CardsListProps) {
           )}
 
           {cardsQuery.isFetchingNextPage && (
-            <li>
+            <li className={styles.spinner}>
               <LoadingSpinner />
             </li>
           )}
