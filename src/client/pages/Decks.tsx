@@ -55,6 +55,7 @@ export default function Decks(): JSX.Element {
                 as='button'
                 type='button'
                 onClick={() => setModalIsOpen(true)}
+                rounded={true}
               >
                 New Deck
               </Button>

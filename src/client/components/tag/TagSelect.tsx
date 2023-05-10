@@ -1,3 +1,5 @@
+import { MdOutlineExpandCircleDown } from 'react-icons/md';
+
 import styles from './TagSelect.module.scss';
 
 import type { TagData } from '../../../types';
@@ -9,7 +11,8 @@ interface TagSelectProps {
   defaultSelected: boolean;
   defaultText: string;
   showLabel: boolean;
-  rounded: boolean;
+  rounded?: boolean;
+  colorScheme?: 'main' | 'dropdown';
 }
 
 export default function TagSelect({
@@ -18,31 +21,38 @@ export default function TagSelect({
   defaultSelected,
   defaultText,
   showLabel,
-  rounded,
+  rounded = true,
+  colorScheme = 'main',
 }: TagSelectProps): JSX.Element {
   return (
-    <div className={styles.dropdown}>
-      <label
-        htmlFor='tag'
-        className={showLabel ? styles.dropdown__label : styles['visually-hidden']}
-      >
+    <div className={styles.container}>
+      <label htmlFor='tag' className={showLabel ? styles.select__label : styles['visually-hidden']}>
         Filter by Tag
       </label>
-      <select
-        id='tag'
-        name='tag'
-        onChange={onChange}
-        className={`${styles.select} ${defaultSelected ? styles['select--default'] : ''} ${
-          rounded ? styles['select--rounded'] : ''
+      <div
+        className={`${styles.select} ${rounded ? styles['select--rounded'] : ''} ${
+          styles[`select--${colorScheme}`]
         }`}
       >
-        <option value=''>{defaultText}</option>
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.id}>
-            {tag.tagName}
-          </option>
-        ))}
-      </select>
+        <select
+          id='tag'
+          name='tag'
+          onChange={onChange}
+          className={`${styles.select__inner} ${
+            defaultSelected ? styles['select__inner--default'] : ''
+          }`}
+        >
+          <option value=''>{defaultText}</option>
+          {tags.map((tag) => (
+            <option key={tag.id} value={tag.id}>
+              {tag.tagName}
+            </option>
+          ))}
+        </select>
+        <span className={styles.select__icon}>
+          <MdOutlineExpandCircleDown aria-hidden='true' focusable='false' />
+        </span>
+      </div>
     </div>
   );
 }

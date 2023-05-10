@@ -15,10 +15,21 @@
     border-radius: 0.25rem;
     font-size: 1rem;
     flex-grow: 1;
+    border: 2px solid;
 
     @include themes.themed {
+      border-color: themes.t('border-form-element');
       background-color: themes.t('bg-form-element');
-      box-shadow: 0 1px 3px 0 themes.t('shadow-button'), 0 1px 2px -1px themes.t('shadow-button');
+
+      &--main {
+        box-shadow: 0 1px 3px 0 themes.t('shadow-form-element'),
+          0 1px 2px -1px themes.t('shadow-form-element');
+      }
+
+      &--dropdown {
+        box-shadow: 0 1px 3px 0 themes.t('shadow-form-element-dropdown'),
+          0 1px 2px -1px themes.t('shadow-form-element-dropdown');
+      }
     }
   }
 

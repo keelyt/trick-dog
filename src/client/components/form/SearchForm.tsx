@@ -11,7 +11,8 @@ interface SearchFormProps {
   label: string;
   placeholder: string;
   showLabel: boolean;
-  rounded: boolean;
+  rounded?: boolean;
+  colorScheme?: 'main' | 'dropdown';
 }
 
 export default function SearchForm({
@@ -21,7 +22,8 @@ export default function SearchForm({
   label = '',
   placeholder = label,
   showLabel,
-  rounded,
+  rounded = true,
+  colorScheme = 'main',
 }: SearchFormProps) {
   return (
     <form
@@ -35,7 +37,7 @@ export default function SearchForm({
       >
         {label}
       </label>
-      <div className={styles.form__inner}>
+      <div className={`${styles.form__inner} ${styles[`form__inner--${colorScheme}`]}`}>
         <input
           type='search'
           name='search'

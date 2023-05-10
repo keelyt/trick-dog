@@ -52,7 +52,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
         validation={{ required: true }}
       />
       <div className={styles.buttons}>
-        <Button as='button' type='button' onClick={onCancel}>
+        <Button as='button' type='button' onClick={onCancel} rounded={true}>
           Cancel
         </Button>
         <Button
@@ -60,6 +60,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
           type='submit'
           aria-disabled={addDeck.isLoading}
           disabled={addDeck.isLoading}
+          rounded={true}
         >
           {addDeck.isLoading ? 'Creating Deck...' : 'Create Deck'}
         </Button>

@@ -41,7 +41,7 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
  * @param props.as Whether to render the element as a button ('button') or a link ('link').
  * @param [props.size='lg'] The size of the button: 'sm', 'md', or 'lg'. Defaults to 'lg'.
  * @param [props.colorScheme='main'] The color scheme of the button or link. Optional.
- * @param [props.rounded] Whether the button should have rounded edges. Optional.
+ * @param [props.rounded] Whether the button should have rounded edges. Defaults to true.
  * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional.
  * @param props.href The URL to navigate to if the element is a link.
  * @param props.type The type of button: 'button', 'submit', or 'reset'.
@@ -63,7 +63,7 @@ const Button = forwardRef(
       disabled,
       size = 'lg',
       colorScheme = 'main',
-      rounded,
+      rounded = true,
       ariaLabel,
       ariaControls,
       ariaExpanded,

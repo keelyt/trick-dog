@@ -39,11 +39,11 @@ export default function DeleteDialog({
       </p>
       <div className={styles.dialog__buttons}>
         {onCancel && (
-          <Button as='button' type='button' onClick={onCancel}>
+          <Button as='button' type='button' onClick={onCancel} rounded={true}>
             {cancelLabel}
           </Button>
         )}
-        <Button as='button' type='button' onClick={onOk} disabled={okDisabled}>
+        <Button as='button' type='button' onClick={onOk} disabled={okDisabled} rounded={true}>
           {okLabel}
         </Button>
       </div>
