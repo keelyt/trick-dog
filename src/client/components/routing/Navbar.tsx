@@ -14,7 +14,12 @@ export default function Navbar(): JSX.Element {
   const { pathname } = useLocation();
   const [showNav, setShowNav] = useState(false);
 
-  useEffect(() => setShowNav(false), [pathname]);
+  useEffect(() => {
+    setShowNav(false);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, [pathname]);
 
   const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
