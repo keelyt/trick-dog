@@ -40,9 +40,7 @@ export default function Navbar(): JSX.Element {
         </button>
         <div
           id='nav-menu'
-          className={`${styles.nav__menu} ${
-            showNav ? styles['nav__menu--expanded'] : styles['nav__menu--collapsed']
-          }`}
+          className={`${styles.nav__menu} ${showNav ? '' : styles['nav__menu--collapsed']}`}
         >
           <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
             <li className={styles.skew}>
