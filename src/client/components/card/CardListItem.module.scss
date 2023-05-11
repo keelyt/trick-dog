@@ -1,0 +1,38 @@
+@use '@styles/themes';
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  height: min-content;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+
+  @include themes.themed {
+    background-color: themes.t('bg-card');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+  }
+
+  &__row {
+    height: 5rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}

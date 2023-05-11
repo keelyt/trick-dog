@@ -1,6 +1,8 @@
 @use '@styles/themes';
+@use '@styles/variables' as var;
 
 .button {
+  $self: &;
   cursor: pointer;
   display: inline-flex;
   justify-content: center;
@@ -8,26 +10,79 @@
   width: auto;
   border: none;
   border-radius: 0.25rem;
-  padding: 0.5rem 1.5rem;
-  font-size: inherit;
-  line-height: inherit;
+  line-height: 1.5em;
+  gap: 0.25rem;
   color: inherit;
+  white-space: nowrap;
+  text-align: center;
 
-  &:active {
-    box-shadow: none;
+  @media (max-width: var.$breakpoint-sm) {
+    white-space: normal;
   }
 
-  @include themes.themed {
-    background-color: themes.t('bg-button');
-    border-bottom: 3px solid themes.t('border-button');
-    border-left: 3px solid themes.t('border-button');
-    box-shadow: 0 1px 3px 0 themes.t('shadow-button'), 0 1px 2px -1px themes.t('shadow-button');
+  &--lg {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+  }
 
-    &:active,
-    &:hover {
-      box-shadow: none;
-      border-color: themes.t('border-button-hover');
-      background-color: themes.t('bg-button-hover');
+  &--md {
+    font-size: 1rem;
+    padding: 0.35rem 0.75rem;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+
+  &--sm {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+
+  &--rounded {
+    &#{$self}--lg {
+      border-radius: 1.15rem;
+    }
+
+    &#{$self}--md {
+      border-radius: 1rem;
+    }
+
+    &#{$self}--sm {
+      border-radius: 0.88rem;
+    }
+  }
+
+  &--main {
+    @include themes.themed {
+      background-color: themes.t('bg-button');
+      border-color: themes.t('border-button');
+      box-shadow: 0 1px 3px 0 themes.t('shadow-button'), 0 1px 2px -1px themes.t('shadow-button');
+
+      &:active,
+      &:hover {
+        box-shadow: none;
+        border-color: themes.t('border-button-hover');
+        background-color: themes.t('bg-button-hover');
+      }
+    }
+  }
+
+  &--card {
+    @include themes.themed {
+      background-color: themes.t('bg-button-card');
+      border-color: themes.t('border-button-card');
+      box-shadow: 0 1px 3px 0 themes.t('shadow-button-card'),
+        0 1px 2px -1px themes.t('shadow-button-card');
+
+      &:active,
+      &:hover {
+        box-shadow: none;
+        border-color: themes.t('border-button-card-hover');
+        background-color: themes.t('bg-button-card-hover');
+      }
     }
   }
 }

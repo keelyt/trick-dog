@@ -8,23 +8,23 @@
   width: 100%;
 
   @include themes.themed {
-    background-color: themes.t('bg-card');
-    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+    background-color: themes.t('bg-deck');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-deck'), 0 1px 2px -1px themes.t('shadow-deck');
 
     &:active,
     &:hover {
-      background-color: themes.t('bg-card-hover');
+      background-color: themes.t('bg-deck-hover');
     }
   }
 
-  h2 {
+  &__title {
     font-size: 1.75rem;
     font-weight: 700;
     line-height: 3rem;
   }
 
-  h2,
-  p {
+  &__title,
+  &__details {
     margin: 0;
 
     // Cut off text that exceeds 1 line

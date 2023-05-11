@@ -1,11 +1,20 @@
 @use '@styles/themes';
 @use '@styles/variables' as var;
+@use '@styles/containers';
 
 // TODO: make partially persistent on mobile
 
 .container {
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: transform 150ms ease-in-out;
+
+  &--hidden {
+    transform: translateY(-100%);
+  }
+
   @include themes.themed {
     background-color: themes.t('bg-nav');
     box-shadow: 0 4px 2px -3px themes.t('shadow-nav');
@@ -15,7 +24,7 @@
 .skew {
   transform: skew(-20deg);
 
-  @media screen and (max-width: var.$breakpoint-md) {
+  @media (max-width: var.$breakpoint-md) {
     transform: skew(0deg);
   }
 }
@@ -23,7 +32,7 @@
 .unskew {
   transform: skew(20deg);
 
-  @media screen and (max-width: var.$breakpoint-md) {
+  @media (max-width: var.$breakpoint-md) {
     transform: skew(0deg);
   }
 }
@@ -50,31 +59,22 @@
     height: 100%;
     flex-grow: 1;
 
-    @media screen and (max-width: var.$breakpoint-md) {
+    @media (max-width: var.$breakpoint-md) {
       position: absolute;
       flex-direction: column;
       justify-content: space-around;
       transition: height 0.4s ease;
+      width: 100vw;
+      height: calc(100vh - 4rem);
+      top: 4rem;
 
       @include themes.themed {
         background-color: themes.t('bg-nav-mobile');
       }
 
-      &--expanded {
-        width: 100vw;
-        height: calc(100vh - 4rem);
-        top: 4rem;
-      }
-
       // Screen reader only
-      &--collapsed {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        width: 1px;
+      &--collapsed:not(:focus-within):not(:focus):not(:active) {
+        @include containers.visually-hidden;
       }
     }
   }
@@ -88,7 +88,7 @@
     margin: 0;
     padding: 0;
 
-    @media screen and (max-width: var.$breakpoint-md) {
+    @media (max-width: var.$breakpoint-md) {
       width: 100%;
       height: auto;
     }
@@ -96,7 +96,7 @@
     &--left {
       flex-grow: 1;
 
-      @media screen and (max-width: var.$breakpoint-md) {
+      @media (max-width: var.$breakpoint-md) {
         flex-direction: column;
         justify-content: space-around;
         width: 100%;
@@ -106,7 +106,7 @@
     &--left li {
       height: 100%;
 
-      @media screen and (max-width: var.$breakpoint-md) {
+      @media (max-width: var.$breakpoint-md) {
         width: 100%;
       }
     }
@@ -114,12 +114,14 @@
     &--right {
       padding-right: 0.75rem;
       gap: 1rem;
-      flex-grow: 0.5;
+      justify-content: flex-end;
 
-      @media screen and (max-width: var.$breakpoint-md) {
+      @media (max-width: var.$breakpoint-md) {
         padding-right: 0;
         gap: 3rem;
         height: auto;
+        flex-grow: 0.5;
+        justify-content: center;
       }
     }
   }
@@ -164,6 +166,7 @@
 
     &--text {
       padding: 0.25em 1rem;
+      outline-offset: -2px;
     }
 
     &--logo {
@@ -219,7 +222,7 @@
       transition: transform 0.25s;
     }
 
-    @media screen and (max-width: var.$breakpoint-md) {
+    @media (max-width: var.$breakpoint-md) {
       display: flex;
     }
   }

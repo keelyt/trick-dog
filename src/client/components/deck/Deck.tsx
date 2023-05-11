@@ -1,24 +1,29 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+import { usePrefetchInfiniteCards } from '../../helpers/useInfiniteCardsData';
 
 import styles from './Deck.module.scss';
 
 interface DeckProps {
-  id: number;
+  deckId: number;
   deckName: string;
   cardCount: number;
 }
 
 // TODO: Add more content to deck item (arrow icon, more deck info).
+// TODO: Add prefetchInfiniteQuery to prefetch first page of the deck's cards onMouseEnter
 
-export default function Deck({ id, deckName, cardCount }: DeckProps): JSX.Element {
+export default function Deck({ deckId, deckName, cardCount }: DeckProps): JSX.Element {
+  const prefetchCards = usePrefetchInfiniteCards(deckId);
+
   return (
-    <li>
-      <NavLink to={`/decks/${id}`} className={styles.deck}>
-        <h2>{deckName}</h2>
-        <p>
+    <li onMouseEnter={prefetchCards}>
+      <Link to={`/decks/${deckId}`} className={styles.deck}>
+        <h2 className={styles.deck__title}>{deckName}</h2>
+        <p className={styles.deck__details}>
           {cardCount} card{cardCount === 1 ? '' : 's'}
         </p>
-      </NavLink>
+      </Link>
     </li>
   );
 }

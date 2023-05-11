@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { RiCloseCircleLine } from 'react-icons/ri';
 
 import useEscapeKey from '../../helpers/useEscapeKey';
@@ -20,6 +20,16 @@ export default function Modal({
   useOutsideClick(onClose, innerModalRef);
   useEscapeKey(onClose);
   useTabFocus(innerModalRef);
+
+  useEffect(() => {
+    // Prevent scrolling on the page when the modal mounts.
+    document.body.style.overflow = 'hidden';
+
+    // Return cleanup function to allow scrolling when the modal unmounts.
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   return (
     <div className={styles.modal} tabIndex={-1} aria-modal='true' role='dialog'>

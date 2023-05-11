@@ -5,6 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/logo-noBg.svg';
 import { useAuth } from '../../contexts/AuthContext';
+import useScrollListener from '../../helpers/useScrollListener';
 import DarkLightToggle from '../ui/DarkLightToggle';
 
 import styles from './Navbar.module.scss';
@@ -12,14 +13,28 @@ import styles from './Navbar.module.scss';
 export default function Navbar(): JSX.Element {
   const { authed } = useAuth();
   const { pathname } = useLocation();
-  const [showNav, setShowNav] = useState(false);
+  const [showNav, setShowNav] = useState<boolean>(false);
+  const [navbarHidden, setNavbarHidden] = useState<boolean>(false);
 
-  useEffect(() => setShowNav(false), [pathname]);
+  const scroll = useScrollListener();
+
+  useEffect(() => {
+    if (scroll.y > 150 && scroll.y - scroll.prevY > 0) setNavbarHidden(true);
+    else setNavbarHidden(false);
+  }, [scroll.y, scroll.prevY]);
+
+  // Remove focus from nav link when path changes.
+  useEffect(() => {
+    setShowNav(false);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, [pathname]);
 
   const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${navbarHidden ? styles['container--hidden'] : ''}`}>
       <nav className={styles.nav}>
         <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--logo']}`}>
           <Logo className={styles.nav__logo} />
@@ -32,13 +47,15 @@ export default function Navbar(): JSX.Element {
           aria-expanded={showNav}
           aria-controls='nav-menu'
         >
-          {showNav ? <RiCloseLine aria-hidden='true' /> : <RiMenuLine aria-hidden='true' />}
+          {showNav ? (
+            <RiCloseLine aria-hidden='true' focusable='false' />
+          ) : (
+            <RiMenuLine aria-hidden='true' focusable='false' />
+          )}
         </button>
         <div
           id='nav-menu'
-          className={`${styles.nav__menu} ${
-            showNav ? styles['nav__menu--expanded'] : styles['nav__menu--collapsed']
-          }`}
+          className={`${styles.nav__menu} ${showNav ? '' : styles['nav__menu--collapsed']}`}
         >
           <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
             <li className={styles.skew}>
@@ -76,7 +93,7 @@ export default function Navbar(): JSX.Element {
                   aria-label='Profile'
                   className={`${styles.nav__link} ${styles['nav__link--icon']}`}
                 >
-                  <BiUser aria-hidden='true' />
+                  <BiUser aria-hidden='true' focusable='false' />
                 </NavLink>
               </li>
             )}
@@ -87,7 +104,7 @@ export default function Navbar(): JSX.Element {
                   aria-label='Login'
                   className={`${styles.nav__link} ${styles['nav__link--icon']}`}
                 >
-                  <BiUser aria-hidden='true' />
+                  <BiUser aria-hidden='true' focusable='false' />
                 </NavLink>
               </li>
             )}
