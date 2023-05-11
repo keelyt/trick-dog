@@ -21,7 +21,7 @@ export interface CardData {
   attemptCount: number;
   correctCount: number;
   dateCreated: string;
-  tags?: string[];
+  tags?: number[];
 }
 
 export interface CardResponse {
