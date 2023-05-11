@@ -1,6 +1,6 @@
 import { RestSerializer } from 'miragejs';
 
-import type { TagsResponse } from '../../types';
+import type { TagData, TagsResponse } from '../../types';
 import type { TagsObject } from '../types';
 
 export const tagSerializer = RestSerializer.extend({
@@ -10,11 +10,13 @@ export const tagSerializer = RestSerializer.extend({
 
     if ('tags' in json) {
       return {
-        tags: json.tags.map((tag) => ({
-          id: Number(tag.id),
-          tagName: tag.tagName,
-          deckId: Number(tag.deck),
-        })),
+        tags: json.tags.map(
+          (tag): TagData => ({
+            id: Number(tag.id),
+            tagName: tag.tagName,
+            deckId: Number(tag.deck),
+          })
+        ),
       };
     }
 
