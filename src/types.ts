@@ -21,6 +21,7 @@ export interface CardData {
   attemptCount: number;
   correctCount: number;
   dateCreated: string;
+  tags?: string[];
 }
 
 export interface CardResponse {
@@ -28,7 +29,7 @@ export interface CardResponse {
 }
 
 export interface CardsResponse {
-  cards: CardData[];
+  cards: Omit<CardData, 'tags'>[];
 }
 
 export interface TagData {
