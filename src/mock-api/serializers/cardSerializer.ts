@@ -29,7 +29,7 @@ export const cardSerializer = RestSerializer.extend({
     if ('cards' in json) {
       return {
         cards: json.cards.map(
-          (card): Omit<CardData, 'tags'> => ({
+          (card): CardData => ({
             id: Number(card.id),
             deckId: Number(card.deck),
             question: card.question,

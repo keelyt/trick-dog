@@ -21,15 +21,18 @@ export interface CardData {
   attemptCount: number;
   correctCount: number;
   dateCreated: string;
-  tags?: number[];
+}
+
+export interface CardWithTagsData extends CardData {
+  tags: number[];
 }
 
 export interface CardResponse {
-  card: CardData;
+  card: CardWithTagsData;
 }
 
 export interface CardsResponse {
-  cards: Omit<CardData, 'tags'>[];
+  cards: CardData[];
 }
 
 export interface TagData {
@@ -49,4 +52,9 @@ export interface ServerError {
 export interface InfiniteCardData {
   pages?: CardData[][];
   pageParams?: (string | null)[];
+}
+
+export interface CardsFilterState {
+  tagId: number | null;
+  search: string;
 }
