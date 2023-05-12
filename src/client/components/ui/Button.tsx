@@ -22,6 +22,7 @@ interface AsButtonProps {
   disabled?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
+  state?: never;
 }
 
 interface AsLinkProps {
@@ -32,6 +33,7 @@ interface AsLinkProps {
   disabled?: never;
   ariaControls?: never;
   ariaExpanded?: never;
+  state?: Record<string, unknown>;
 }
 
 type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
@@ -59,6 +61,7 @@ const Button = forwardRef(
       as,
       type,
       href,
+      state,
       onClick,
       disabled,
       size = 'lg',
@@ -76,7 +79,10 @@ const Button = forwardRef(
     } ${rounded ? styles[`button--rounded`] : ''}`;
 
     if (as === 'link') {
-      const linkAttributes = ariaLabel ? { 'aria-label': ariaLabel } : {};
+      const linkAttributes = {
+        ...(ariaLabel && { 'aria-label': ariaLabel }),
+        ...(state && { state }),
+      };
 
       return (
         <Link to={href} {...linkAttributes} className={classes}>

@@ -45,6 +45,7 @@ const CardListItem = forwardRef(
           <Button
             as='link'
             href={`/decks/${deckId}/cards/${cardId}`}
+            state={{ tagId, search }}
             size='sm'
             colorScheme='card'
             rounded={false}
