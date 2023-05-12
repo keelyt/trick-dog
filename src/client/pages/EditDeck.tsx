@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import CardsList from '../components/card/CardsList';
 import SearchForm from '../components/form/SearchForm';
@@ -16,7 +16,9 @@ import useMediaMatch from '../helpers/useMediaMatch';
 
 import styles from './EditDeck.module.scss';
 
+import type { CardsFilterState } from '../../types';
 import type { ChangeEvent } from 'react';
+import type { Location } from 'react-router-dom';
 
 // TODO: For now, will only give ability to sort newest to oldest.
 // If want to add ability to sort oldest to newest, will need to modify query.
@@ -28,12 +30,17 @@ import type { ChangeEvent } from 'react';
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
   const { deckId: id } = useParams();
+  const location: Location = useLocation();
 
   const deckId: number = parseInt(id!);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [tag, setTag] = useState<number | null>(null);
-  const [search, setSearch] = useState<string>('');
+  const [tag, setTag] = useState<number | null>(
+    location.state ? (location.state as CardsFilterState).tagId : null
+  );
+  const [search, setSearch] = useState<string>(
+    location.state ? (location.state as CardsFilterState).search : ''
+  );
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const deleteDeck = useDeleteDeck();
