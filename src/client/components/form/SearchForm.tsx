@@ -7,6 +7,7 @@ import type { ChangeEvent } from 'react';
 interface SearchFormProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: ChangeEvent<HTMLFormElement>) => void;
+  value: string;
   maxLength: number;
   label: string;
   placeholder: string;
@@ -18,6 +19,7 @@ interface SearchFormProps {
 export default function SearchForm({
   onChange,
   onSubmit,
+  value,
   maxLength = 50,
   label = '',
   placeholder = label,
@@ -39,6 +41,7 @@ export default function SearchForm({
       </label>
       <div className={`${styles.form__inner} ${styles[`form__inner--${colorScheme}`]}`}>
         <input
+          value={value}
           type='search'
           name='search'
           id='search'

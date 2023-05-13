@@ -41,6 +41,9 @@ export default function EditDeck(): JSX.Element {
   const [search, setSearch] = useState<string>(
     location.state ? (location.state as CardsFilterState).search : ''
   );
+  const [searchValue, setSearchValue] = useState<string>(
+    location.state ? (location.state as CardsFilterState).search : ''
+  );
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const deleteDeck = useDeleteDeck();
@@ -77,6 +80,7 @@ export default function EditDeck(): JSX.Element {
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
     if (event.target.value.length === 0) setSearch('');
   };
 
@@ -157,6 +161,7 @@ export default function EditDeck(): JSX.Element {
                         <SearchForm
                           onChange={handleSearchChange}
                           onSubmit={handleSearchSubmit}
+                          value={searchValue}
                           maxLength={50}
                           placeholder={mediaMatch ? 'Search...' : 'Search cards by text'}
                           label='Search Cards by Text'
@@ -169,7 +174,7 @@ export default function EditDeck(): JSX.Element {
                         <TagSelect
                           tags={deckQuery.data.tags}
                           onChange={handleTagChange}
-                          defaultSelected={!tag}
+                          value={tag ?? ''}
                           defaultText={
                             tag ? 'All tags' : mediaMatch ? 'Select...' : 'Select a tag to filter'
                           }

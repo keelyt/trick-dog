@@ -8,7 +8,7 @@ import type { ChangeEvent } from 'react';
 interface TagSelectProps {
   tags: TagData[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  defaultSelected: boolean;
+  value: number | '';
   defaultText: string;
   showLabel: boolean;
   rounded?: boolean;
@@ -18,7 +18,7 @@ interface TagSelectProps {
 export default function TagSelect({
   tags,
   onChange,
-  defaultSelected,
+  value,
   defaultText,
   showLabel,
   rounded = true,
@@ -37,10 +37,9 @@ export default function TagSelect({
         <select
           id='tag'
           name='tag'
+          value={value}
           onChange={onChange}
-          className={`${styles.select__inner} ${
-            defaultSelected ? styles['select__inner--default'] : ''
-          }`}
+          className={`${styles.select__inner} ${value ? '' : styles['select__inner--default']}`}
         >
           <option value=''>{defaultText}</option>
           {tags.map((tag) => (
