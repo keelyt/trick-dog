@@ -28,7 +28,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ mode: 'onBlur' });
 
   // Handler function for form submission
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
