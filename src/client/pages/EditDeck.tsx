@@ -76,7 +76,7 @@ export default function EditDeck(): JSX.Element {
   const handleTagChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const newSelection = event.target.value;
     if (!newSelection) setTag(null);
-    setTag(parseInt(newSelection));
+    else setTag(parseInt(newSelection));
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
