@@ -3,13 +3,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import fetchWithError from './fetchWithError';
 import { getCardsQueryKey } from './useInfiniteCardsData';
 
-import type { CardResponse, InfiniteCardData } from '../../types';
+import type { CardData, CardResponse, InfiniteCardData } from '../../types';
 
 interface UpdateCardParams {
   cardId: number;
   deckId: number;
-  question?: string;
-  answer?: string;
+  question: string;
+  answer: string;
   tags?: number[];
 }
 
@@ -32,49 +32,49 @@ export default function useUpdateCard(tagId: number | null, search: string) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...(question !== undefined && { question }),
-          ...(answer !== undefined && { answer }),
+          question,
+          answer,
           ...(tags && { tags }),
         }),
       }),
-    onMutate: async ({ deckId, cardId, question, answer, tags }: UpdateCardParams) => {
-      // Cancel outgoing refetches (so they don't overwrite our optimistic update).
-      await queryClient.cancelQueries(['decks', deckId]);
-      // Get the query key based on the deckId, tagId, and search.
-      const queryKey = getCardsQueryKey({ deckId, tagId, search });
-      // Snapshot the previous cards.
-      const previousCards = queryClient.getQueryData<InfiniteCardData>(queryKey);
-      // Optimistically update the cards data.
-      if (tags && tagId && !tags.includes(tagId)) {
-        // If the tags were modified so that the current card would no longer be included
-        // in the tag filter, optimistically update by removing the card from the query result.
-        queryClient.setQueryData<InfiniteCardData>(queryKey, (old) => ({
+    onSuccess: (data: CardResponse, variables) => {
+      // Get the query keys.
+      const cardQueryKey = ['decks', variables.deckId, 'cards', variables.cardId];
+      const tagsQueryKey = ['decks', variables.deckId, 'cards', variables.cardId, 'tags'];
+      const cardsQueryKey = getCardsQueryKey({ deckId: variables.deckId, tagId, search });
+      // Optimistically update the data.
+      queryClient.setQueryData<CardData>(cardQueryKey, data.card);
+      if (variables.tags) queryClient.setQueryData<number[]>(tagsQueryKey, variables.tags);
+      if (
+        (tagId && variables.tags && !variables.tags.includes(tagId)) ||
+        (search &&
+          !variables.question.toLowerCase().includes(search.toLowerCase()) &&
+          !variables.answer.toLowerCase().includes(search.toLowerCase()))
+      ) {
+        // If the tags were modified so that the current card would no longer be included in the
+        // tag filter or if the question/answer were modified so that the card would no longer
+        // be included in the search, optimistically update by removing the card from the page.
+        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
           ...old,
-          pages: old?.pages?.map((page) => page.filter((card) => card.id !== cardId)),
+          pages: old?.pages?.map((page) => page.filter((card) => card.id !== variables.cardId)),
         }));
       } else {
         // Otherwise, update the card with the new question/answer.
-        queryClient.setQueryData<InfiniteCardData>(queryKey, (old) => ({
+        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
           ...old,
           pages: old?.pages?.map((page) =>
             page.map((card) =>
-              card.id === cardId
+              card.id === variables.cardId
                 ? {
                     ...card,
-                    ...(question !== undefined && { question }),
-                    ...(answer !== undefined && { answer }),
+                    question: variables.question,
+                    answer: variables.answer,
                   }
                 : card
             )
           ),
         }));
       }
-      // Return a rollback function.
-      return () => queryClient.setQueryData<InfiniteCardData>(queryKey, previousCards);
-    },
-    onError: (data, variables, rollback) => {
-      // If the mutation fails, roll back the optimistic updates.
-      if (rollback) rollback();
     },
     onSettled: (data, error, variables) => {
       // After either error or success, invalidate the decks query cache to trigger a refetch.
