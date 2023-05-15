@@ -36,6 +36,35 @@ export default function cardHandler(server: AppServer) {
     return card;
   });
 
+  server.patch('/decks/:deckId/cards/:cardId', (schema: AppSchema, request) => {
+    const { cardId, deckId } = request.params;
+
+    const attrs: { question: string; answer: string; tags?: number[] } = JSON.parse(
+      request.requestBody
+    ) as { question: string; answer: string; tags?: number[] };
+
+    if (!attrs.question) return new Response(400, {}, { error: 'Front is required' });
+    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required' });
+
+    if (!deckId || isNaN(parseInt(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID' });
+
+    if (!cardId || isNaN(parseInt(cardId)))
+      return new Response(400, {}, { error: 'Invalid card ID' });
+
+    const card = schema.findBy('card', { id: cardId, deckId });
+
+    if (!card) return new Response(404, {}, { error: 'Card not found' });
+
+    card.update({
+      question: attrs.question,
+      answer: attrs.answer,
+      ...(attrs.tags && { tagIds: attrs.tags.map(String) }),
+    });
+
+    return card;
+  });
+
   server.get('/decks/:deckId/cards', (schema: AppSchema, request) => {
     const { deckId } = request.params;
     const { before, tag, q, limit } = request.queryParams;
