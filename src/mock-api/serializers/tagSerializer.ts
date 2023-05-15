@@ -15,13 +15,19 @@ export const tagSerializer = RestSerializer.extend({
     }
 
     return {
-      tags: json.tags.map(
-        (tag): TagData => ({
-          id: Number(tag.id),
-          tagName: tag.tagName,
-          deckId: Number(tag.deck),
-        })
-      ),
+      tags: json.tags
+        .map(
+          (tag): TagData => ({
+            id: Number(tag.id),
+            tagName: tag.tagName,
+            deckId: Number(tag.deck),
+          })
+        )
+        .sort((a, b) => {
+          if (a.tagName.toLowerCase() > b.tagName.toLowerCase()) return 1;
+          if (b.tagName.toLowerCase() > a.tagName.toLowerCase()) return -1;
+          return 0;
+        }),
     };
   },
 });
