@@ -23,16 +23,16 @@ export interface CardData {
   dateCreated: string;
 }
 
-export interface CardWithTagsData extends CardData {
-  tags: number[];
-}
-
 export interface CardResponse {
-  card: CardWithTagsData;
+  card: CardData;
 }
 
 export interface CardsResponse {
   cards: CardData[];
+}
+
+export interface CardTagsResponse {
+  tags: number[];
 }
 
 export interface TagData {

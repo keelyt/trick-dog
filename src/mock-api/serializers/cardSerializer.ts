@@ -21,7 +21,6 @@ export const cardSerializer = RestSerializer.extend({
           attemptCount: json.card.attemptCount,
           correctCount: json.card.correctCount,
           dateCreated: json.card.dateCreated,
-          tags: json.card.tags.map((tagId) => Number(tagId)),
         },
       };
     }
