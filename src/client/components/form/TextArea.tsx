@@ -1,6 +1,6 @@
 import ValidationError from './ValidationError';
 
-import styles from './TextInput.module.scss';
+import styles from './TextArea.module.scss';
 
 import type {
   UseFormRegister,
@@ -19,7 +19,7 @@ interface FormInputProps<TFormValues extends FieldValues> {
   placeholder?: string;
 }
 
-export default function FormInput<TFormValues extends FieldValues>({
+export default function TextArea<TFormValues extends FieldValues>({
   register,
   name,
   label,
@@ -32,7 +32,7 @@ export default function FormInput<TFormValues extends FieldValues>({
       <label htmlFor={name} className={styles.label}>
         {label}
       </label>
-      <input
+      <textarea
         {...register(name, validation)}
         id={name}
         placeholder={placeholder}
