@@ -12,7 +12,9 @@ import Modal from '../components/ui/Modal';
 import QueryError from '../components/ui/QueryError';
 import useDeckData from '../helpers/useDeckData';
 import useDeleteDeck from '../helpers/useDeleteDeck';
+import useEscapeKey from '../helpers/useEscapeKey';
 import useMediaMatch from '../helpers/useMediaMatch';
+import useOutsideClick from '../helpers/useOutsideClick';
 
 import styles from './EditDeck.module.scss';
 
@@ -22,8 +24,6 @@ import type { Location } from 'react-router-dom';
 
 // TODO: For now, will only give ability to sort newest to oldest.
 // If want to add ability to sort oldest to newest, will need to modify query.
-
-// TODO: Adjust styling to use partially persistent nav instead of fixed-size content window.
 
 // TODO: Add ability to select and delete multiple cards at once.
 
@@ -57,6 +57,14 @@ export default function EditDeck(): JSX.Element {
   const navigate = useNavigate();
 
   const btnDeleteRef = useRef<HTMLButtonElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
+
+  const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
+  const hideFilters = () => {
+    if (showFilters) setShowFilters(false);
+  };
+  useEscapeKey(hideFilters);
+  useOutsideClick(hideFilters, filtersRef);
 
   const handleDialogCancel = () => {
     setModalIsOpen(false);
@@ -88,8 +96,6 @@ export default function EditDeck(): JSX.Element {
     event.preventDefault();
     setSearch((event.target.search as HTMLInputElement).value);
   };
-
-  const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
 
   return (
     <div className={styles.container}>
@@ -136,7 +142,7 @@ export default function EditDeck(): JSX.Element {
                   Delete Deck
                 </Button>
                 <div className={styles.cardOptions}>
-                  <div className={styles.filters}>
+                  <div className={styles.filters} ref={filtersRef}>
                     <div className={styles.filters__toggle}>
                       <Button
                         as='button'
