@@ -1,14 +1,24 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import type { UseMutationResult } from '@tanstack/react-query';
+
+import useAddCard from '../../helpers/useAddCard';
 import useCardTagsData from '../../helpers/useCardTagsData';
 import useDeckTagsData from '../../helpers/useDeckTagsData';
+import useUpdateCard from '../../helpers/useUpdateCard';
 import TextArea from '../form/TextArea';
 import Button from '../ui/Button';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import QueryError from '../ui/QueryError';
 
-import type { CardsFilterState } from '../../../types';
+import type {
+  AddCardParams,
+  CardResponse,
+  CardsFilterState,
+  UpdateCardParams,
+} from '../../../types';
 
 interface FormValues {
   question: string;
@@ -21,7 +31,6 @@ interface EditCardFormProps {
   cardId?: number;
   initQuestion: string;
   initAnswer: string;
-  onSubmit: ({ question, answer, tags }: FormValues) => void;
   filterState: CardsFilterState;
 }
 
@@ -30,9 +39,10 @@ export default function EditCardForm({
   cardId,
   initQuestion,
   initAnswer,
-  onSubmit,
   filterState,
 }: EditCardFormProps): JSX.Element {
+  const navigate = useNavigate();
+  const mutateCard = cardId !== undefined ? useUpdateCard(filterState) : useAddCard(filterState);
   const deckTagsQuery = useDeckTagsData(deckId);
   const cardTagsQuery = cardId !== undefined ? useCardTagsData(deckId, cardId) : null;
 
@@ -50,6 +60,29 @@ export default function EditCardForm({
       tags: [],
     },
   });
+
+  const onSubmit = ({ question, answer, tags }: FormValues) => {
+    const options = {
+      onSuccess: () => {
+        // Navigate back to the deck page, applying previous filter.
+        navigate(`/decks/${deckId}`, { state: filterState });
+      },
+    };
+
+    if (cardId !== undefined) {
+      // Update the card.
+      (mutateCard as UseMutationResult<CardResponse, unknown, UpdateCardParams>).mutate(
+        { cardId, deckId, question, answer, ...(tags && { tags: tags.map(Number) }) },
+        options
+      );
+    } else {
+      // Add the new card.
+      (mutateCard as UseMutationResult<CardResponse, unknown, AddCardParams>).mutate(
+        { deckId, question, answer, ...(tags && { tags: tags.map(Number) }) },
+        options
+      );
+    }
+  };
 
   // Update the tags default value once the query finishes.
   // Send entire defaultValues, but keep dirty values.
@@ -108,12 +141,13 @@ export default function EditCardForm({
             </div>
           ))}
       </fieldset>
+      <Button as='button' type='submit' disabled={mutateCard.isLoading}>
+        {mutateCard.isLoading ? 'Saving...' : 'Save'}
+      </Button>
       <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>
         Cancel
       </Button>
-      <Button as='button' type='submit'>
-        Save
-      </Button>
+      {mutateCard.isError && <p>Error submitting. Please try again.</p>}
     </form>
   );
 }

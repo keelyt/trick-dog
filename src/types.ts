@@ -58,3 +58,18 @@ export interface CardsFilterState {
   tagId: number | null;
   search: string;
 }
+
+export interface AddCardParams {
+  deckId: number;
+  question: string;
+  answer: string;
+  tags?: number[];
+}
+
+export interface UpdateCardParams {
+  cardId: number;
+  deckId: number;
+  question: string;
+  answer: string;
+  tags?: number[];
+}

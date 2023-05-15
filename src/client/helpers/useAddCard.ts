@@ -4,28 +4,28 @@ import fetchWithError from './fetchWithError';
 import { getCardsQueryKey } from './useInfiniteCardsData';
 
 import type {
+  AddCardParams,
   CardData,
   CardResponse,
   CardsFilterState,
   InfiniteCardData,
-  UpdateCardParams,
 } from '../../types';
 
 /**
- * A React hook that provides a mutation function for updating a card.
+ * A React hook that provides a mutation function for adding a new card.
  * @param tagId The tagId for the tag filter from the Edit Deck page if the user navigated from there.
  * Should be null if the user navigated directly to the Edit Card page.
  * @param search The search string filter from the Edit Deck page if the user navigated from there.
  * Should be empty string if the user navigated directly to the Edit Card page.
- * @returns A mutation function for updating a card.
+ * @returns A mutation function for adding a card.
  */
-export default function useUpdateCard({ tagId, search }: CardsFilterState) {
+export default function useAddCard({ tagId, search }: CardsFilterState) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ cardId, deckId, question, answer, tags }: UpdateCardParams) =>
-      fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, {
-        method: 'PATCH',
+    mutationFn: async ({ deckId, question, answer, tags }: AddCardParams) =>
+      fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -37,40 +37,26 @@ export default function useUpdateCard({ tagId, search }: CardsFilterState) {
       }),
     onSuccess: (data: CardResponse, variables) => {
       // Get the query keys.
-      const cardQueryKey = ['decks', variables.deckId, 'cards', variables.cardId];
-      const tagsQueryKey = ['decks', variables.deckId, 'cards', variables.cardId, 'tags'];
+      const cardQueryKey = ['decks', variables.deckId, 'cards', data.card.id];
+      const tagsQueryKey = ['decks', variables.deckId, 'cards', data.card.id, 'tags'];
       const cardsQueryKey = getCardsQueryKey({ deckId: variables.deckId, tagId, search });
       // Update the data in the cache.
       queryClient.setQueryData<CardData>(cardQueryKey, data.card);
       if (variables.tags) queryClient.setQueryData<number[]>(tagsQueryKey, variables.tags);
       if (
-        (tagId && variables.tags && !variables.tags.includes(tagId)) ||
+        (tagId && variables.tags && variables.tags.includes(tagId)) ||
         (search &&
-          !variables.question.toLowerCase().includes(search.toLowerCase()) &&
-          !variables.answer.toLowerCase().includes(search.toLowerCase()))
+          (variables.question.toLowerCase().includes(search.toLowerCase()) ||
+            variables.answer.toLowerCase().includes(search.toLowerCase())))
       ) {
-        // If the tags were modified so that the current card would no longer be included in the
-        // tag filter or if the question/answer were modified so that the card would no longer
-        // be included in the search, update by removing the card from the page.
+        // If the new card would be included in the current filter, add it to the page.
+        // Since the page is sorted newest to oldest, add it to the front of the list.
         queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
           ...old,
-          pages: old?.pages?.map((page) => page.filter((card) => card.id !== variables.cardId)),
-        }));
-      } else {
-        // Otherwise, update the card with the new question/answer.
-        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
-          ...old,
-          pages: old?.pages?.map((page) =>
-            page.map((card) =>
-              card.id === variables.cardId
-                ? {
-                    ...card,
-                    question: variables.question,
-                    answer: variables.answer,
-                  }
-                : card
-            )
-          ),
+          pages: [
+            [data.card, ...(old?.pages?.[0] ?? [])], // Add the new card at the beginning
+            ...(old?.pages?.slice(1) ?? []), // Copy the remaining pages
+          ],
         }));
       }
     },
