@@ -16,8 +16,12 @@ export default function useDecksData() {
     queryFn: async ({ signal }): Promise<DeckData[]> => {
       const result = await fetchWithError<DecksResponse>('/api/decks', { signal });
 
-      // Add each deck to the cache.
-      result.decks.forEach((deck) => queryClient.setQueryData(['decks', deck.id], deck));
+      result.decks.forEach((deck) => {
+        // Add each deck to the cache.
+        queryClient.setQueryData(['decks', deck.id], deck);
+        // Add the deck's tags to the cache.
+        queryClient.setQueryData(['decks', deck.id, 'tags'], deck.tags);
+      });
 
       return result.decks;
     },
