@@ -12,7 +12,7 @@ export default function deckHandler(server: AppServer) {
   });
 
   server.post('/decks', (schema: AppSchema, request) => {
-    const attrs: { deckName: string } = JSON.parse(request.requestBody) as {
+    const attrs = JSON.parse(request.requestBody) as {
       deckName: string;
     };
 

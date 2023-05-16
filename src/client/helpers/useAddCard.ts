@@ -44,6 +44,7 @@ export default function useAddCard({ tagId, search }: CardsFilterState) {
       queryClient.setQueryData<CardData>(cardQueryKey, data.card);
       if (variables.tags) queryClient.setQueryData<number[]>(tagsQueryKey, variables.tags);
       if (
+        (!tagId && !search) ||
         (tagId && variables.tags && variables.tags.includes(tagId)) ||
         (search &&
           (variables.question.toLowerCase().includes(search.toLowerCase()) ||

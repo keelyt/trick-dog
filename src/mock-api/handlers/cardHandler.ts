@@ -39,9 +39,11 @@ export default function cardHandler(server: AppServer) {
   server.patch('/decks/:deckId/cards/:cardId', (schema: AppSchema, request) => {
     const { cardId, deckId } = request.params;
 
-    const attrs: { question: string; answer: string; tags?: number[] } = JSON.parse(
-      request.requestBody
-    ) as { question: string; answer: string; tags?: number[] };
+    const attrs = JSON.parse(request.requestBody) as {
+      question: string;
+      answer: string;
+      tags?: number[];
+    };
 
     if (!attrs.question) return new Response(400, {}, { error: 'Front is required' });
     if (!attrs.answer) return new Response(400, {}, { error: 'Back is required' });
@@ -85,5 +87,37 @@ export default function cardHandler(server: AppServer) {
       )
       .sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated)) // Sort by date descending.
       .slice(0, Math.min(parseInt(limit), 100)); // Limit to the provided limit (up to 100 cards per page).
+  });
+
+  server.post('/decks/:deckId/cards/', (schema: AppSchema, request) => {
+    const { deckId } = request.params;
+
+    const attrs = JSON.parse(request.requestBody) as {
+      question: string;
+      answer: string;
+      tags?: number[];
+    };
+
+    if (!attrs.question) return new Response(400, {}, { error: 'Front is required' });
+    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required' });
+
+    if (!deckId || isNaN(parseInt(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID' });
+
+    const deck = schema.findBy('deck', { id: deckId });
+
+    if (!deck) return new Response(404, {}, { error: 'Deck not found' });
+
+    const card = schema.create('card', {
+      deckId: deckId,
+      question: attrs.question,
+      answer: attrs.answer,
+      ...(attrs.tags && { tagIds: attrs.tags.map(String) }),
+      attemptCount: 0,
+      correctCount: 0,
+      dateCreated: new Date().toString(),
+    });
+
+    return card;
   });
 }
