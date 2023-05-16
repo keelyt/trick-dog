@@ -11,7 +11,6 @@ interface DeckProps {
 }
 
 // TODO: Add more content to deck item (arrow icon, more deck info).
-// TODO: Add prefetchInfiniteQuery to prefetch first page of the deck's cards onMouseEnter
 
 export default function Deck({ deckId, deckName, cardCount }: DeckProps): JSX.Element {
   const prefetchCards = usePrefetchInfiniteCards(deckId);

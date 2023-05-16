@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 
@@ -21,4 +21,25 @@ export default function useCardTagsData(deckId: number, cardId: number) {
       return result.tags;
     },
   });
+}
+
+/**
+ * A React hook that prefetches tags for a given card.
+ * @param deckId The ID of the deck to fetch data for.
+ * @param cardId The ID of the card to fetch data for.
+ * @returns A function that can be called to prefetch a card's tags.
+ */
+export function usePrefetchCardTagsData(deckId: number, cardId: number) {
+  const queryClient = useQueryClient();
+
+  return () =>
+    queryClient.prefetchQuery({
+      queryKey: ['decks', deckId, 'cards', cardId, 'tags'],
+      queryFn: async (): Promise<number[]> => {
+        const result = await fetchWithError<CardTagsResponse>(
+          `/api/decks/${deckId}/cards/${cardId}/tags`
+        );
+        return result.tags;
+      },
+    });
 }
