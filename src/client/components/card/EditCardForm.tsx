@@ -133,7 +133,7 @@ export default function EditCardForm({
         )}
         {(deckTagsQuery.isLoading || cardTagsQuery?.isLoading) && <LoadingSpinner />}
         {deckTagsQuery.isSuccess &&
-          cardTagsQuery?.isSuccess &&
+          (!cardTagsQuery || cardTagsQuery.isSuccess) &&
           deckTagsQuery.data.map((tag) => (
             <div key={tag.id}>
               <input type='checkbox' id={tag.tagName} value={tag.id} {...register('tags')} />
