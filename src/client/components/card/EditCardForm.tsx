@@ -148,13 +148,15 @@ export default function EditCardForm({
             />
           ))}
       </Fieldset>
-      <Button as='button' type='submit' disabled={mutateCard.isLoading}>
-        {mutateCard.isLoading ? 'Saving...' : 'Save'}
-      </Button>
-      <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>
-        Cancel
-      </Button>
-      {mutateCard.isError && <p>Error submitting. Please try again.</p>}
+      <div className={styles.form__buttons}>
+        <Button as='button' type='submit' disabled={mutateCard.isLoading}>
+          {mutateCard.isLoading ? 'Saving...' : 'Save'}
+        </Button>
+        <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>
+          Cancel
+        </Button>
+        {mutateCard.isError && <p>Error submitting. Please try again.</p>}
+      </div>
     </form>
   );
 }

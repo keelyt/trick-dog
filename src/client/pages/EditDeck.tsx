@@ -26,6 +26,10 @@ import type { Location } from 'react-router-dom';
 // If want to add ability to sort oldest to newest, will need to modify query.
 
 // TODO: Add ability to select and delete multiple cards at once.
+// It's too easy to accidentally delete cards; however, it would be tedious for users
+// if they had to delete cards one at a time and there was a confirmation dialog each time.
+// Add the ability to select and delete multiple and then use a delete confirmation dialog
+// (e.g. "Are you sure you want to delete the 10 selected cards?")
 
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.

@@ -5,6 +5,8 @@ import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
 import useCardData from '../helpers/useCardData';
 
+import styles from './EditCard.module.scss';
+
 import type { CardsFilterState } from '../../types';
 import type { Location } from 'react-router-dom';
 
@@ -20,7 +22,7 @@ export default function EditCard(): JSX.Element {
   const cardQuery = useCardData(deckId, cardId);
 
   return (
-    <main>
+    <main className={styles.container}>
       <h1>Edit Card</h1>
       {cardQuery.isError && (
         <QueryError
