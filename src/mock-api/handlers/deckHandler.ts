@@ -25,7 +25,7 @@ export default function deckHandler(server: AppServer) {
   server.get('/decks/:id', (schema: AppSchema, request) => {
     const { id } = request.params;
 
-    if (!id || isNaN(parseInt(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
+    if (!id || isNaN(Number(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
 
     const deck = schema.findBy('deck', { id });
 
@@ -37,7 +37,7 @@ export default function deckHandler(server: AppServer) {
   server.delete('/decks/:id', (schema: AppSchema, request) => {
     const { id } = request.params;
 
-    if (!id || isNaN(parseInt(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
+    if (!id || isNaN(Number(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
 
     const deck = schema.findBy('deck', { id });
 

@@ -11,7 +11,7 @@ export default function AddCard(): JSX.Element {
   const params = useParams<'deckId'>();
   const location: Location = useLocation();
 
-  const deckId: number = parseInt(params.deckId!);
+  const deckId = Number(params.deckId!);
   const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
   const search: string = location.state ? (location.state as CardsFilterState).search : '';
 

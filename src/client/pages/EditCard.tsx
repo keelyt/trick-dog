@@ -14,8 +14,8 @@ export default function EditCard(): JSX.Element {
   const params = useParams<'deckId' | 'cardId'>();
   const location: Location = useLocation();
 
-  const deckId: number = parseInt(params.deckId!);
-  const cardId: number = parseInt(params.cardId!);
+  const deckId = Number(params.deckId!);
+  const cardId = Number(params.cardId!);
   const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
   const search: string = location.state ? (location.state as CardsFilterState).search : '';
 

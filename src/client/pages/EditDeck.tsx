@@ -36,7 +36,7 @@ export default function EditDeck(): JSX.Element {
   const { deckId: id } = useParams();
   const location: Location = useLocation();
 
-  const deckId: number = parseInt(id!);
+  const deckId = Number(id!);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [tag, setTag] = useState<number | null>(
@@ -88,7 +88,7 @@ export default function EditDeck(): JSX.Element {
   const handleTagChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const newSelection = event.target.value;
     if (!newSelection) setTag(null);
-    else setTag(parseInt(newSelection));
+    else setTag(Number(newSelection));
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
