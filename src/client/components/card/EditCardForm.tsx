@@ -8,10 +8,14 @@ import useAddCard from '../../helpers/useAddCard';
 import useCardTagsData from '../../helpers/useCardTagsData';
 import useDeckTagsData from '../../helpers/useDeckTagsData';
 import useUpdateCard from '../../helpers/useUpdateCard';
+import Checkbox from '../form/Checkbox';
+import Fieldset from '../form/Fieldset';
 import TextArea from '../form/TextArea';
 import Button from '../ui/Button';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import QueryError from '../ui/QueryError';
+
+import styles from './EditCardForm.module.scss';
 
 import type {
   AddCardParams,
@@ -105,7 +109,7 @@ export default function EditCardForm({
   }, [cardTagsQuery?.isError, deckTagsQuery.isError]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <TextArea<FormValues>
         register={register}
         name={'question'}
@@ -120,8 +124,7 @@ export default function EditCardForm({
         errors={errors}
         validation={{ required: true }}
       />
-      <fieldset>
-        <legend>Card Tags</legend>
+      <Fieldset caption='Card Tags'>
         {(deckTagsQuery.isError || cardTagsQuery?.isError) && (
           <QueryError
             label='Unable to load tags'
@@ -135,12 +138,16 @@ export default function EditCardForm({
         {deckTagsQuery.isSuccess &&
           (!cardTagsQuery || cardTagsQuery.isSuccess) &&
           deckTagsQuery.data.map((tag) => (
-            <div key={tag.id}>
-              <input type='checkbox' id={tag.tagName} value={tag.id} {...register('tags')} />
-              <label htmlFor={tag.tagName}>{tag.tagName}</label>
-            </div>
+            <Checkbox<FormValues>
+              key={tag.id}
+              register={register}
+              name={'tags'}
+              label={tag.tagName}
+              value={tag.id}
+              id={tag.id.toString()}
+            />
           ))}
-      </fieldset>
+      </Fieldset>
       <Button as='button' type='submit' disabled={mutateCard.isLoading}>
         {mutateCard.isLoading ? 'Saving...' : 'Save'}
       </Button>
