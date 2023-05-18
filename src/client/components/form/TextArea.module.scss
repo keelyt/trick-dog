@@ -6,12 +6,14 @@
 }
 
 .input {
+  display: block;
   padding: 0.5rem;
   border-radius: 0.25rem;
+  min-height: 4rem;
+  max-height: 12rem;
   width: 100%;
   margin: 0.25rem 0;
   color: inherit;
-  resize: vertical;
 
   @include themes.themed {
     border: 2px solid themes.t('border-form-element');

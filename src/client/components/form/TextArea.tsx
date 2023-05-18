@@ -1,4 +1,7 @@
+import { useRef } from 'react';
+
 import ValidationError from './ValidationError';
+import useAutoExpandTextArea from '../../helpers/autoExpandTextArea';
 
 import styles from './TextArea.module.scss';
 
@@ -27,17 +30,25 @@ export default function TextArea<TFormValues extends FieldValues>({
   errors,
   placeholder = '',
 }: FormInputProps<TFormValues>): JSX.Element {
+  const { ref, ...rest } = register(name, validation);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useAutoExpandTextArea(textareaRef);
+
   return (
     <div>
       <label htmlFor={name} className={styles.label}>
         {label}
       </label>
       <textarea
-        {...register(name, validation)}
+        {...rest}
         id={name}
         placeholder={placeholder}
         aria-invalid={errors[name] ? 'true' : 'false'}
         className={styles.input}
+        ref={(e) => {
+          ref(e);
+          textareaRef.current = e;
+        }}
       />
       {errors[name] && errors[name]?.type === 'required' && (
         <ValidationError errorMessage='Required field' />
