@@ -51,11 +51,10 @@ const CardListItem = forwardRef(
             size='sm'
             colorScheme='card'
             rounded={false}
+            onMouseEnter={prefetchTags}
           >
-            <span onMouseEnter={prefetchTags}>
-              <CiEdit aria-hidden='true' focusable='false' />
-              Edit
-            </span>
+            <CiEdit aria-hidden='true' focusable='false' />
+            Edit
           </Button>
         </div>
       </li>

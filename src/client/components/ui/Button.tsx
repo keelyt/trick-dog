@@ -11,6 +11,7 @@ interface CommonProps {
   colorScheme?: 'main' | 'card';
   ariaLabel?: string;
   rounded?: boolean;
+  onMouseEnter?: () => unknown;
   children: ReactNode;
 }
 
@@ -44,6 +45,7 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
  * @param [props.size='lg'] The size of the button: 'sm', 'md', or 'lg'. Defaults to 'lg'.
  * @param [props.colorScheme='main'] The color scheme of the button or link. Optional.
  * @param [props.rounded] Whether the button should have rounded edges. Defaults to true.
+ * @param [props.onMouseEnter] onMouseEnter handler function. Optional.
  * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional.
  * @param props.href The URL to navigate to if the element is a link.
  * @param props.type The type of button: 'button', 'submit', or 'reset'.
@@ -67,6 +69,7 @@ const Button = forwardRef(
       size = 'lg',
       colorScheme = 'main',
       rounded = true,
+      onMouseEnter,
       ariaLabel,
       ariaControls,
       ariaExpanded,
@@ -82,6 +85,7 @@ const Button = forwardRef(
       const linkAttributes = {
         ...(ariaLabel && { 'aria-label': ariaLabel }),
         ...(state && { state }),
+        ...(onMouseEnter && { onMouseEnter }),
       };
 
       return (
@@ -97,6 +101,7 @@ const Button = forwardRef(
         ...(ariaLabel && { 'aria-label': ariaLabel }),
         ...(ariaControls && { 'aria-controls': ariaControls }),
         ...(typeof ariaExpanded === 'boolean' && { 'aria-expanded': ariaExpanded }),
+        ...(onMouseEnter && { onMouseEnter }),
       };
 
       return (
