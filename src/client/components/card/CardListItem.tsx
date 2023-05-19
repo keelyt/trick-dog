@@ -42,7 +42,7 @@ const CardListItem = forwardRef(
             rounded={false}
           >
             <BsTrash3 aria-hidden='true' focusable='false' />
-            {deleteCard.isLoading ? 'Deleting...' : 'Delete'}
+            Delete
           </Button>
           <Button
             as='link'
