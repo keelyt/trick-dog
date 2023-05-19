@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import ValidationError from './ValidationError';
-import useAutoExpandTextArea from '../../helpers/autoExpandTextArea';
+import useAutoExpandTextArea from '../../helpers/useAutoExpandTextArea';
 
 import styles from './TextArea.module.scss';
 
