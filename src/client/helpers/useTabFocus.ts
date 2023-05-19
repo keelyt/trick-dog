@@ -7,7 +7,7 @@ import type { MutableRefObject } from 'react';
  * adds an event listener for the Tab key that keeps focus within the provided ref when the key is pressed.
  * @param ref The ref attached to the element that is to be kept in focus.
  */
-export default function useTabFocus(ref: MutableRefObject<HTMLDivElement | null> | undefined) {
+export default function useTabFocus(ref: MutableRefObject<HTMLDivElement | null>) {
   // Elements that can take focus
   // Note: This list works in this project but may not be complete in all projects.
   const focusableElementTypes =
@@ -20,7 +20,7 @@ export default function useTabFocus(ref: MutableRefObject<HTMLDivElement | null>
   const handleTab = useCallback(
     (event: KeyboardEvent) => {
       // Immediately return if the key pressed was not tab.
-      if (event.key !== 'Tab' || !ref || !ref.current) return;
+      if (event.key !== 'Tab' || !ref.current) return;
 
       // Query for all focusable elements within the provided ref.
       const focusableElements = ref.current.querySelectorAll<HTMLElement>(focusableElementTypes);
@@ -46,7 +46,7 @@ export default function useTabFocus(ref: MutableRefObject<HTMLDivElement | null>
 
   useEffect(() => {
     // Focus on first focusable element when the component mounts.
-    ref?.current?.querySelector<HTMLElement>(focusableElementTypes)?.focus();
+    ref.current?.querySelector<HTMLElement>(focusableElementTypes)?.focus();
 
     // Add the event listener to the document object when the component mounts.
     document.addEventListener('keydown', handleTab);

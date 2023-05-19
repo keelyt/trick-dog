@@ -9,7 +9,7 @@ import type { MutableRefObject } from 'react';
  */
 export default function useOutsideClick(
   handleClose: () => void,
-  ref: MutableRefObject<HTMLDivElement | null> | undefined
+  ref: MutableRefObject<HTMLDivElement | null>
 ) {
   /**
    * A memoized callback function that checks if the click occurred outside of the specified element and calls the handleClose function if it did.
@@ -18,7 +18,7 @@ export default function useOutsideClick(
   const handleClick = useCallback(
     (event: MouseEvent | TouchEvent) => {
       if (
-        ref?.current?.contains &&
+        ref.current?.contains &&
         event.target instanceof Element &&
         !ref.current.contains(event.target)
       ) {
