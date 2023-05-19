@@ -1,9 +1,3 @@
-/*
- * This hook is not currently being used in the application,
- * but it has been kept for possible future use or as a reference.
- * It can be deleted if it's no longer needed.
- */
-
 import { useQuery } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';

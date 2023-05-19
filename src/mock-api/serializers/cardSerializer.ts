@@ -1,6 +1,6 @@
 import { RestSerializer } from 'miragejs';
 
-import type { CardResponse, CardsResponse } from '../../types';
+import type { CardData, CardResponse, CardsResponse } from '../../types';
 import type { CardObject, CardsObject } from '../types';
 
 export const cardSerializer = RestSerializer.extend({
@@ -27,15 +27,17 @@ export const cardSerializer = RestSerializer.extend({
 
     if ('cards' in json) {
       return {
-        cards: json.cards.map((card) => ({
-          id: Number(card.id),
-          deckId: Number(card.deck),
-          question: card.question,
-          answer: card.answer,
-          attemptCount: card.attemptCount,
-          correctCount: card.correctCount,
-          dateCreated: card.dateCreated,
-        })),
+        cards: json.cards.map(
+          (card): CardData => ({
+            id: Number(card.id),
+            deckId: Number(card.deck),
+            question: card.question,
+            answer: card.answer,
+            attemptCount: card.attemptCount,
+            correctCount: card.correctCount,
+            dateCreated: card.dateCreated,
+          })
+        ),
       };
     }
 

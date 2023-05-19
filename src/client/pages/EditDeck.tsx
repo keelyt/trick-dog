@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import CardsList from '../components/card/CardsList';
 import SearchForm from '../components/form/SearchForm';
@@ -12,28 +12,42 @@ import Modal from '../components/ui/Modal';
 import QueryError from '../components/ui/QueryError';
 import useDeckData from '../helpers/useDeckData';
 import useDeleteDeck from '../helpers/useDeleteDeck';
+import useEscapeKey from '../helpers/useEscapeKey';
 import useMediaMatch from '../helpers/useMediaMatch';
+import useOutsideClick from '../helpers/useOutsideClick';
 
 import styles from './EditDeck.module.scss';
 
+import type { CardsFilterState } from '../../types';
 import type { ChangeEvent } from 'react';
+import type { Location } from 'react-router-dom';
 
 // TODO: For now, will only give ability to sort newest to oldest.
 // If want to add ability to sort oldest to newest, will need to modify query.
 
-// TODO: Adjust styling to use partially persistent nav instead of fixed-size content window.
-
 // TODO: Add ability to select and delete multiple cards at once.
+// It's too easy to accidentally delete cards; however, it would be tedious for users
+// if they had to delete cards one at a time and there was a confirmation dialog each time.
+// Add the ability to select and delete multiple and then use a delete confirmation dialog
+// (e.g. "Are you sure you want to delete the 10 selected cards?")
 
 export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
   const { deckId: id } = useParams();
+  const location: Location = useLocation();
 
-  const deckId: number = parseInt(id!);
+  const deckId = Number(id!);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [tag, setTag] = useState<number | null>(null);
-  const [search, setSearch] = useState<string>('');
+  const [tag, setTag] = useState<number | null>(
+    location.state ? (location.state as CardsFilterState).tagId : null
+  );
+  const [search, setSearch] = useState<string>(
+    location.state ? (location.state as CardsFilterState).search : ''
+  );
+  const [searchValue, setSearchValue] = useState<string>(
+    location.state ? (location.state as CardsFilterState).search : ''
+  );
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const deleteDeck = useDeleteDeck();
@@ -47,6 +61,14 @@ export default function EditDeck(): JSX.Element {
   const navigate = useNavigate();
 
   const btnDeleteRef = useRef<HTMLButtonElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
+
+  const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
+  const hideFilters = () => {
+    if (showFilters) setShowFilters(false);
+  };
+  useEscapeKey(hideFilters);
+  useOutsideClick(hideFilters, filtersRef);
 
   const handleDialogCancel = () => {
     setModalIsOpen(false);
@@ -66,10 +88,11 @@ export default function EditDeck(): JSX.Element {
   const handleTagChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const newSelection = event.target.value;
     if (!newSelection) setTag(null);
-    setTag(parseInt(newSelection));
+    else setTag(Number(newSelection));
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
     if (event.target.value.length === 0) setSearch('');
   };
 
@@ -77,8 +100,6 @@ export default function EditDeck(): JSX.Element {
     event.preventDefault();
     setSearch((event.target.search as HTMLInputElement).value);
   };
-
-  const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
 
   return (
     <div className={styles.container}>
@@ -125,7 +146,7 @@ export default function EditDeck(): JSX.Element {
                   Delete Deck
                 </Button>
                 <div className={styles.cardOptions}>
-                  <div className={styles.filters}>
+                  <div className={styles.filters} ref={filtersRef}>
                     <div className={styles.filters__toggle}>
                       <Button
                         as='button'
@@ -150,6 +171,7 @@ export default function EditDeck(): JSX.Element {
                         <SearchForm
                           onChange={handleSearchChange}
                           onSubmit={handleSearchSubmit}
+                          value={searchValue}
                           maxLength={50}
                           placeholder={mediaMatch ? 'Search...' : 'Search cards by text'}
                           label='Search Cards by Text'
@@ -162,7 +184,7 @@ export default function EditDeck(): JSX.Element {
                         <TagSelect
                           tags={deckQuery.data.tags}
                           onChange={handleTagChange}
-                          defaultSelected={!tag}
+                          value={tag ?? ''}
                           defaultText={
                             tag ? 'All tags' : mediaMatch ? 'Select...' : 'Select a tag to filter'
                           }

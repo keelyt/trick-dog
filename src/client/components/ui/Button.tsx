@@ -11,6 +11,7 @@ interface CommonProps {
   colorScheme?: 'main' | 'card';
   ariaLabel?: string;
   rounded?: boolean;
+  onMouseEnter?: () => unknown;
   children: ReactNode;
 }
 
@@ -22,6 +23,7 @@ interface AsButtonProps {
   disabled?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
+  state?: never;
 }
 
 interface AsLinkProps {
@@ -32,6 +34,7 @@ interface AsLinkProps {
   disabled?: never;
   ariaControls?: never;
   ariaExpanded?: never;
+  state?: Record<string, unknown>;
 }
 
 type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
@@ -42,6 +45,7 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
  * @param [props.size='lg'] The size of the button: 'sm', 'md', or 'lg'. Defaults to 'lg'.
  * @param [props.colorScheme='main'] The color scheme of the button or link. Optional.
  * @param [props.rounded] Whether the button should have rounded edges. Defaults to true.
+ * @param [props.onMouseEnter] onMouseEnter handler function. Optional.
  * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional.
  * @param props.href The URL to navigate to if the element is a link.
  * @param props.type The type of button: 'button', 'submit', or 'reset'.
@@ -59,11 +63,13 @@ const Button = forwardRef(
       as,
       type,
       href,
+      state,
       onClick,
       disabled,
       size = 'lg',
       colorScheme = 'main',
       rounded = true,
+      onMouseEnter,
       ariaLabel,
       ariaControls,
       ariaExpanded,
@@ -76,7 +82,11 @@ const Button = forwardRef(
     } ${rounded ? styles[`button--rounded`] : ''}`;
 
     if (as === 'link') {
-      const linkAttributes = ariaLabel ? { 'aria-label': ariaLabel } : {};
+      const linkAttributes = {
+        ...(ariaLabel && { 'aria-label': ariaLabel }),
+        ...(state && { state }),
+        ...(onMouseEnter && { onMouseEnter }),
+      };
 
       return (
         <Link to={href} {...linkAttributes} className={classes}>
@@ -90,7 +100,8 @@ const Button = forwardRef(
         ...(onClick && { onClick }),
         ...(ariaLabel && { 'aria-label': ariaLabel }),
         ...(ariaControls && { 'aria-controls': ariaControls }),
-        ...(ariaExpanded && { 'aria-expanded': ariaExpanded }),
+        ...(typeof ariaExpanded === 'boolean' && { 'aria-expanded': ariaExpanded }),
+        ...(onMouseEnter && { onMouseEnter }),
       };
 
       return (

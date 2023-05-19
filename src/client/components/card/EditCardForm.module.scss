@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-bottom: 1.25rem;
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}

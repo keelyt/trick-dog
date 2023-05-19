@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 
-import type { CardData } from '../../types';
+import type { CardData, CardsResponse } from '../../types';
 
 // Hardcoded page limit of 12 cards per page.
 const LIMIT = 12;
@@ -69,7 +69,7 @@ export const fetchCards = async ({
   if (limit) query.push(`limit=${encodeURIComponent(limit)}`);
   const deckIdParam = encodeURIComponent(deckId);
 
-  const response = await fetchWithError<{ cards: CardData[] }>(
+  const response = await fetchWithError<CardsResponse>(
     `/api/decks/${deckIdParam}/cards${query.length ? '?' + query.join('&') : ''}`,
     {
       signal,

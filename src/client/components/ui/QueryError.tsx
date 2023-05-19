@@ -13,7 +13,7 @@ export default function QueryError({
     <div className={styles.error}>
       <p className={styles.error__label}>{label}</p>
       {refetchFn && (
-        <Button as='button' type='button' onClick={refetchFn}>
+        <Button as='button' type='button' onClick={refetchFn} size='md'>
           Retry
         </Button>
       )}

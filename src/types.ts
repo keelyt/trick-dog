@@ -31,6 +31,10 @@ export interface CardsResponse {
   cards: CardData[];
 }
 
+export interface CardTagsResponse {
+  tags: number[];
+}
+
 export interface TagData {
   id: number;
   tagName: string;
@@ -48,4 +52,24 @@ export interface ServerError {
 export interface InfiniteCardData {
   pages?: CardData[][];
   pageParams?: (string | null)[];
+}
+
+export interface CardsFilterState {
+  tagId: number | null;
+  search: string;
+}
+
+export interface AddCardParams {
+  deckId: number;
+  question: string;
+  answer: string;
+  tags?: number[];
+}
+
+export interface UpdateCardParams {
+  cardId: number;
+  deckId: number;
+  question: string;
+  answer: string;
+  tags?: number[];
 }
