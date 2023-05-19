@@ -55,7 +55,7 @@ export default function EditCardForm({
     handleSubmit,
     reset,
     unregister,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormValues>({
     mode: 'onBlur',
     defaultValues: {
@@ -149,7 +149,7 @@ export default function EditCardForm({
           ))}
       </Fieldset>
       <div className={styles.form__buttons}>
-        <Button as='button' type='submit' disabled={mutateCard.isLoading}>
+        <Button as='button' type='submit' disabled={mutateCard.isLoading || !isValid}>
           {mutateCard.isLoading ? 'Saving...' : 'Save'}
         </Button>
         <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>

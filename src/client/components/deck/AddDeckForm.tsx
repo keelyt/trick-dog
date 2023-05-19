@@ -27,7 +27,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormValues>({ mode: 'onBlur' });
 
   // Handler function for form submission
@@ -59,7 +59,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
           as='button'
           type='submit'
           aria-disabled={addDeck.isLoading}
-          disabled={addDeck.isLoading}
+          disabled={addDeck.isLoading || !isValid}
           rounded={true}
         >
           {addDeck.isLoading ? 'Creating Deck...' : 'Create Deck'}
