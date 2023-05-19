@@ -149,7 +149,13 @@ export default function EditCardForm({
           ))}
       </Fieldset>
       <div className={styles.form__buttons}>
-        <Button as='button' type='submit' disabled={mutateCard.isLoading || !isValid}>
+        <Button
+          as='button'
+          type='submit'
+          disabled={
+            mutateCard.isLoading || !isValid || deckTagsQuery.isLoading || cardTagsQuery?.isLoading
+          }
+        >
           {mutateCard.isLoading ? 'Saving...' : 'Save'}
         </Button>
         <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>
