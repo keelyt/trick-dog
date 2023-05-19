@@ -62,12 +62,21 @@ export default function EditDeck(): JSX.Element {
 
   const btnDeleteRef = useRef<HTMLButtonElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const filtersToggleRef = useRef<HTMLButtonElement>(null);
 
   const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
   const hideFilters = () => {
-    if (showFilters) setShowFilters(false);
+    if (showFilters) {
+      setShowFilters(false);
+      filtersToggleRef.current?.focus();
+    }
   };
-  useEscapeKey(hideFilters);
+  useEscapeKey(() => {
+    // If user focus is in search input element and search is not empty, allow ESC to clear input.
+    if (searchValue && searchInputRef.current === document.activeElement) return;
+    hideFilters();
+  });
   useOutsideClick(hideFilters, filtersRef);
 
   const handleDialogCancel = () => {
@@ -157,6 +166,7 @@ export default function EditDeck(): JSX.Element {
                         aria-controls='card-filters'
                         rounded={true}
                         size='md'
+                        ref={filtersToggleRef}
                       >
                         {showFilters ? 'Hide Filters' : 'Filter'}
                       </Button>
@@ -178,6 +188,7 @@ export default function EditDeck(): JSX.Element {
                           showLabel={mediaMatch}
                           rounded={true}
                           colorScheme={mediaMatch ? 'dropdown' : 'main'}
+                          ref={searchInputRef}
                         />
                       </div>
                       <div className={styles.filters__select}>
