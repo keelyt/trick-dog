@@ -46,4 +46,24 @@ export default function deckHandler(server: AppServer) {
     deck.destroy();
     return deck;
   });
+
+  server.patch('/decks/:id', (schema: AppSchema, request) => {
+    const { id } = request.params;
+
+    const { deckName } = JSON.parse(request.requestBody) as {
+      deckName: string;
+    };
+
+    if (!id || isNaN(Number(id))) return new Response(400, {}, { error: 'Invalid deck ID' });
+
+    const deck = schema.findBy('deck', { id });
+
+    if (!deck) return new Response(404, {}, { error: 'Deck not found' });
+
+    deck.update({
+      deckName,
+    });
+
+    return deck;
+  });
 }
