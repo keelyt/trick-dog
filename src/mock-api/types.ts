@@ -82,6 +82,15 @@ export interface Tag {
   cardIds: string[];
 }
 
+export interface TagObject {
+  tag: {
+    id: string;
+    tagName: string;
+    deck: string;
+    cards: string[];
+  };
+}
+
 export interface TagsObject {
   tags: {
     id: string;
