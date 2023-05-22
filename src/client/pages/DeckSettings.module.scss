@@ -1,0 +1,52 @@
+@use '@styles/themes';
+@use '@styles/variables' as var;
+@use '@styles/containers';
+
+.container {
+  grid-area: main;
+  border-radius: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.content {
+  width: 90%;
+  max-width: 700px;
+  margin: 2rem auto auto;
+}
+
+.heading {
+  font-size: 1.25rem;
+  border-bottom: 1px solid;
+  padding: 0.5rem 0;
+
+  @include themes.themed {
+    border-bottom-color: themes.t('border-button');
+  }
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2.5rem;
+
+  &__rename {
+    display: flex;
+    align-items: first baseline;
+    gap: 0.25rem;
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+  }
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__text {
+    margin: 0;
+  }
+}

@@ -10,7 +10,7 @@ import type {
   Path,
 } from 'react-hook-form';
 
-interface FormInputProps<TFormValues extends FieldValues> {
+interface TextInputProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   label: string;
@@ -19,28 +19,33 @@ interface FormInputProps<TFormValues extends FieldValues> {
   placeholder?: string;
 }
 
-export default function FormInput<TFormValues extends FieldValues>({
+export default function TextInput<TFormValues extends FieldValues>({
   register,
   name,
   label,
   validation = {},
   errors,
   placeholder = '',
-}: FormInputProps<TFormValues>): JSX.Element {
+}: TextInputProps<TFormValues>): JSX.Element {
   return (
     <div>
-      <label htmlFor={name} className={styles.label}>
-        {label}
-      </label>
-      <input
-        {...register(name, validation)}
-        id={name}
-        placeholder={placeholder}
-        aria-invalid={errors[name] ? 'true' : 'false'}
-        className={styles.input}
-      />
+      <div className={styles.field}>
+        <label htmlFor={name} className={styles.label}>
+          {label}
+        </label>
+        <input
+          {...register(name, validation)}
+          id={name}
+          placeholder={placeholder}
+          aria-invalid={errors[name] ? 'true' : 'false'}
+          className={styles.input}
+        />
+      </div>
       {errors[name] && errors[name]?.type === 'required' && (
         <ValidationError errorMessage='Required field' />
+      )}
+      {errors[name] && errors[name]?.type === 'maxLength' && (
+        <ValidationError errorMessage='Max length exceeded' />
       )}
     </div>
   );

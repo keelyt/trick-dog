@@ -49,7 +49,7 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
         name={'name'}
         label='Deck Name'
         errors={errors}
-        validation={{ required: true }}
+        validation={{ required: true, maxLength: 100 }}
       />
       <div className={styles.buttons}>
         <Button as='button' type='button' onClick={onCancel} rounded={true}>
