@@ -1,0 +1,79 @@
+@use '@styles/themes';
+@use '@styles/variables' as var;
+@use '@styles/containers';
+
+.card-options {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  grid-area: filters;
+  padding-right: 0.25rem;
+
+  @media (max-width: var.$breakpoint-xl) {
+    padding-right: 0.5rem;
+  }
+}
+
+.filters {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+
+  @media (max-width: var.$breakpoint-sm) {
+    position: static;
+  }
+
+  &__search,
+  &__select {
+    height: 100%;
+
+    @media (max-width: var.$breakpoint-lg) {
+      height: 35%;
+    }
+  }
+
+  &__container {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+
+    @media (max-width: var.$breakpoint-lg) {
+      flex-direction: column;
+      justify-content: space-evenly;
+      padding: 1.5rem;
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      height: 250px;
+      width: 400px;
+      max-width: calc(100vw - 20px);
+      border-radius: 0.25rem;
+      box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+      transition: height 150ms ease-out;
+
+      @include themes.themed {
+        background-color: themes.t('bg-dropdown');
+      }
+
+      &--collapsed:not(:focus-within) {
+        @include containers.visually-hidden;
+      }
+    }
+
+    @media (max-width: var.$breakpoint-sm) {
+      left: 50%;
+      transform: translate(-50%, 0);
+      top: 0;
+      grid-area: main;
+    }
+  }
+
+  &__toggle {
+    display: none;
+
+    @media (max-width: var.$breakpoint-lg) {
+      display: block;
+    }
+  }
+}
