@@ -4,29 +4,40 @@ import fetchWithError from './fetchWithError';
 
 import type { DeckData, TagResponse } from '../../types';
 
-interface DeleteTagParams {
+interface RenameTagParams {
   deckId: number;
   tagId: number;
+  tagName: string;
 }
 
 /**
- * A React hook that provides a mutation function for deleting a tag.
- * @returns A mutation function for deleting a tag.
+ * A React hook that provides a mutation function for renaming a tag.
+ * @returns A mutation function for renaming a tag.
  */
-export default function useDeleteCard() {
+export default function useRenameTag() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ deckId, tagId }: DeleteTagParams) =>
-      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, { method: 'DELETE' }),
-    onMutate: async ({ deckId, tagId }: DeleteTagParams) => {
+    mutationFn: async ({ deckId, tagId, tagName }: RenameTagParams) =>
+      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tagName }),
+      }),
+    onMutate: async ({ deckId, tagId, tagName }: RenameTagParams) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks', deckId]);
       // Snapshot the previous deck.
       const previousDeck = queryClient.getQueryData(['decks', deckId]);
       // Optimistically update the deck data by removing the deck.
       queryClient.setQueryData(['decks', deckId], (old: DeckData | undefined) => {
-        if (old) return { ...old, tags: old.tags.filter((tag) => tag.id !== tagId) };
+        if (old)
+          return {
+            ...old,
+            tags: old.tags.map((tag) => (tag.id === tagId ? { ...tag, tagName } : tag)),
+          };
       });
       // Return a rollback function.
       return () => queryClient.setQueryData(['decks', deckId], previousDeck);

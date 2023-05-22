@@ -23,9 +23,27 @@ export default function tagHandler(server: AppServer) {
 
     const tag = schema.findBy('tag', { id: tagId, deckId });
 
-    if (!tag) return new Response(404, {}, { error: 'Card not found' });
+    if (!tag) return new Response(404, {}, { error: 'Tag not found' });
 
     tag.destroy();
+    return tag;
+  });
+
+  server.patch('/decks/:deckId/tags/:tagId', (schema: AppSchema, request) => {
+    const { deckId, tagId } = request.params;
+
+    const { tagName } = JSON.parse(request.requestBody) as {
+      tagName: string;
+    };
+
+    const tag = schema.findBy('tag', { id: tagId, deckId });
+
+    if (!tag) return new Response(404, {}, { error: 'Tag not found' });
+
+    tag.update({
+      tagName,
+    });
+
     return tag;
   });
 
