@@ -1,6 +1,5 @@
 @use '@styles/themes';
 @use '@styles/variables' as var;
-@use '@styles/containers';
 
 .container {
   display: flex;
@@ -8,13 +7,16 @@
   align-items: stretch;
   margin: auto;
   width: 100%;
-  height: calc(100vh - 4rem);
   flex-grow: 1;
 
-  // Enable scrolling - must match media query used in
-  // CardList component.
-  @media (max-height: 800px) {
-    height: 100%;
+  &--fixed {
+    height: calc(100vh - 4rem);
+
+    // Enable scrolling - must match media query used in
+    // CardList component.
+    @media (max-height: 800px) {
+      height: 100%;
+    }
   }
 }
 
@@ -38,6 +40,15 @@
   max-width: 1200px;
   flex-grow: 1;
   gap: 0.5rem 0.5rem;
+
+  @media (max-width: var.$breakpoint-sm) {
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      'heading heading heading'
+      'routes routes routes'
+      'filters filters filters'
+      'main main main';
+  }
 }
 
 .heading {

@@ -1,7 +1,7 @@
 import { BsTags } from 'react-icons/bs';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { TbCards } from 'react-icons/tb';
-import { NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useMatch, useOutletContext, useParams } from 'react-router-dom';
 
 import BackButton from '../components/ui/BackButton';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
@@ -18,10 +18,12 @@ export default function EditDeckLayout(): JSX.Element {
 
   const deckId = Number(id!);
 
+  const containerFixed = useMatch('/decks/:deckId/cards');
+
   const deckQuery = useDeckData(deckId);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${containerFixed ? styles['container--fixed'] : ''}`}>
       <main role='main' className={styles.content}>
         {deckQuery.isLoading && (
           <div className={styles.center}>
