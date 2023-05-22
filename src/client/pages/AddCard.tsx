@@ -16,9 +16,9 @@ export default function AddCard(): JSX.Element {
   const search: string = location.state ? (location.state as CardsFilterState).search : '';
 
   return (
-    <main className={styles.container}>
+    <div className={styles['add-container']}>
       <h1>Add Card</h1>
       <EditCardForm deckId={deckId} initQuestion='' initAnswer='' filterState={{ tagId, search }} />
-    </main>
+    </div>
   );
 }

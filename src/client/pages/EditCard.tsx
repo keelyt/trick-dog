@@ -27,7 +27,7 @@ export default function EditCard(): JSX.Element {
   const deleteCard = useDeleteCard();
 
   return (
-    <main className={styles.container}>
+    <div className={styles['edit-container']}>
       <div className={styles.top}>
         <h1>Edit Card</h1>
         <Button
@@ -39,7 +39,7 @@ export default function EditCard(): JSX.Element {
               {
                 onSuccess: () => {
                   // Navigate back to the deck page, applying previous filter.
-                  navigate(`/decks/${deckId}`, { state: { tagId, search } });
+                  navigate(`/decks/${deckId}/cards`, { state: { tagId, search } });
                 },
               }
             )
@@ -72,6 +72,6 @@ export default function EditCard(): JSX.Element {
           filterState={{ tagId, search }}
         />
       )}
-    </main>
+    </div>
   );
 }
