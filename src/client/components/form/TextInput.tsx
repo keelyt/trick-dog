@@ -28,7 +28,7 @@ export default function TextInput<TFormValues extends FieldValues>({
   placeholder = '',
 }: TextInputProps<TFormValues>): JSX.Element {
   return (
-    <div>
+    <div className={styles['input-container']}>
       <div className={styles.field}>
         <label htmlFor={name} className={styles.label}>
           {label}

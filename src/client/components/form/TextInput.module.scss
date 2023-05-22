@@ -1,13 +1,17 @@
 @use '@styles/themes';
 
-.label {
-  display: block;
-  font-weight: 600;
+.input-container {
+  flex-grow: 1;
 }
 
 .field {
   display: inline-block;
   width: 100%;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
 }
 
 .input {

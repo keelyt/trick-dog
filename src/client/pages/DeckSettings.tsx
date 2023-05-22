@@ -33,6 +33,7 @@ export default function DeckSettings(): JSX.Element {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<FormValues>({
     mode: 'onBlur',
@@ -43,7 +44,11 @@ export default function DeckSettings(): JSX.Element {
 
   // Handler function for form submission
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
-    renameDeck.mutate({ deckId, deckName: data.deckName });
+    renameDeck.mutate(
+      { deckId, deckName: data.deckName },
+      // Update the default value to the new deck name.
+      { onSuccess: () => reset({ deckName: data.deckName }) }
+    );
 
   const handleDeleteDialogCancel = () => {
     setDeleteModalIsOpen(false);
@@ -61,7 +66,7 @@ export default function DeckSettings(): JSX.Element {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles['settings-container']}>
       {deleteModalIsOpen && (
         <Modal onClose={handleDeleteDialogCancel}>
           <DeleteDialog
@@ -98,10 +103,7 @@ export default function DeckSettings(): JSX.Element {
           <div className={styles.settings__delete}>
             <div>
               <strong className={styles.settings__label}>Delete This Deck</strong>
-              <p className={styles.settings__text}>
-                Once you have deleted this deck, you will not be able to recover it or any of its
-                cards.
-              </p>
+              <p className={styles.settings__text}>Warning: This cannot be undone.</p>
             </div>
             <Button
               ref={btnDeleteRef}

@@ -1,8 +1,6 @@
 @use '@styles/themes';
-@use '@styles/variables' as var;
-@use '@styles/containers';
 
-.container {
+.settings-container {
   grid-area: main;
   border-radius: 0.25rem;
   margin-bottom: 0.75rem;
@@ -27,19 +25,22 @@
 .settings {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: stretch;
   align-items: flex-start;
   gap: 2.5rem;
+  width: fit-content;
 
   &__rename {
     display: flex;
     align-items: first baseline;
     gap: 0.25rem;
+    width: 100%;
   }
 
   &__delete {
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   &__label {
@@ -47,6 +48,7 @@
   }
 
   &__text {
-    margin: 0;
+    margin: 0 1rem 0 0;
+    color: red;
   }
 }
