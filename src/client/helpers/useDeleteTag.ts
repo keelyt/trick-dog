@@ -13,7 +13,7 @@ interface DeleteTagParams {
  * A React hook that provides a mutation function for deleting a tag.
  * @returns A mutation function for deleting a tag.
  */
-export default function useDeleteCard() {
+export default function useDeleteTag() {
   const queryClient = useQueryClient();
 
   return useMutation({
