@@ -69,7 +69,7 @@ export default function EditCardForm({
     const options = {
       onSuccess: () => {
         // Navigate back to the deck page, applying previous filter.
-        navigate(`/decks/${deckId}`, { state: filterState });
+        navigate(`/decks/${deckId}/cards`, { state: filterState });
       },
     };
 
@@ -158,7 +158,7 @@ export default function EditCardForm({
         >
           {mutateCard.isLoading ? 'Saving...' : 'Save'}
         </Button>
-        <Button as='link' href={`/decks/${deckId}`} state={{ ...filterState }}>
+        <Button as='link' href={`/decks/${deckId}/cards`} state={{ ...filterState }}>
           Cancel
         </Button>
         {mutateCard.isError && <p>Error submitting. Please try again.</p>}
