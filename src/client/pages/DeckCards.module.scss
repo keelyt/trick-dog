@@ -12,6 +12,11 @@
   @media (max-width: var.$breakpoint-xl) {
     padding-right: 0.5rem;
   }
+
+  @media (max-width: var.$breakpoint-sm) {
+    padding-right: 0;
+    padding-left: 0.5rem;
+  }
 }
 
 .filters {
