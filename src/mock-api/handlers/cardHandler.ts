@@ -7,14 +7,14 @@ export default function cardHandler(server: AppServer) {
     const { cardId, deckId } = request.params;
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     if (!cardId || isNaN(Number(cardId)))
-      return new Response(400, {}, { error: 'Invalid card ID' });
+      return new Response(400, {}, { error: 'Invalid card ID.' });
 
     const card = schema.findBy('card', { id: cardId, deckId });
 
-    if (!card) return new Response(404, {}, { error: 'Card not found' });
+    if (!card) return new Response(404, {}, { error: 'Card not found.' });
 
     return card;
   });
@@ -23,14 +23,14 @@ export default function cardHandler(server: AppServer) {
     const { cardId, deckId } = request.params;
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     if (!cardId || isNaN(Number(cardId)))
-      return new Response(400, {}, { error: 'Invalid card ID' });
+      return new Response(400, {}, { error: 'Invalid card ID.' });
 
     const card = schema.findBy('card', { id: cardId, deckId });
 
-    if (!card) return new Response(404, {}, { error: 'Card not found' });
+    if (!card) return new Response(404, {}, { error: 'Card not found.' });
 
     card.destroy();
     return card;
@@ -45,18 +45,18 @@ export default function cardHandler(server: AppServer) {
       tags?: number[];
     };
 
-    if (!attrs.question) return new Response(400, {}, { error: 'Front is required' });
-    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required' });
+    if (!attrs.question) return new Response(400, {}, { error: 'Front is required.' });
+    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required.' });
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     if (!cardId || isNaN(Number(cardId)))
-      return new Response(400, {}, { error: 'Invalid card ID' });
+      return new Response(400, {}, { error: 'Invalid card ID.' });
 
     const card = schema.findBy('card', { id: cardId, deckId });
 
-    if (!card) return new Response(404, {}, { error: 'Card not found' });
+    if (!card) return new Response(404, {}, { error: 'Card not found.' });
 
     card.update({
       question: attrs.question,
@@ -72,7 +72,7 @@ export default function cardHandler(server: AppServer) {
     const { before, tag, q, limit } = request.queryParams;
 
     if (!limit || isNaN(Number(limit)))
-      return new Response(400, {}, { error: 'Page limit must be a number not exceeding 100' });
+      return new Response(400, {}, { error: 'Page limit must be a number not exceeding 100.' });
 
     return schema
       .where(
@@ -98,15 +98,15 @@ export default function cardHandler(server: AppServer) {
       tags?: number[];
     };
 
-    if (!attrs.question) return new Response(400, {}, { error: 'Front is required' });
-    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required' });
+    if (!attrs.question) return new Response(400, {}, { error: 'Front is required.' });
+    if (!attrs.answer) return new Response(400, {}, { error: 'Back is required.' });
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     const deck = schema.findBy('deck', { id: deckId });
 
-    if (!deck) return new Response(404, {}, { error: 'Deck not found' });
+    if (!deck) return new Response(404, {}, { error: 'Deck not found.' });
 
     const card = schema.create('card', {
       deckId: deckId,

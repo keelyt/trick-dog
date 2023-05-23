@@ -10,12 +10,11 @@ import type { ServerError } from '../../types';
  */
 export default async function fetchWithError<T>(url: string, options?: RequestInit) {
   const response: Response = await fetch(url, options);
-
-  if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
   const result: T | ServerError = (await response.json()) as T | ServerError;
 
   if ((result as ServerError).error) throw new Error((result as ServerError).error);
+
+  if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
   return result as T;
 }

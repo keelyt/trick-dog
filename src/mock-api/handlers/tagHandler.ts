@@ -7,7 +7,7 @@ export default function tagHandler(server: AppServer) {
     const { deckId } = request.params;
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     return schema
       .where('tag', (tag) => tag.deckId === deckId)
@@ -21,9 +21,14 @@ export default function tagHandler(server: AppServer) {
   server.delete('/decks/:deckId/tags/:tagId', (schema: AppSchema, request) => {
     const { deckId, tagId } = request.params;
 
+    if (!deckId || isNaN(Number(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
+
+    if (!tagId || isNaN(Number(tagId))) return new Response(400, {}, { error: 'Invalid tag ID.' });
+
     const tag = schema.findBy('tag', { id: tagId, deckId });
 
-    if (!tag) return new Response(404, {}, { error: 'Tag not found' });
+    if (!tag) return new Response(404, {}, { error: 'Tag not found.' });
 
     tag.destroy();
     return tag;
@@ -36,9 +41,21 @@ export default function tagHandler(server: AppServer) {
       tagName: string;
     };
 
+    if (!deckId || isNaN(Number(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
+
+    if (!tagId || isNaN(Number(tagId))) return new Response(400, {}, { error: 'Invalid tag ID.' });
+
+    if (schema.findBy('tag', { deckId, tagName }))
+      return new Response(
+        422,
+        {},
+        { error: 'A tag with this name already exists in the current deck.' }
+      );
+
     const tag = schema.findBy('tag', { id: tagId, deckId });
 
-    if (!tag) return new Response(404, {}, { error: 'Tag not found' });
+    if (!tag) return new Response(404, {}, { error: 'Tag not found.' });
 
     tag.update({
       tagName,
@@ -51,10 +68,10 @@ export default function tagHandler(server: AppServer) {
     const { deckId, cardId } = request.params;
 
     if (!deckId || isNaN(Number(deckId)))
-      return new Response(400, {}, { error: 'Invalid deck ID' });
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
 
     if (!cardId || isNaN(Number(cardId)))
-      return new Response(400, {}, { error: 'Invalid card ID' });
+      return new Response(400, {}, { error: 'Invalid card ID.' });
 
     return schema
       .where('tag', (tag) => tag.deckId === deckId && tag.cardIds.includes(cardId))
