@@ -6,7 +6,7 @@ import useAddDeck from '../../helpers/useAddDeck';
 import TextInput from '../form/TextInput';
 import Button from '../ui/Button';
 
-import styles from './AddDeckForm.module.scss';
+import styles from '../../styles/modalForm.module.scss';
 
 import type { SubmitHandler } from 'react-hook-form';
 
@@ -46,12 +46,12 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
       <h1 className={styles.form__heading}>Create Deck</h1>
       <TextInput<FormValues>
         register={register}
-        name={'name'}
+        name='name'
         label='Deck Name'
         errors={errors}
         validation={{ required: true, maxLength: 100 }}
       />
-      <div className={styles.buttons}>
+      <div className={styles.form__buttons}>
         <Button as='button' type='button' onClick={onCancel} rounded={true}>
           Cancel
         </Button>
