@@ -5,7 +5,7 @@ import styles from './ValidationError.module.scss';
 export default function ValidationError({ errorMessage }: { errorMessage: string }) {
   return (
     <div className={styles.error} role='alert'>
-      <RiErrorWarningLine aria-hidden='true' />
+      <RiErrorWarningLine aria-hidden='true' focusable='false' />
       {errorMessage}
     </div>
   );
