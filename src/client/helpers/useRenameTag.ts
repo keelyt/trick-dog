@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
+import indexObjectByText from './indexObjectByText';
 
-import type { DeckData, TagResponse } from '../../types';
+import type { DeckData, TagData, TagResponse } from '../../types';
 
 interface RenameTagParams {
   deckId: number;
@@ -31,13 +32,20 @@ export default function useRenameTag() {
       await queryClient.cancelQueries(['decks', deckId]);
       // Snapshot the previous deck.
       const previousDeck = queryClient.getQueryData(['decks', deckId]);
-      // Optimistically update the deck data by removing the deck.
+      // Optimistically update the deck data by renaming the tag.
       queryClient.setQueryData(['decks', deckId], (old: DeckData | undefined) => {
-        if (old)
+        if (old) {
+          const filteredTags = old.tags.filter((tag) => tag.id !== tagId);
+          const index = indexObjectByText<TagData, 'tagName'>(filteredTags, tagName, 'tagName');
           return {
             ...old,
-            tags: old.tags.map((tag) => (tag.id === tagId ? { ...tag, tagName } : tag)),
+            tags: [
+              ...filteredTags.slice(0, index),
+              { id: tagId, deckId, tagName },
+              ...filteredTags.slice(index),
+            ],
           };
+        }
       });
       // Return a rollback function.
       return () => queryClient.setQueryData(['decks', deckId], previousDeck);
