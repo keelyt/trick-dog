@@ -88,7 +88,7 @@ export default function DeckTags(): JSX.Element {
           name='tagName'
           label='New Tag'
           errors={errors}
-          validation={{ required: true, maxLength: 100 }}
+          validation={{ required: true, maxLength: 50 }}
         />
         <Button
           as='button'

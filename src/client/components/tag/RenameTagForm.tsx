@@ -54,7 +54,7 @@ export default function RenameTagForm({ deckId, tagId, initTagName, resetFn }: R
         name='tagName'
         label='Tag Name'
         errors={errors}
-        validation={{ required: true, maxLength: 100 }}
+        validation={{ required: true, maxLength: 50 }}
       />
       <div className={styles.form__buttons}>
         <Button as='button' type='button' onClick={resetFn} rounded={true}>
