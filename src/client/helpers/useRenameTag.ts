@@ -27,32 +27,22 @@ export default function useRenameTag() {
         },
         body: JSON.stringify({ tagName }),
       }),
-    onMutate: async ({ deckId, tagId, tagName }: RenameTagParams) => {
-      // Cancel outgoing refetches (so they don't overwrite our optimistic update).
-      await queryClient.cancelQueries(['decks', deckId]);
-      // Snapshot the previous deck.
-      const previousDeck = queryClient.getQueryData(['decks', deckId]);
-      // Optimistically update the deck data by renaming the tag.
-      queryClient.setQueryData(['decks', deckId], (old: DeckData | undefined) => {
+    onSuccess: (data) => {
+      // Rename the tag in the cache.
+      queryClient.setQueryData(['decks', data.tag.deckId], (old: DeckData | undefined) => {
         if (old) {
-          const filteredTags = old.tags.filter((tag) => tag.id !== tagId);
-          const index = indexObjectByText<TagData, 'tagName'>(filteredTags, tagName, 'tagName');
+          const filteredTags = old.tags.filter((tag) => tag.id !== data.tag.id);
+          const index = indexObjectByText<TagData, 'tagName'>(
+            filteredTags,
+            data.tag.tagName,
+            'tagName'
+          );
           return {
             ...old,
-            tags: [
-              ...filteredTags.slice(0, index),
-              { id: tagId, deckId, tagName },
-              ...filteredTags.slice(index),
-            ],
+            tags: [...filteredTags.slice(0, index), data.tag, ...filteredTags.slice(index)],
           };
         }
       });
-      // Return a rollback function.
-      return () => queryClient.setQueryData(['decks', deckId], previousDeck);
-    },
-    onError: (data, variables, rollback) => {
-      // If the mutation fails, roll back the optimistic updates.
-      if (rollback) rollback();
     },
     onSettled: (data, error, variables) => {
       // After either error or success, invalidate the decks and deck tags query cache to trigger a refetch.
