@@ -11,3 +11,10 @@
 .heading {
   font-size: 1.25rem;
 }
+
+.form {
+  display: flex;
+  align-items: first baseline;
+  gap: 0.25rem;
+  width: 100%;
+}

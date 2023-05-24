@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
+import TextInput from '../components/form/TextInput';
 import DeckTagItem from '../components/tag/DeckTagItem';
 import RenameTagForm from '../components/tag/RenameTagForm';
+import Button from '../components/ui/Button';
 import DeleteDialog from '../components/ui/DeleteDialog';
 import Modal from '../components/ui/Modal';
+import useAddTag from '../helpers/useAddTag';
 import useDeleteTag from '../helpers/useDeleteTag';
 import { useDeckContext } from '../layouts/EditDeckLayout';
 
@@ -11,6 +15,11 @@ import styles from './DeckTags.module.scss';
 
 import type { TagData } from '../../types';
 import type { MutableRefObject } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+
+interface FormValues {
+  tagName: string;
+}
 
 export default function DeckTags(): JSX.Element {
   const { deckId, deckTags } = useDeckContext();
@@ -21,6 +30,18 @@ export default function DeckTags(): JSX.Element {
   const [openModal, setOpenModal] = useState<null | 'delete' | 'rename'>(null);
 
   const deleteTag = useDeleteTag();
+  const addTag = useAddTag();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<FormValues>();
+
+  // Handler function for form submission
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
+    addTag.mutate({ deckId, tagName: data.tagName }, { onSuccess: () => reset() });
 
   const resetState = () => {
     modalSourceRef?.current?.focus();
@@ -61,6 +82,24 @@ export default function DeckTags(): JSX.Element {
           )}
         </Modal>
       )}
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <TextInput
+          register={register}
+          name='tagName'
+          label='New Tag'
+          errors={errors}
+          validation={{ required: true, maxLength: 100 }}
+        />
+        <Button
+          as='button'
+          type='submit'
+          size='lg'
+          rounded={false}
+          disabled={addTag.isLoading || !isValid}
+        >
+          {addTag.isLoading ? 'Adding...' : 'Add Tag'}
+        </Button>
+      </form>
       <ul>
         {deckTags.map((tag) => (
           <DeckTagItem
