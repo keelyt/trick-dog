@@ -85,7 +85,7 @@ export default function DeckSettings(): JSX.Element {
           <form onSubmit={handleSubmit(onSubmit)} className={styles.settings__rename}>
             <TextInput
               register={register}
-              name={'deckName'}
+              name='deckName'
               label='Deck Name'
               errors={errors}
               validation={{ required: true, maxLength: 100 }}

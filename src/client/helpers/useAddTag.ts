@@ -19,7 +19,7 @@ export default function useAddTag() {
 
   return useMutation<TagResponse, Error, AddTagParams, () => unknown>({
     mutationFn: async ({ deckId, tagName }: AddTagParams) =>
-      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/`, {
+      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
