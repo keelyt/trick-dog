@@ -46,7 +46,12 @@ export default function tagHandler(server: AppServer) {
 
     if (!tagId || isNaN(Number(tagId))) return new Response(400, {}, { error: 'Invalid tag ID.' });
 
-    if (schema.findBy('tag', { deckId, tagName }))
+    if (
+      schema.where(
+        'tag',
+        (tag) => tag.deckId === deckId && tag.id !== tagId && tag.tagName === tagName
+      ).length
+    )
       return new Response(
         422,
         {},
