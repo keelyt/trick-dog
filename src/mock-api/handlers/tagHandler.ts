@@ -18,6 +18,32 @@ export default function tagHandler(server: AppServer) {
       });
   });
 
+  server.post('/decks/:deckId/tags', (schema: AppSchema, request) => {
+    const { deckId } = request.params;
+
+    const { tagName } = JSON.parse(request.requestBody) as {
+      tagName: string;
+    };
+
+    if (!deckId || isNaN(Number(deckId)))
+      return new Response(400, {}, { error: 'Invalid deck ID.' });
+
+    if (schema.where('tag', (tag) => tag.deckId === deckId && tag.tagName === tagName).length)
+      return new Response(
+        422,
+        {},
+        { error: 'A tag with this name already exists in the current deck.' }
+      );
+
+    const tag = schema.create('tag', {
+      tagName,
+      deckId,
+      cardIds: [],
+    });
+
+    return tag;
+  });
+
   server.delete('/decks/:deckId/tags/:tagId', (schema: AppSchema, request) => {
     const { deckId, tagId } = request.params;
 
