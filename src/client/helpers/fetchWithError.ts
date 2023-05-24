@@ -3,6 +3,7 @@ import type { ServerError } from '../../types';
 /**
  * A React hook that fetches data from a URL and throws an error if the response status is not 200
  * or if the server returns an error message.
+ * @template T The type of the response data.
  * @param url The URL to fetch data from.
  * @param options The options for the fetch request.
  * @returns A promise that resolves to the response data.
