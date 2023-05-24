@@ -18,8 +18,8 @@ export default function deckHandler(server: AppServer) {
 
     if (!deckName) return new Response(400, {}, { error: 'Deck name is required.' });
 
-    const newDeck = schema.create('deck', { deckName });
-    return schema.findBy('deck', { id: newDeck.id });
+    const newDeck = schema.create('deck', { deckName, tagIds: [], cardIds: [] });
+    return newDeck;
   });
 
   server.get('/decks/:id', (schema: AppSchema, request) => {
