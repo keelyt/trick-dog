@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 
+import { useDeckContext } from './EditDeck';
 import CardsList from '../components/card/CardsList';
 import SearchForm from '../components/form/SearchForm';
 import TagSelect from '../components/tag/TagSelect';
@@ -9,7 +10,6 @@ import Button from '../components/ui/Button';
 import useEscapeKey from '../helpers/useEscapeKey';
 import useMediaMatch from '../helpers/useMediaMatch';
 import useOutsideClick from '../helpers/useOutsideClick';
-import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './DeckCards.module.scss';
 

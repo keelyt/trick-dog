@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 
+import { useDeckContext } from './EditDeck';
 import EditCardForm from '../components/card/EditCardForm';
-import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './AddCard.module.scss';
 
