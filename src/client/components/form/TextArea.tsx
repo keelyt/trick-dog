@@ -51,7 +51,7 @@ export default function TextArea<TFormValues extends FieldValues>({
         }}
       />
       {errors[name] && errors[name]?.type === 'required' && (
-        <ValidationError errorMessage='Required field' />
+        <ValidationError errorMessage={errors[name]?.message?.toString() || 'Required field'} />
       )}
     </div>
   );
