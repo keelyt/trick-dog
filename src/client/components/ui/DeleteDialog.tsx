@@ -1,6 +1,7 @@
 import { BsXCircle } from 'react-icons/bs';
 
 import Button from './Button';
+import FormError from '../form/FormError';
 
 import styles from './DeleteDialog.module.scss';
 
@@ -12,6 +13,7 @@ interface DeleteDialogProps {
   okLabel?: string;
   cancelLabel?: string;
   okDisabled: boolean;
+  error?: string;
 }
 
 export default function DeleteDialog({
@@ -22,6 +24,7 @@ export default function DeleteDialog({
   okLabel = 'Delete',
   cancelLabel = 'Cancel',
   okDisabled = false,
+  error,
 }: DeleteDialogProps): JSX.Element {
   return (
     <div
@@ -47,6 +50,7 @@ export default function DeleteDialog({
           {okLabel}
         </Button>
       </div>
+      {error && <FormError errorMessage={error} />}
     </div>
   );
 }
