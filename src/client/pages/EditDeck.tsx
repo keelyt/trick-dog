@@ -8,11 +8,11 @@ import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
 import useDeckData from '../helpers/useDeckData';
 
-import styles from './EditDeckLayout.module.scss';
+import styles from './EditDeck.module.scss';
 
 import type { TagData } from '../../types';
 
-export default function EditDeckLayout(): JSX.Element {
+export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
   const { deckId: id } = useParams();
 

@@ -1,13 +1,13 @@
 import { BsTrash3 } from 'react-icons/bs';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import { useDeckContext } from './EditDeck';
 import EditCardForm from '../components/card/EditCardForm';
 import Button from '../components/ui/Button';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
 import useCardData from '../helpers/useCardData';
 import useDeleteCard from '../helpers/useDeleteCard';
-import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './EditCard.module.scss';
 

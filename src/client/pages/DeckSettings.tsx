@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { useDeckContext } from './EditDeck';
 import FormError from '../components/form/FormError';
 import TextInput from '../components/form/TextInput';
 import Button from '../components/ui/Button';
@@ -9,7 +10,6 @@ import DeleteDialog from '../components/ui/DeleteDialog';
 import Modal from '../components/ui/Modal';
 import useDeleteDeck from '../helpers/useDeleteDeck';
 import useRenameDeck from '../helpers/useRenameDeck';
-import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './DeckSettings.module.scss';
 

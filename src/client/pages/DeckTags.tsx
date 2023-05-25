@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useDeckContext } from './EditDeck';
 import FormError from '../components/form/FormError';
 import TextInput from '../components/form/TextInput';
 import DeckTagItem from '../components/tag/DeckTagItem';
@@ -10,7 +11,6 @@ import DeleteDialog from '../components/ui/DeleteDialog';
 import Modal from '../components/ui/Modal';
 import useAddTag from '../helpers/useAddTag';
 import useDeleteTag from '../helpers/useDeleteTag';
-import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './DeckTags.module.scss';
 
