@@ -17,6 +17,7 @@ interface TextInputProps<TFormValues extends FieldValues> {
   validation?: RegisterOptions;
   errors: FieldErrors<TFormValues>;
   placeholder?: string;
+  showErrors?: boolean;
 }
 
 export default function TextInput<TFormValues extends FieldValues>({
@@ -26,6 +27,7 @@ export default function TextInput<TFormValues extends FieldValues>({
   validation = {},
   errors,
   placeholder = '',
+  showErrors = true,
 }: TextInputProps<TFormValues>): JSX.Element {
   return (
     <div className={styles['input-container']}>
@@ -41,12 +43,14 @@ export default function TextInput<TFormValues extends FieldValues>({
           className={styles.input}
         />
       </div>
-      {errors[name] && errors[name]?.type === 'required' && (
-        <ValidationError errorMessage='Required field' />
-      )}
-      {errors[name] && errors[name]?.type === 'maxLength' && (
-        <ValidationError errorMessage='Max length exceeded' />
-      )}
+      <div className={showErrors ? '' : styles['visually-hidden']}>
+        {errors[name] && errors[name]?.type === 'required' && (
+          <ValidationError errorMessage='Required field' />
+        )}
+        {errors[name] && errors[name]?.type === 'maxLength' && (
+          <ValidationError errorMessage='Max length exceeded' />
+        )}
+      </div>
     </div>
   );
 }
