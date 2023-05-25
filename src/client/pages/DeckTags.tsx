@@ -66,13 +66,14 @@ export default function DeckTags(): JSX.Element {
     setOpenModal(null);
     setModalSourceRef(null);
     setTargetTag(null);
+    deleteTag.reset();
   };
 
   const handleDeleteDialogOk = () => {
     // Close the dialog and return if the targetTag is null (this shouldn't happen).
-    if (targetTag === null) return resetState();
+    if (targetTag === null) resetState();
     // Delete the current tag.
-    deleteTag.mutate({ deckId, tagId: targetTag.id }, { onSuccess: () => resetState() });
+    else deleteTag.mutate({ deckId, tagId: targetTag.id }, { onSuccess: resetState });
   };
 
   return (
@@ -88,6 +89,12 @@ export default function DeckTags(): JSX.Element {
               text={`Are you sure you want to delete this tag?\nThis will remove it from all cards in this deck.`}
               okLabel={deleteTag.isLoading ? 'Deleting...' : 'Delete'}
               okDisabled={deleteTag.isLoading}
+              {...(deleteTag.isError && {
+                error:
+                  deleteTag.error instanceof Error
+                    ? deleteTag.error.message
+                    : 'An error occurred. Please try again.',
+              })}
             />
           )}
           {openModal === 'rename' && (
@@ -100,14 +107,14 @@ export default function DeckTags(): JSX.Element {
           )}
         </Modal>
       )}
-      <div className={styles.form__container}>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <div className={styles.form__inner}>
           <TextInput
             register={register}
             name='tagName'
             label='New Tag'
             errors={errors}
-            validation={{ required: true, maxLength: 50 }}
+            validation={{ required: 'Tag name is required', maxLength: 50 }}
             showErrors={showErrors}
           />
           <Button
@@ -119,9 +126,17 @@ export default function DeckTags(): JSX.Element {
           >
             {addTag.isLoading ? 'Adding...' : 'Add Tag'}
           </Button>
-        </form>
-        {addTag.isError && <FormError errorMessage={addTag.error.message} />}
-      </div>
+        </div>
+        {addTag.isError && (
+          <FormError
+            errorMessage={
+              addTag.error instanceof Error
+                ? addTag.error.message
+                : 'An error occurred while submitting the form. Please try again.'
+            }
+          />
+        )}
+      </form>
       <ul className={styles.list}>
         {deckTags.map((tag) => (
           <DeckTagItem

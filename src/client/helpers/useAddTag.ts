@@ -17,7 +17,7 @@ interface AddTagParams {
 export default function useAddTag() {
   const queryClient = useQueryClient();
 
-  return useMutation<TagResponse, Error, AddTagParams, () => unknown>({
+  return useMutation({
     mutationFn: async ({ deckId, tagName }: AddTagParams) =>
       fetchWithError<TagResponse>(`/api/decks/${deckId}/tags`, {
         method: 'POST',

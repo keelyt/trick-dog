@@ -25,14 +25,14 @@
 
 .form {
   display: flex;
-  align-items: first baseline;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0 0.75rem;
   gap: 0.25rem;
 
-  &__container {
+  &__inner {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0 0.75rem;
+    align-items: first baseline;
     gap: 0.25rem;
   }
 }

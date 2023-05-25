@@ -9,6 +9,7 @@ import useCardTagsData from '../../helpers/useCardTagsData';
 import useUpdateCard from '../../helpers/useUpdateCard';
 import Checkbox from '../form/Checkbox';
 import Fieldset from '../form/Fieldset';
+import FormError from '../form/FormError';
 import TextArea from '../form/TextArea';
 import Button from '../ui/Button';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -111,50 +112,60 @@ export default function EditCardForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <TextArea<FormValues>
-        register={register}
-        name={'question'}
-        label='Front'
-        errors={errors}
-        validation={{ required: true }}
-      />
-      <TextArea<FormValues>
-        register={register}
-        name={'answer'}
-        label='Back'
-        errors={errors}
-        validation={{ required: true }}
-      />
-      <Fieldset caption='Card Tags'>
-        {cardTagsQuery?.isError && (
-          <QueryError label='Unable to load tags' refetchFn={cardTagsQuery.refetch} />
-        )}
-        {cardTagsQuery?.isLoading && <LoadingSpinner />}
-        {(!cardTagsQuery || cardTagsQuery.isSuccess) &&
-          deckTags.map((tag) => (
-            <Checkbox<FormValues>
-              key={tag.id}
-              register={register}
-              name={'tags'}
-              label={tag.tagName}
-              value={tag.id}
-              id={tag.id.toString()}
-            />
-          ))}
-      </Fieldset>
-      <div className={styles.form__buttons}>
-        <Button
-          as='button'
-          type='submit'
-          disabled={mutateCard.isLoading || !isValid || cardTagsQuery?.isLoading}
-        >
-          {mutateCard.isLoading ? 'Saving...' : 'Save'}
-        </Button>
-        <Button as='link' href={`/decks/${deckId}/cards`} state={{ ...filterState }}>
-          Cancel
-        </Button>
-        {mutateCard.isError && <p>Error submitting. Please try again.</p>}
+      <div className={styles.form__inner}>
+        <TextArea<FormValues>
+          register={register}
+          name={'question'}
+          label='Front'
+          errors={errors}
+          validation={{ required: 'Front is required' }}
+        />
+        <TextArea<FormValues>
+          register={register}
+          name={'answer'}
+          label='Back'
+          errors={errors}
+          validation={{ required: 'Back is required' }}
+        />
+        <Fieldset caption='Card Tags'>
+          {cardTagsQuery?.isError && (
+            <QueryError label='Unable to load tags' refetchFn={cardTagsQuery.refetch} />
+          )}
+          {cardTagsQuery?.isLoading && <LoadingSpinner />}
+          {(!cardTagsQuery || cardTagsQuery.isSuccess) &&
+            deckTags.map((tag) => (
+              <Checkbox<FormValues>
+                key={tag.id}
+                register={register}
+                name={'tags'}
+                label={tag.tagName}
+                value={tag.id}
+                id={tag.id.toString()}
+              />
+            ))}
+        </Fieldset>
+        <div className={styles.form__buttons}>
+          <Button
+            as='button'
+            type='submit'
+            disabled={mutateCard.isLoading || !isValid || cardTagsQuery?.isLoading}
+          >
+            {mutateCard.isLoading ? 'Saving...' : 'Save'}
+          </Button>
+          <Button as='link' href={`/decks/${deckId}/cards`} state={{ ...filterState }}>
+            Cancel
+          </Button>
+        </div>
       </div>
+      {mutateCard.isError && (
+        <FormError
+          errorMessage={
+            mutateCard.error instanceof Error
+              ? mutateCard.error.message
+              : 'An error occurred while submitting the form. Please try again.'
+          }
+        />
+      )}
     </form>
   );
 }

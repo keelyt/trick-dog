@@ -48,29 +48,39 @@ export default function RenameTagForm({ deckId, tagId, initTagName, resetFn }: R
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(handleRenameSubmit)}>
-      <h1 className={styles.form__heading}>Rename Tag</h1>
-      <TextInput<FormValues>
-        register={register}
-        name='tagName'
-        label='Tag Name'
-        errors={errors}
-        validation={{ required: true, maxLength: 50 }}
-      />
-      <div className={styles.form__buttons}>
-        <Button as='button' type='button' onClick={resetFn} rounded={true}>
-          Cancel
-        </Button>
-        <Button
-          as='button'
-          type='submit'
-          aria-disabled={renameTag.isLoading}
-          disabled={renameTag.isLoading || !isValid}
-          rounded={true}
-        >
-          {renameTag.isLoading ? 'Renaming...' : 'Rename'}
-        </Button>
+      <div className={styles.form__inner}>
+        <h1 className={styles.form__heading}>Rename Tag</h1>
+        <TextInput<FormValues>
+          register={register}
+          name='tagName'
+          label='Tag Name'
+          errors={errors}
+          validation={{ required: 'Tag name is required', maxLength: 50 }}
+        />
+        <div className={styles.form__buttons}>
+          <Button as='button' type='button' onClick={resetFn} rounded={true}>
+            Cancel
+          </Button>
+          <Button
+            as='button'
+            type='submit'
+            aria-disabled={renameTag.isLoading}
+            disabled={renameTag.isLoading || !isValid}
+            rounded={true}
+          >
+            {renameTag.isLoading ? 'Renaming...' : 'Rename'}
+          </Button>
+        </div>
       </div>
-      {renameTag.isError && <FormError errorMessage={renameTag.error.message} />}
+      {renameTag.isError && (
+        <FormError
+          errorMessage={
+            renameTag.error instanceof Error
+              ? renameTag.error.message
+              : 'An error occurred while submitting the form. Please try again.'
+          }
+        />
+      )}
     </form>
   );
 }

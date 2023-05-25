@@ -45,10 +45,21 @@ export default function TextInput<TFormValues extends FieldValues>({
       </div>
       <div className={showErrors ? '' : styles['visually-hidden']}>
         {errors[name] && errors[name]?.type === 'required' && (
-          <ValidationError errorMessage='Required field' />
+          <ValidationError errorMessage={errors[name]?.message?.toString() || 'Required field'} />
         )}
         {errors[name] && errors[name]?.type === 'maxLength' && (
-          <ValidationError errorMessage='Max length exceeded' />
+          <ValidationError
+            errorMessage={`Max length
+              ${
+                validation.maxLength
+                  ? `of ${
+                      typeof validation.maxLength === 'number'
+                        ? validation.maxLength
+                        : validation.maxLength.value
+                    }`
+                  : ''
+              } exceeded`}
+          />
         )}
       </div>
     </div>

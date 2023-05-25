@@ -18,7 +18,7 @@ interface RenameTagParams {
 export default function useRenameTag() {
   const queryClient = useQueryClient();
 
-  return useMutation<TagResponse, Error, RenameTagParams, () => unknown>({
+  return useMutation({
     mutationFn: async ({ deckId, tagId, tagName }: RenameTagParams) =>
       fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, {
         method: 'PATCH',
