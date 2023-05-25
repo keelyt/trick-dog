@@ -38,12 +38,21 @@ export default function DeckTags(): JSX.Element {
     register,
     handleSubmit,
     reset,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<FormValues>({ mode: 'onChange' });
 
   // Handler function for form submission
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
-    addTag.mutate({ deckId, tagName: data.tagName }, { onSuccess: () => reset() });
+    addTag.mutate(
+      { deckId, tagName: data.tagName },
+      {
+        onSuccess: () => {
+          reset();
+          setFocus('tagName');
+        },
+      }
+    );
 
   // Hide errors when input is cleared.
   useEffect(() => {
