@@ -80,7 +80,7 @@ export default function DeckSettings(): JSX.Element {
         </Modal>
       )}
       <div className={styles.content}>
-        <h2 className={styles.heading}>Deck Settings</h2>
+        {/* <h2 className={styles.heading}>Deck Settings</h2> */}
         <div className={styles.settings}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.settings__rename}>
             <TextInput
