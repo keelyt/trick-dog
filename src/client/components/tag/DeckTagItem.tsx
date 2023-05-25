@@ -4,6 +4,8 @@ import { CiEdit } from 'react-icons/ci';
 
 import Button from '../ui/Button';
 
+import styles from './DeckTagItem.module.scss';
+
 import type { TagData } from '../../../types';
 import type { MutableRefObject } from 'react';
 
@@ -28,38 +30,42 @@ export default function DeckTagItem({
   const btnRenameRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <li>
-      {tagName}
-      <Button
-        ref={btnDeleteRef}
-        as='button'
-        type='button'
-        size='sm'
-        rounded={false}
-        ariaLabel='Delete tag'
-        onClick={() => {
-          setOpenModal('delete');
-          setTargetTag({ id: tagId, deckId, tagName });
-          setModalSourceRef(btnDeleteRef);
-        }}
-      >
-        <BsTrash3 aria-hidden='true' focusable='false' />
-      </Button>
-      <Button
-        ref={btnRenameRef}
-        as='button'
-        type='button'
-        size='sm'
-        rounded={false}
-        ariaLabel='Rename tag'
-        onClick={() => {
-          setOpenModal('rename');
-          setTargetTag({ id: tagId, deckId, tagName });
-          setModalSourceRef(btnRenameRef);
-        }}
-      >
-        <CiEdit aria-hidden='true' focusable='false' />
-      </Button>
+    <li className={styles.tag}>
+      <span className={styles.tag__text}>{tagName}</span>
+      <div className={styles.tag__buttons}>
+        <Button
+          ref={btnDeleteRef}
+          as='button'
+          type='button'
+          size='md'
+          rounded={false}
+          ariaLabel='Delete tag'
+          colorScheme='card'
+          onClick={() => {
+            setOpenModal('delete');
+            setTargetTag({ id: tagId, deckId, tagName });
+            setModalSourceRef(btnDeleteRef);
+          }}
+        >
+          <BsTrash3 aria-hidden='true' focusable='false' />
+        </Button>
+        <Button
+          ref={btnRenameRef}
+          as='button'
+          type='button'
+          size='md'
+          rounded={false}
+          ariaLabel='Rename tag'
+          colorScheme='card'
+          onClick={() => {
+            setOpenModal('rename');
+            setTargetTag({ id: tagId, deckId, tagName });
+            setModalSourceRef(btnRenameRef);
+          }}
+        >
+          <CiEdit aria-hidden='true' focusable='false' />
+        </Button>
+      </div>
     </li>
   );
 }
