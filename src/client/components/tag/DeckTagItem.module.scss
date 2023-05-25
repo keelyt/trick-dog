@@ -1,0 +1,27 @@
+@use '@styles/themes';
+
+.tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+  gap: 0.25rem;
+
+  @include themes.themed {
+    background-color: themes.t('bg-card');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+  }
+
+  &__text {
+    // Cut off text that exceeds 1 line
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

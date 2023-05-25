@@ -81,7 +81,7 @@
             "position": "after"
           },
           {
-            "pattern": "./*.scss",
+            "pattern": "{./*.scss,../../*/*.scss}",
             "group": "sibling",
             "position": "after"
           }

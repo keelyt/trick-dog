@@ -2,9 +2,7 @@
 @use '@styles/variables' as var;
 @use '@styles/containers';
 
-// TODO: make partially persistent on mobile
-
-.container {
+.navbar {
   width: 100%;
   position: sticky;
   top: 0;

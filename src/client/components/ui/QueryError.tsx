@@ -1,3 +1,5 @@
+import type { QueryObserverResult } from '@tanstack/react-query';
+
 import Button from './Button';
 
 import styles from './QueryError.module.scss';
@@ -7,7 +9,7 @@ export default function QueryError({
   refetchFn,
 }: {
   label: string;
-  refetchFn?: () => void;
+  refetchFn?: () => Promise<QueryObserverResult>;
 }): JSX.Element {
   return (
     <div className={styles.error}>

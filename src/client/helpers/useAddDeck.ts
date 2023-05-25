@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
+import indexObjectByText from './indexObjectByText';
 import { getCardsQueryKey } from './useInfiniteCardsData';
 
 import type { DeckData, DeckResponse } from '../../types';
@@ -30,14 +31,11 @@ export default function useAddDeck() {
         tags: [],
       };
       // Optimistically update the deck list with the new deck.
-      // TODO: Since this is adding one element to a sorted array, could be done more efficiently.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        [...(old ?? []), optimisticDeck].sort((a, b) => {
-          if (a.deckName.toLowerCase() > b.deckName.toLowerCase()) return 1;
-          if (b.deckName.toLowerCase() > a.deckName.toLowerCase()) return -1;
-          return 0;
-        })
-      );
+      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) => {
+        if (!old) return [optimisticDeck];
+        const index = indexObjectByText<DeckData, 'deckName'>(old, deckName, 'deckName');
+        return [...old.slice(0, index), optimisticDeck, ...old.slice(index)];
+      });
       // Return context with the optimistic deck.
       return { optimisticDeck, previousDecks };
     },

@@ -2,6 +2,7 @@
 @use '@styles/variables' as var;
 
 .list-container {
+  grid-area: main;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -75,7 +75,7 @@ const Button = forwardRef(
       ariaExpanded,
       children,
     }: ButtonProps,
-    ref?: ForwardedRef<HTMLButtonElement>
+    ref?: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     const classes = `${styles.button} ${styles[`button--${size}`]} ${
       styles[`button--${colorScheme}`]
@@ -89,7 +89,12 @@ const Button = forwardRef(
       };
 
       return (
-        <Link to={href} {...linkAttributes} className={classes}>
+        <Link
+          to={href}
+          {...linkAttributes}
+          className={classes}
+          ref={ref as ForwardedRef<HTMLAnchorElement>}
+        >
           {children}
         </Link>
       );
@@ -105,7 +110,11 @@ const Button = forwardRef(
       };
 
       return (
-        <button ref={ref} className={classes} {...buttonAttributes}>
+        <button
+          ref={ref as ForwardedRef<HTMLButtonElement>}
+          className={classes}
+          {...buttonAttributes}
+        >
           {children}
         </button>
       );

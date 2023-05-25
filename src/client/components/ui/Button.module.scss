@@ -21,10 +21,6 @@
     cursor: not-allowed;
   }
 
-  @media (max-width: var.$breakpoint-sm) {
-    white-space: normal;
-  }
-
   &--lg {
     font-size: 1rem;
     padding: 0.5rem 1.5rem;

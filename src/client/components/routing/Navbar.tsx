@@ -34,7 +34,7 @@ export default function Navbar(): JSX.Element {
   const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
 
   return (
-    <div className={`${styles.container} ${navbarHidden ? styles['container--hidden'] : ''}`}>
+    <div className={`${styles.navbar} ${navbarHidden ? styles['navbar--hidden'] : ''}`}>
       <nav className={styles.nav}>
         <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--logo']}`}>
           <Logo className={styles.nav__logo} />

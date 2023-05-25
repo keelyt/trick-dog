@@ -41,6 +41,9 @@ export interface TagData {
   deckId: number;
 }
 
+export interface TagResponse {
+  tag: TagData;
+}
 export interface TagsResponse {
   tags: TagData[];
 }

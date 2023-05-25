@@ -17,7 +17,7 @@ export default function Deck({ deckId, deckName, cardCount }: DeckProps): JSX.El
 
   return (
     <li onMouseEnter={prefetchCards}>
-      <Link to={`/decks/${deckId}`} className={styles.deck}>
+      <Link to={`/decks/${deckId}/cards`} className={styles.deck}>
         <h2 className={styles.deck__title}>{deckName}</h2>
         <p className={styles.deck__details}>
           {cardCount} card{cardCount === 1 ? '' : 's'}
