@@ -6,7 +6,6 @@ import type { UseMutationResult } from '@tanstack/react-query';
 
 import useAddCard from '../../helpers/useAddCard';
 import useCardTagsData from '../../helpers/useCardTagsData';
-import useDeckTagsData from '../../helpers/useDeckTagsData';
 import useUpdateCard from '../../helpers/useUpdateCard';
 import Checkbox from '../form/Checkbox';
 import Fieldset from '../form/Fieldset';
@@ -21,6 +20,7 @@ import type {
   AddCardParams,
   CardResponse,
   CardsFilterState,
+  TagData,
   UpdateCardParams,
 } from '../../../types';
 
@@ -32,6 +32,7 @@ interface FormValues {
 
 interface EditCardFormProps {
   deckId: number;
+  deckTags: TagData[];
   cardId?: number;
   initQuestion: string;
   initAnswer: string;
@@ -40,6 +41,7 @@ interface EditCardFormProps {
 
 export default function EditCardForm({
   deckId,
+  deckTags,
   cardId,
   initQuestion,
   initAnswer,
@@ -47,7 +49,6 @@ export default function EditCardForm({
 }: EditCardFormProps): JSX.Element {
   const navigate = useNavigate();
   const mutateCard = cardId !== undefined ? useUpdateCard(filterState) : useAddCard(filterState);
-  const deckTagsQuery = useDeckTagsData(deckId);
   const cardTagsQuery = cardId !== undefined ? useCardTagsData(deckId, cardId) : null;
 
   const {
@@ -105,8 +106,8 @@ export default function EditCardForm({
 
   // Unregister the tags if there are query errors.
   useEffect(() => {
-    if (cardTagsQuery?.isError || deckTagsQuery.isError) unregister('tags');
-  }, [cardTagsQuery?.isError, deckTagsQuery.isError]);
+    if (cardTagsQuery?.isError) unregister('tags');
+  }, [cardTagsQuery?.isError]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -125,19 +126,12 @@ export default function EditCardForm({
         validation={{ required: true }}
       />
       <Fieldset caption='Card Tags'>
-        {(deckTagsQuery.isError || cardTagsQuery?.isError) && (
-          <QueryError
-            label='Unable to load tags'
-            refetchFn={() => {
-              if (deckTagsQuery.isError) deckTagsQuery.refetch;
-              if (cardTagsQuery?.isError) cardTagsQuery.refetch;
-            }}
-          />
+        {cardTagsQuery?.isError && (
+          <QueryError label='Unable to load tags' refetchFn={cardTagsQuery.refetch} />
         )}
-        {(deckTagsQuery.isLoading || cardTagsQuery?.isLoading) && <LoadingSpinner />}
-        {deckTagsQuery.isSuccess &&
-          (!cardTagsQuery || cardTagsQuery.isSuccess) &&
-          deckTagsQuery.data.map((tag) => (
+        {cardTagsQuery?.isLoading && <LoadingSpinner />}
+        {(!cardTagsQuery || cardTagsQuery.isSuccess) &&
+          deckTags.map((tag) => (
             <Checkbox<FormValues>
               key={tag.id}
               register={register}
@@ -152,9 +146,7 @@ export default function EditCardForm({
         <Button
           as='button'
           type='submit'
-          disabled={
-            mutateCard.isLoading || !isValid || deckTagsQuery.isLoading || cardTagsQuery?.isLoading
-          }
+          disabled={mutateCard.isLoading || !isValid || cardTagsQuery?.isLoading}
         >
           {mutateCard.isLoading ? 'Saving...' : 'Save'}
         </Button>

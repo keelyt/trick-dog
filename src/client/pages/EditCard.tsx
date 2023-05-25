@@ -7,6 +7,7 @@ import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
 import useCardData from '../helpers/useCardData';
 import useDeleteCard from '../helpers/useDeleteCard';
+import { useDeckContext } from '../layouts/EditDeckLayout';
 
 import styles from './EditCard.module.scss';
 
@@ -14,11 +15,11 @@ import type { CardsFilterState } from '../../types';
 import type { Location } from 'react-router-dom';
 
 export default function EditCard(): JSX.Element {
-  const params = useParams<'deckId' | 'cardId'>();
+  const { deckId, deckTags } = useDeckContext();
+  const params = useParams<'cardId'>();
   const navigate = useNavigate();
   const location: Location = useLocation();
 
-  const deckId = Number(params.deckId!);
   const cardId = Number(params.cardId!);
   const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
   const search: string = location.state ? (location.state as CardsFilterState).search : '';
@@ -66,6 +67,7 @@ export default function EditCard(): JSX.Element {
       {cardQuery.isSuccess && (
         <EditCardForm
           deckId={deckId}
+          deckTags={deckTags}
           cardId={cardId}
           initQuestion={cardQuery.data.question}
           initAnswer={cardQuery.data.answer}
