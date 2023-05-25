@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 
 import CardsList from '../components/card/CardsList';
@@ -14,6 +15,7 @@ import styles from './DeckCards.module.scss';
 
 import type { CardsFilterState } from '../../types';
 import type { ChangeEvent } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 import type { Location } from 'react-router-dom';
 
 // TODO: For now, will only give ability to sort newest to oldest.
@@ -25,6 +27,10 @@ import type { Location } from 'react-router-dom';
 // Add the ability to select and delete multiple and then use a delete confirmation dialog
 // (e.g. "Are you sure you want to delete the 10 selected cards?")
 
+interface FormValues {
+  searchInput: string;
+}
+
 export default function DeckCards(): JSX.Element {
   const { deckId, deckTags } = useDeckContext();
   const location: Location = useLocation();
@@ -35,10 +41,8 @@ export default function DeckCards(): JSX.Element {
   const [search, setSearch] = useState<string>(
     location.state ? (location.state as CardsFilterState).search : ''
   );
-  const [searchValue, setSearchValue] = useState<string>(
-    location.state ? (location.state as CardsFilterState).search : ''
-  );
   const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [searchInputFocused, setSearchInputFocused] = useState<boolean>(false);
 
   // This is used to adjust the label visibility and placeholder text of the filters
   // based on window size. The media query must match the width at which the the filter
@@ -47,7 +51,12 @@ export default function DeckCards(): JSX.Element {
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const filtersToggleRef = useRef<HTMLButtonElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const { register, handleSubmit, getValues } = useForm<FormValues>({
+    defaultValues: {
+      searchInput: location.state ? (location.state as CardsFilterState).search : '',
+    },
+  });
 
   const toggleFilters = () => setShowFilters((prevShowFilters) => !prevShowFilters);
   const hideFilters = () => {
@@ -58,7 +67,7 @@ export default function DeckCards(): JSX.Element {
   };
   useEscapeKey(() => {
     // If user focus is in search input element and search is not empty, allow ESC to clear input.
-    if (searchValue && searchInputRef.current === document.activeElement) return;
+    if (getValues('searchInput') && searchInputFocused) return;
     hideFilters();
   });
   useOutsideClick(hideFilters, filtersRef);
@@ -69,14 +78,9 @@ export default function DeckCards(): JSX.Element {
     else setTag(Number(newSelection));
   };
 
-  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-    if (event.target.value.length === 0) setSearch('');
-  };
-
-  const handleSearchSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSearch((event.target.search as HTMLInputElement).value);
+  // Handler function for form submission
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+    setSearch(data.searchInput);
   };
 
   return (
@@ -106,16 +110,15 @@ export default function DeckCards(): JSX.Element {
           >
             <div className={styles.filters__search}>
               <SearchForm
-                onChange={handleSearchChange}
-                onSubmit={handleSearchSubmit}
-                value={searchValue}
-                maxLength={50}
+                register={register}
+                name='searchInput'
+                onSubmit={handleSubmit(onSubmit)}
                 placeholder={mediaMatch ? 'Search...' : 'Search cards by text'}
                 label='Search Cards by Text'
                 showLabel={mediaMatch}
                 rounded={true}
                 colorScheme={mediaMatch ? 'dropdown' : 'main'}
-                ref={searchInputRef}
+                setFocused={setSearchInputFocused}
               />
             </div>
             <div className={styles.filters__select}>
