@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import useAddDeck from '../../helpers/useAddDeck';
+import FormError from '../form/FormError';
 import TextInput from '../form/TextInput';
 import Button from '../ui/Button';
 
@@ -43,28 +44,39 @@ export default function AddDeckForm({ onCancel }: { onCancel: () => void }) {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className={styles.form__heading}>Create Deck</h1>
-      <TextInput<FormValues>
-        register={register}
-        name='name'
-        label='Deck Name'
-        errors={errors}
-        validation={{ required: true, maxLength: 100 }}
-      />
-      <div className={styles.form__buttons}>
-        <Button as='button' type='button' onClick={onCancel} rounded={true}>
-          Cancel
-        </Button>
-        <Button
-          as='button'
-          type='submit'
-          aria-disabled={addDeck.isLoading}
-          disabled={addDeck.isLoading || !isValid}
-          rounded={true}
-        >
-          {addDeck.isLoading ? 'Creating Deck...' : 'Create Deck'}
-        </Button>
+      <div className={styles.form__inner}>
+        <h1 className={styles.form__heading}>Create Deck</h1>
+        <TextInput<FormValues>
+          register={register}
+          name='name'
+          label='Deck Name'
+          errors={errors}
+          validation={{ required: 'Deck name is required', maxLength: 100 }}
+        />
+        <div className={styles.form__buttons}>
+          <Button as='button' type='button' onClick={onCancel} rounded={true}>
+            Cancel
+          </Button>
+          <Button
+            as='button'
+            type='submit'
+            aria-disabled={addDeck.isLoading}
+            disabled={addDeck.isLoading || !isValid}
+            rounded={true}
+          >
+            {addDeck.isLoading ? 'Creating Deck...' : 'Create Deck'}
+          </Button>
+        </div>
       </div>
+      {addDeck.isError && (
+        <FormError
+          errorMessage={
+            addDeck.error instanceof Error
+              ? addDeck.error.message
+              : 'An error occurred while submitting the form. Please try again.'
+          }
+        />
+      )}
     </form>
   );
 }
