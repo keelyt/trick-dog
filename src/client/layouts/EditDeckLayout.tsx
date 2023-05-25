@@ -38,7 +38,7 @@ export default function EditDeckLayout(): JSX.Element {
                   ? deckQuery.error.message
                   : 'Error retrieving information from server.'
               }
-              refetchFn={() => deckQuery.refetch()}
+              refetchFn={deckQuery.refetch}
             />
           </div>
         )}
