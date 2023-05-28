@@ -1,0 +1,57 @@
+.deck {
+}
+
+.toggle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: inherit;
+  padding: 0.5rem;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+
+  &__icon {
+    margin: auto;
+
+    transition: transform 0.3s;
+
+    &--expanded {
+      transform: rotateX(180deg);
+    }
+  }
+}
+
+.tags-list {
+  display: block;
+  transition: all 0.5s linear;
+
+  &--expanded {
+    height: auto;
+  }
+
+  &--collapsed {
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+.tag {
+}
+
+.label {
+  &--deck {
+  }
+
+  &--tag {
+  }
+}
+
+.input {
+  &--deck {
+  }
+
+  &--tag {
+  }
+}
