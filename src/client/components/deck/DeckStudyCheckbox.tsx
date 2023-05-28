@@ -28,6 +28,7 @@ export default function DeckStudyCheckbox({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const deckRef = useRef<HTMLInputElement | null>(null);
+  const nestedCheckboxesRefs = useRef<HTMLInputElement[]>([]);
 
   // Uncheck the deck checkbox and make indeterminate if any of its tags are checked
   useEffect(() => {
@@ -43,7 +44,15 @@ export default function DeckStudyCheckbox({
         name={name}
         id={deckId.toString()}
         value={deckId}
-        onChange={onChange}
+        onChange={async (e) => {
+          if (e.target.checked) {
+            // Uncheck the nested checkboxes
+            nestedCheckboxesRefs.current.forEach((checkboxRef) => {
+              checkboxRef.checked = false;
+            });
+          }
+          await onChange(e);
+        }}
         ref={(e) => {
           ref(e);
           deckRef.current = e;
@@ -75,15 +84,19 @@ export default function DeckStudyCheckbox({
             {tags.map((tag) => (
               <li key={`${deckId}-${tag.id}`} className={styles.tag}>
                 <input
-                  {...register(name, { required: true })}
+                  {...rest}
                   type='checkbox'
                   name={name}
                   id={`${deckId}-${tag.id}`}
                   value={`${deckId}-${tag.id}`}
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     if (e.target.checked) setTagCount((tagCount) => tagCount + 1);
                     else setTagCount((tagCount) => tagCount - 1);
-                    void onChange(e);
+                    await onChange(e);
+                  }}
+                  ref={(e) => {
+                    ref(e);
+                    if (e) nestedCheckboxesRefs.current.push(e);
                   }}
                   className={`${styles.input} ${styles['input--tag']}`}
                 />
