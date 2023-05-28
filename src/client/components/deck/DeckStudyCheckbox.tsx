@@ -30,6 +30,11 @@ export default function DeckStudyCheckbox({
   const deckRef = useRef<HTMLInputElement | null>(null);
   const nestedCheckboxesRefs = useRef<HTMLInputElement[]>([]);
 
+  // Set the initial tag count
+  useEffect(() => {
+    setTagCount(nestedCheckboxesRefs.current.filter((checkboxRef) => checkboxRef.checked).length);
+  }, []);
+
   // Uncheck the deck checkbox and make indeterminate if any of its tags are checked
   useEffect(() => {
     if (deckRef.current) deckRef.current.indeterminate = tagCount > 0;

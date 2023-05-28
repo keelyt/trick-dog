@@ -8,5 +8,9 @@ export default function Study() {
 
   const selection = selectionParam.get('sel');
 
-  return selection ? <StudyReviewer /> : <StudySelection setSelectionParam={setSelectionParam} />;
+  return selection ? (
+    <StudyReviewer selection={selection} />
+  ) : (
+    <StudySelection setSelectionParam={setSelectionParam} />
+  );
 }

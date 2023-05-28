@@ -4,5 +4,8 @@
   margin: 0 auto;
 }
 
-.list {
+.form {
+  &__list {
+    list-style: none;
+  }
 }

@@ -25,6 +25,7 @@
 
 .tags-list {
   display: block;
+  list-style: none;
   transition: all 0.5s linear;
 
   &--expanded {

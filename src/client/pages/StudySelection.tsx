@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 
 import DeckStudyCheckbox from '../components/deck/DeckStudyCheckbox';
 import FormError from '../components/form/FormError';
@@ -22,12 +23,18 @@ interface StudySelectionProps {
 export default function StudySelection({ setSelectionParam }: StudySelectionProps): JSX.Element {
   const decksQuery = useDecksData();
 
+  const location = useLocation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<StudyFormValues>({
-    defaultValues: { selection: [] },
+    defaultValues: {
+      selection: location.state
+        ? (location.state as { selection: string }).selection.split(',')
+        : [],
+    },
   });
   const onSubmit = (data: StudyFormValues) => {
     setSelectionParam({ sel: data.selection.join(',') });
@@ -42,7 +49,7 @@ export default function StudySelection({ setSelectionParam }: StudySelectionProp
               ? decksQuery.error.message
               : 'Error retrieving information from server.'
           }
-          refetchFn={() => decksQuery.refetch()}
+          refetchFn={decksQuery.refetch}
         />
       ) : (
         <>
@@ -52,7 +59,7 @@ export default function StudySelection({ setSelectionParam }: StudySelectionProp
               <LoadingIndicator />
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
               <ul className={styles.form__list}>
                 {decksQuery.data.map((deck: DeckData) => (
                   <DeckStudyCheckbox
@@ -66,7 +73,7 @@ export default function StudySelection({ setSelectionParam }: StudySelectionProp
                 ))}
               </ul>
               {errors.selection && errors.selection.type === 'required' && (
-                <FormError errorMessage={'Please make a selection.'} />
+                <FormError errorMessage='Please make a selection.' />
               )}
               <button type='submit'>Study</button>
             </form>
