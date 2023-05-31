@@ -42,8 +42,12 @@ export default function DeckStudyCheckbox({
   }, [tagCount]);
 
   return (
-    <li className={styles.deck}>
-      <div className={`${styles.checkbox} ${styles['checkbox--deck']}`}>
+    <li>
+      <div
+        className={`${styles.checkbox} ${styles['checkbox--deck']} ${
+          expanded ? styles['checkbox--expanded'] : ''
+        }`}
+      >
         <input
           {...rest}
           type='checkbox'
@@ -64,7 +68,7 @@ export default function DeckStudyCheckbox({
             ref(e);
             deckRef.current = e;
           }}
-          className={`${styles.input} ${styles['input--deck']}`}
+          className={styles.input}
         />
         <label htmlFor={deckId.toString()} className={`${styles.label} ${styles['label--deck']}`}>
           {deckName}
@@ -72,6 +76,7 @@ export default function DeckStudyCheckbox({
         {tags.length > 0 && (
           <button
             type='button'
+            title={expanded ? 'Hide tag filters' : 'Show tag filters'}
             aria-expanded={expanded}
             aria-controls={`tl-${deckId}`}
             aria-label={
@@ -93,12 +98,10 @@ export default function DeckStudyCheckbox({
       {tags.length > 0 && (
         <div
           id={`tl-${deckId}`}
-          className={`${styles['tags-list']} ${
-            styles[`tags-list--${expanded ? 'expanded' : 'collapsed'}`]
-          }`}
+          className={`${styles.tags} ${expanded ? '' : styles['tags--collapsed']}`}
         >
-          <span>Narrow selection by tag:</span>
-          <ul>
+          <h3 className={styles.tags__heading}>Narrow by tag:</h3>
+          <ul className={styles.tags__list}>
             {tags.map((tag, i) => (
               <li
                 key={`${deckId}-${tag.id}`}
@@ -119,7 +122,7 @@ export default function DeckStudyCheckbox({
                     ref(e);
                     nestedCheckboxesRefs.current[i] = e;
                   }}
-                  className={`${styles.input} ${styles['input--tag']}`}
+                  className={styles.input}
                 />
                 <label
                   htmlFor={`${deckId}-${tag.id}`}

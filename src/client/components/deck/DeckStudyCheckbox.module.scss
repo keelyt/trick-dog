@@ -1,58 +1,160 @@
-.deck {
+@use '@styles/themes';
+@use '@styles/containers';
+
+.checkbox {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-radius: 0.25rem;
+
+  @include themes.themed {
+    &--deck {
+      background-color: themes.t('bg-checkbox-deck');
+    }
+  }
+
+  &--tag {
+    margin: 0;
+  }
+
+  &--expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.input {
+  position: absolute;
+  top: calc(50% - 0.625rem);
+  left: 0.75rem;
+  height: 1.25rem;
+  width: 1.25rem;
+
+  &:checked + label::before,
+  &:indeterminate + label::before {
+    @include themes.themed {
+      background-color: themes.t('border-form-element');
+      border-color: themes.t('bg-checkbox-input');
+    }
+  }
+
+  &:checked + label::after,
+  &:indeterminate + label::after {
+    opacity: 1;
+  }
+
+  &:checked + label::after {
+    top: calc(50% - 0.5625rem);
+    left: 1.125rem;
+    height: 0.95rem;
+    width: 0.475rem;
+    border-bottom: 0.125rem solid;
+    border-right: 0.125rem solid;
+    transform: rotate(45deg);
+  }
+
+  &:indeterminate + label::after {
+    top: calc(50% - 0.0625rem);
+    left: 1.075rem;
+    height: 0rem;
+    width: 0.6rem;
+    border-right: none;
+    border-bottom: 0.125rem solid;
+    transform: unset;
+  }
+}
+
+.label {
+  flex-grow: 1;
+  cursor: pointer;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+
+  &--deck {
+    padding: 0.75rem 0 0.75rem 2.7rem;
+  }
+
+  &--tag {
+    padding: 0.25rem 0 0.25rem 2.7rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 0.625rem);
+    left: 0.75rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    border: 0.125rem solid;
+
+    @include themes.themed {
+      background-color: themes.t('bg-checkbox-input');
+      border-color: themes.t('border-form-element');
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+
+    @include themes.themed {
+      border-color: themes.t('text');
+    }
+  }
+}
+
+.tags {
+  display: block;
+  list-style: none;
+  height: fit-content;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-left: 2px solid;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+
+  @include themes.themed {
+    background-color: themes.t('bg-checkbox-tags');
+    border-color: themes.t('bg-checkbox-deck');
+  }
+
+  &--collapsed:not(:focus-within) {
+    @include containers.visually-hidden;
+  }
+
+  &__heading {
+    margin: 0;
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0.25rem 0 0 10%;
+  }
+
+  &__list {
+    padding-left: 10%;
+  }
 }
 
 .toggle {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  background: transparent;
+  background-color: transparent;
   color: inherit;
-  padding: 0.5rem;
+  padding: 0 0.75rem;
   border: none;
   font-size: 1em;
   cursor: pointer;
 
   &__icon {
     margin: auto;
-
     transition: transform 0.3s;
 
     &--expanded {
       transform: rotateX(180deg);
     }
-  }
-}
-
-.tags-list {
-  display: block;
-  list-style: none;
-  transition: all 0.5s linear;
-
-  &--expanded {
-    height: auto;
-  }
-
-  &--collapsed {
-    height: 0;
-    overflow: hidden;
-  }
-}
-
-.tag {
-}
-
-.label {
-  &--deck {
-  }
-
-  &--tag {
-  }
-}
-
-.input {
-  &--deck {
-  }
-
-  &--tag {
   }
 }
