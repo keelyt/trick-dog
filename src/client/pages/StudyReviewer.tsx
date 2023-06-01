@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
+import BackButton from '../components/ui/BackButton';
+
+import styles from './StudyReviewer.module.scss';
 
 export default function StudyReviewer({ selection }: { selection: string }) {
   return (
-    <div>
-      <Link to='/study' state={{ selection }}>
-        Modify Selection
-      </Link>
+    <main className={styles.content}>
+      <BackButton href='/study' label='ModifySelection' state={{ selection }} />
       <h1>Review your cards:</h1>
-    </div>
+    </main>
   );
 }
