@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { usePrefetchInfiniteCards } from '../../helpers/useInfiniteCardsData';
+import { usePrefetchInfiniteCards } from '../../helpers/useGetInfiniteCards';
 
 import styles from './Deck.module.scss';
 

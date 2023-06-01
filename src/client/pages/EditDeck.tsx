@@ -6,7 +6,7 @@ import { NavLink, Outlet, useMatch, useOutletContext, useParams } from 'react-ro
 import BackButton from '../components/ui/BackButton';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
-import useDeckData from '../helpers/useDeckData';
+import useGetDeck from '../helpers/useGetDeck';
 
 import styles from './EditDeck.module.scss';
 
@@ -20,7 +20,7 @@ export default function EditDeck(): JSX.Element {
 
   const containerFixed = useMatch('/decks/:deckId/cards');
 
-  const deckQuery = useDeckData(deckId);
+  const deckQuery = useGetDeck(deckId);
 
   return (
     <div className={`${styles.container} ${containerFixed ? styles['container--fixed'] : ''}`}>

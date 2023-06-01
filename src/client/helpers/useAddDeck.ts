@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from './fetchWithError';
 import indexObjectByText from './indexObjectByText';
-import { getCardsQueryKey } from './useInfiniteCardsData';
+import { getCardsQueryKey } from './useGetInfiniteCards';
 
 import type { DeckData, DeckResponse } from '../../types';
 

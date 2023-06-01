@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import { BsTrash3 } from 'react-icons/bs';
 import { CiEdit } from 'react-icons/ci';
 
-import { usePrefetchCardTagsData } from '../../helpers/useCardTagsData';
 import useDeleteCard from '../../helpers/useDeleteCard';
+import { usePrefetchCardTags } from '../../helpers/useGetCardTags';
 import Button from '../ui/Button';
 
 import styles from './CardListItem.module.scss';
@@ -25,7 +25,7 @@ const CardListItem = forwardRef(
     ref?: ForwardedRef<HTMLLIElement>
   ) => {
     const deleteCard = useDeleteCard();
-    const prefetchTags = usePrefetchCardTagsData(deckId, cardId);
+    const prefetchTags = usePrefetchCardTags(deckId, cardId);
 
     return (
       <li ref={ref} className={styles.card}>

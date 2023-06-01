@@ -6,7 +6,7 @@ import Button from '../components/ui/Button';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
 import Modal from '../components/ui/Modal';
 import QueryError from '../components/ui/QueryError';
-import useDecksData from '../helpers/useDecksData';
+import useGetDecks from '../helpers/useGetDecks';
 
 import styles from './Decks.module.scss';
 
@@ -15,7 +15,7 @@ import type { DeckData } from '../../types';
 export default function Decks(): JSX.Element {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const btnAddRef = useRef<HTMLButtonElement>(null);
-  const decksQuery = useDecksData();
+  const decksQuery = useGetDecks();
 
   const handleFormClose = () => {
     setModalIsOpen(false);

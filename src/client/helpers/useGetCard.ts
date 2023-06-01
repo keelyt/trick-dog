@@ -10,7 +10,7 @@ import type { CardResponse, CardData } from '../../types';
  * @param cardId The ID of the card to fetch data for.
  * @returns The result of the query.
  */
-export default function useCardData(deckId: number, cardId: number) {
+export default function useGetCard(deckId: number, cardId: number) {
   return useQuery({
     queryKey: ['decks', deckId, 'cards', cardId],
     queryFn: async ({ signal }): Promise<CardData> => {

@@ -9,7 +9,7 @@ import type { TagData, TagsResponse } from '../../types';
  * @param deckId The ID of the deck to fetch cards from.
  * @returns The result of the query.
  */
-export default function useDeckTagsData(deckId: number) {
+export default function useGetDeckTags(deckId: number) {
   return useQuery({
     queryKey: ['decks', deckId, 'tags'],
     queryFn: async ({ signal }): Promise<TagData[]> => {

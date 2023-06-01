@@ -7,7 +7,7 @@ import FormError from '../components/form/FormError';
 import Button from '../components/ui/Button';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
-import useDecksData from '../helpers/useDecksData';
+import useGetDecks from '../helpers/useGetDecks';
 
 import styles from './StudySelection.module.scss';
 
@@ -23,7 +23,7 @@ interface StudySelectionProps {
 }
 
 export default function StudySelection({ setSelectionParam }: StudySelectionProps): JSX.Element {
-  const decksQuery = useDecksData();
+  const decksQuery = useGetDecks();
 
   const location = useLocation();
 
