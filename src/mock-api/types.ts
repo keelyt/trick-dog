@@ -16,6 +16,9 @@ export interface Card {
   attemptCount: number;
   correctCount: number;
   dateCreated: string;
+  difficulty: number;
+  daysBetweenReview: number;
+  dateLastReviewed: string;
   tags: Tag[];
   tagIds: string[];
 }

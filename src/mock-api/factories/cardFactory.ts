@@ -15,9 +15,18 @@ export const cardFactory = Factory.extend({
     return faker.date.past().toString();
   },
   attemptCount() {
-    return faker.datatype.number({ min: 2, max: 25 });
+    return 0;
   },
   correctCount() {
-    return faker.datatype.number({ min: 2, max: 25 });
+    return 0;
+  },
+  difficulty() {
+    return 0.3;
+  },
+  daysBetweenReview() {
+    return 3;
+  },
+  dateLastReviewed() {
+    return '';
   },
 });
