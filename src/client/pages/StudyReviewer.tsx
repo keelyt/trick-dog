@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
@@ -17,6 +17,22 @@ export default function StudyReviewer({ selection }: { selection: string }) {
 
   const cardsQuery = useGetStudyCards(selection);
   const updateDifficulty = useUpdateCardDifficulty();
+
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent) => {
+      if (![' ', '1', '2', '3'].includes(event.key)) return;
+      if (event.key === ' ' && !answerRevealed) setAnswerRevealed(true);
+      else if (['1', '2', '3'].includes(event.key) && answerRevealed)
+        handleSubmit(['Easy', 'Medium', 'Hard'][Number(event.key) - 1]);
+    },
+    [answerRevealed, cardsQuery.data, currentIndex, mutatingLast]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeydown);
+    // Return cleanup function.
+    return () => document.removeEventListener('keydown', handleKeydown);
+  }, [handleKeydown]);
 
   const handleSubmit = (difficulty: string) => {
     if (!answerRevealed || !cardsQuery.data || !cardsQuery.data[currentIndex] || mutatingLast)
@@ -74,18 +90,20 @@ export default function StudyReviewer({ selection }: { selection: string }) {
           as='button'
           type='button'
           colorScheme='secondary'
+          title='Press space bar on keyboard'
           onClick={() => setAnswerRevealed(true)}
         >
           Show Answer
         </Button>
       )}
       {answerRevealed &&
-        ['Easy', 'Medium', 'Hard'].map((difficulty) => (
+        ['Easy', 'Medium', 'Hard'].map((difficulty, i) => (
           <Button
             key={difficulty}
             as='button'
             type='button'
             colorScheme='secondary'
+            title={`Press ${[1, 2, 3][i]} on keyboard`}
             onClick={() => handleSubmit(difficulty)}
           >
             {difficulty}
