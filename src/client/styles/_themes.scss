@@ -37,6 +37,7 @@ $themes: (
     shadow-nav: var.$shadow-nav--light,
     text: var.$text--light,
     text-form-element-placeholder: var.$text-form-element-placeholder--light,
+    text-transparent: var.$text-transparent--light,
   ),
   dark: (
     bg: var.$bg-primary--dark,
@@ -74,6 +75,7 @@ $themes: (
     shadow-nav: var.$shadow-nav--dark,
     text: var.$text--dark,
     text-form-element-placeholder: var.$text-form-element-placeholder--dark,
+    text-transparent: var.$text-transparent--dark,
   ),
 );
 
