@@ -206,7 +206,7 @@ export default function cardHandler(server: AppServer) {
         : 2;
     };
 
-    return schema
+    const cards = schema
       .where(
         'card',
         (card) =>
@@ -215,5 +215,10 @@ export default function cardHandler(server: AppServer) {
       )
       .sort((a, b) => dueWeight(b) - dueWeight(a))
       .slice(0, 15); // Limit to batches of 15 cards.
+
+    if (cards.models.length === 0)
+      return new Response(404, {}, { error: 'No cards found for current selection.' });
+
+    return cards;
   });
 }
