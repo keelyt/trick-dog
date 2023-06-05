@@ -67,48 +67,64 @@ export default function StudyReviewer({ selection }: { selection: string }) {
 
   return (
     <main className={styles.content}>
-      <BackButton href='/study' label='Modify Selection' state={{ selection }} />
-      {cardsQuery.isError && (
-        <QueryError
-          label='Error retrieving information from server.'
-          refetchFn={cardsQuery.refetch}
-        />
-      )}
-      {updateDifficulty.isError && (
-        <div>There was an error updating the previous card&apos;s difficulty on the server.</div>
-      )}
-      {(cardsQuery.isLoading || cardsQuery.isRefetching || mutatingLast) &&
-        (cardsQuery.isLoading ? <LoadingIndicator /> : <LoadingSpinner />)}
-      {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
-        <>
-          <div>{cardsQuery.data[currentIndex].question}</div>
-          {answerRevealed && <div>{cardsQuery.data[currentIndex].answer}</div>}
-        </>
-      )}
-      {!answerRevealed && (
-        <Button
-          as='button'
-          type='button'
-          colorScheme='secondary'
-          title='Press space bar on keyboard'
-          onClick={() => setAnswerRevealed(true)}
-        >
-          Show Answer
-        </Button>
-      )}
-      {answerRevealed &&
-        ['Easy', 'Medium', 'Hard'].map((difficulty, i) => (
-          <Button
-            key={difficulty}
-            as='button'
-            type='button'
-            colorScheme='secondary'
-            title={`Press ${[1, 2, 3][i]} on keyboard`}
-            onClick={() => handleSubmit(difficulty)}
-          >
-            {difficulty}
-          </Button>
-        ))}
+      <div className={styles.top}>
+        <BackButton href='/study' label='Modify Selection' state={{ selection }} />
+      </div>
+      <div className={styles['card-container']}>
+        {cardsQuery.isError && (
+          <QueryError
+            label='Error retrieving information from server.'
+            refetchFn={cardsQuery.refetch}
+          />
+        )}
+        {updateDifficulty.isError && (
+          <div>There was an error updating the previous card&apos;s difficulty on the server.</div>
+        )}
+        <div className={styles.card}>
+          {(cardsQuery.isLoading || cardsQuery.isRefetching || mutatingLast) && (
+            <span className={styles.centered}>
+              {cardsQuery.isLoading ? <LoadingIndicator /> : <LoadingSpinner />}
+            </span>
+          )}
+          {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
+            <>
+              <div className={styles.card__text}>{cardsQuery.data[currentIndex].question}</div>
+              {answerRevealed && (
+                <>
+                  <hr className={styles.card__divider} />
+                  <div className={styles.card__text}>{cardsQuery.data[currentIndex].answer}</div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+        <div className={styles.buttons}>
+          {!answerRevealed && (
+            <Button
+              as='button'
+              type='button'
+              colorScheme='secondary'
+              title='Press space bar on keyboard'
+              onClick={() => setAnswerRevealed(true)}
+            >
+              Show Answer
+            </Button>
+          )}
+          {answerRevealed &&
+            ['Easy', 'Medium', 'Hard'].map((difficulty, i) => (
+              <Button
+                key={difficulty}
+                as='button'
+                type='button'
+                colorScheme='secondary'
+                title={`Press ${[1, 2, 3][i]} on keyboard`}
+                onClick={() => handleSubmit(difficulty)}
+              >
+                {difficulty}
+              </Button>
+            ))}
+        </div>
+      </div>
     </main>
   );
 }
