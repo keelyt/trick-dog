@@ -83,7 +83,7 @@ export default function StudyReviewer({ selection }: { selection: string }) {
         <div className={styles.card}>
           {(cardsQuery.isLoading || cardsQuery.isRefetching || mutatingLast) && (
             <span className={styles.centered}>
-              {cardsQuery.isLoading ? <LoadingIndicator /> : <LoadingSpinner />}
+              <LoadingSpinner />
             </span>
           )}
           {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
