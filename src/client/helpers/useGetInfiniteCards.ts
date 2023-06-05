@@ -88,7 +88,7 @@ export const fetchCards = async ({
  * @param [params.limit=12] The number of cards to limit the results to. Defaults to 12.
  * @returns The result of the query.
  */
-export function useInfiniteCards({
+export function useGetInfiniteCards({
   deckId,
   tagId,
   search = '',

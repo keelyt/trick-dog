@@ -6,8 +6,8 @@ import EditCardForm from '../components/card/EditCardForm';
 import Button from '../components/ui/Button';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
 import QueryError from '../components/ui/QueryError';
-import useCardData from '../helpers/useCardData';
 import useDeleteCard from '../helpers/useDeleteCard';
+import useGetCard from '../helpers/useGetCard';
 
 import styles from './EditCard.module.scss';
 
@@ -24,7 +24,7 @@ export default function EditCard(): JSX.Element {
   const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
   const search: string = location.state ? (location.state as CardsFilterState).search : '';
 
-  const cardQuery = useCardData(deckId, cardId);
+  const cardQuery = useGetCard(deckId, cardId);
   const deleteCard = useDeleteCard();
 
   return (

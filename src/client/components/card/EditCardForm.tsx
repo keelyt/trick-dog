@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import type { UseMutationResult } from '@tanstack/react-query';
 
 import useAddCard from '../../helpers/useAddCard';
-import useCardTagsData from '../../helpers/useCardTagsData';
+import useGetCardTags from '../../helpers/useGetCardTags';
 import useUpdateCard from '../../helpers/useUpdateCard';
 import Checkbox from '../form/Checkbox';
 import Fieldset from '../form/Fieldset';
@@ -50,7 +50,7 @@ export default function EditCardForm({
 }: EditCardFormProps): JSX.Element {
   const navigate = useNavigate();
   const mutateCard = cardId !== undefined ? useUpdateCard(filterState) : useAddCard(filterState);
-  const cardTagsQuery = cardId !== undefined ? useCardTagsData(deckId, cardId) : null;
+  const cardTagsQuery = cardId !== undefined ? useGetCardTags(deckId, cardId) : null;
 
   const {
     register,

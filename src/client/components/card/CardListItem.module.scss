@@ -19,7 +19,7 @@
   &__row {
     height: 5rem;
     padding: 0.25rem 0;
-    border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+    border-bottom: 1px dotted;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -28,6 +28,10 @@
     word-wrap: break-word;
     white-space: pre-wrap;
     word-break: break-word;
+
+    @include themes.themed {
+      border-color: themes.t('text-transparent');
+    }
   }
 }
 

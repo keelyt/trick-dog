@@ -1,0 +1,111 @@
+@use '@styles/themes';
+@use '@styles/variables' as var;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  margin: 0 auto;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1000px;
+  gap: 1rem;
+  padding: 0.5rem 0.25rem 3rem;
+
+  @media (max-height: 650px) {
+    padding: 0.5rem 0.25rem 1rem;
+  }
+}
+
+.top {
+  align-self: flex-start;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+
+  @include themes.themed {
+    background-color: themes.t('bg-secondary');
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  border-radius: 0.25rem;
+  padding: 2rem 1.5rem 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+
+  width: 100%;
+  height: 400px;
+  max-width: 700px;
+
+  @media (max-width: var.$breakpoint-sm) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+  }
+
+  @media (max-height: 650px) {
+    font-size: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    height: 300px;
+  }
+
+  @media (max-height: 400px) {
+    height: 200px;
+  }
+
+  @include themes.themed {
+    background-color: themes.t('bg-card');
+    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+  }
+
+  &__text {
+    width: 100%;
+    overflow-y: auto;
+    padding: 0 0.5rem;
+  }
+
+  &__divider {
+    height: 0px;
+    width: 100%;
+    margin: 0.5rem 0;
+    border: none;
+    border-top: 1px dotted;
+
+    @include themes.themed {
+      border-color: themes.t('text-transparent');
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+
+  @media (max-width: var.$breakpoint-sm) {
+    gap: 0.25rem;
+  }
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

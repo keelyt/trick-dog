@@ -10,7 +10,7 @@ import type { CardTagsResponse } from '../../types';
  * @param cardId The ID of the card to fetch data for.
  * @returns The result of the query.
  */
-export default function useCardTagsData(deckId: number, cardId: number) {
+export default function useGetCardTags(deckId: number, cardId: number) {
   return useQuery({
     queryKey: ['decks', deckId, 'cards', cardId, 'tags'],
     queryFn: async ({ signal }): Promise<number[]> => {
@@ -29,7 +29,7 @@ export default function useCardTagsData(deckId: number, cardId: number) {
  * @param cardId The ID of the card to fetch data for.
  * @returns A function that can be called to prefetch a card's tags.
  */
-export function usePrefetchCardTagsData(deckId: number, cardId: number) {
+export function usePrefetchCardTags(deckId: number, cardId: number) {
   const queryClient = useQueryClient();
 
   return () =>

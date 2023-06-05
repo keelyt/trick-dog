@@ -8,7 +8,7 @@ import type { DeckData, DecksResponse } from '../../types';
  * A React hook that uses React Query to fetch data for all decks.
  * @returns The result of the query.
  */
-export default function useDecksData() {
+export default function useGetDecks() {
   const queryClient = useQueryClient();
 
   return useQuery({

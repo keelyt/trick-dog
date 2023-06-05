@@ -9,7 +9,7 @@ import type { DeckData, DeckResponse } from '../../types';
  * @param deckId The ID of the deck to fetch data for.
  * @returns The result of the query.
  */
-export default function useDeckData(deckId: number) {
+export default function useGetDeck(deckId: number) {
   const queryClient = useQueryClient();
 
   return useQuery({

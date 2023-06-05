@@ -8,10 +8,11 @@ import type { ReactNode, ForwardedRef } from 'react';
 interface CommonProps {
   as: 'button' | 'link';
   size?: 'sm' | 'md' | 'lg';
-  colorScheme?: 'main' | 'card';
+  colorScheme?: 'primary' | 'secondary' | 'card';
   ariaLabel?: string;
   rounded?: boolean;
   onMouseEnter?: () => unknown;
+  title?: string;
   children: ReactNode;
 }
 
@@ -42,19 +43,22 @@ type ButtonProps = CommonProps & (AsButtonProps | AsLinkProps);
 /**
  * @param props The props object that contains the following:
  * @param props.as Whether to render the element as a button ('button') or a link ('link').
- * @param [props.size='lg'] The size of the button: 'sm', 'md', or 'lg'. Defaults to 'lg'.
- * @param [props.colorScheme='main'] The color scheme of the button or link. Optional.
- * @param [props.rounded] Whether the button should have rounded edges. Defaults to true.
- * @param [props.onMouseEnter] onMouseEnter handler function. Optional.
- * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional.
- * @param props.href The URL to navigate to if the element is a link.
- * @param props.type The type of button: 'button', 'submit', or 'reset'.
- * @param [props.onClick] The click handler for the button element. Optional.
- * @param [props.disabled] Whether the button should be disabled. Optional.
- * @param [props.ariaControls] ID of the expandable element that the button controls. Optional.
- * @param [props.ariaExpanded] Whether the controlled element is expanded. Optional.
+ * @param props.type The type of button: 'button', 'submit', or 'reset'. (button)
+ * @param props.href The URL to navigate to. (link)
+ * @param [props.size='lg'] The size: 'sm', 'md', or 'lg'. Defaults to 'lg'. (button/link)
+ * @param [props.colorScheme='main'] The color scheme. Optional. (button/link)
+ * @param [props.ariaLabel] The aria-label attribute for accessibility. Optional. (button/link)
+ * @param [props.rounded] Whether the element should have rounded edges. Optional, defaults to true. (button/link)
+ * @param [props.onMouseEnter] onMouseEnter handler function. Optional. (button/link)
+ * @param [props.title] Title (tooltip text). Optional. (button/link)
+ * @param [props.onClick] The click handler for the button element. Optional. (button)
+ * @param [props.disabled] Whether the button should be disabled. Optional. (button)
+ * @param [props.ariaControls] ID of the expandable element that the button controls. Optional. (button)
+ * @param [props.ariaExpanded] Whether the controlled element is expanded. Optional. (button)
+ * @param [props.state] The state for the link. Optional. (link)
  * @param props.children The content to render inside the button or link.
- * @param [ref] The ref attached to the button element. Optional.
+ * @param [ref] The ref to attach to the element. Optional.
+ *
  * @returns The button JSX element.
  */
 const Button = forwardRef(
@@ -67,12 +71,13 @@ const Button = forwardRef(
       onClick,
       disabled,
       size = 'lg',
-      colorScheme = 'main',
+      colorScheme = 'primary',
       rounded = true,
       onMouseEnter,
       ariaLabel,
       ariaControls,
       ariaExpanded,
+      title,
       children,
     }: ButtonProps,
     ref?: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
@@ -86,6 +91,7 @@ const Button = forwardRef(
         ...(ariaLabel && { 'aria-label': ariaLabel }),
         ...(state && { state }),
         ...(onMouseEnter && { onMouseEnter }),
+        ...(title && { title }),
       };
 
       return (
@@ -107,6 +113,7 @@ const Button = forwardRef(
         ...(ariaControls && { 'aria-controls': ariaControls }),
         ...(typeof ariaExpanded === 'boolean' && { 'aria-expanded': ariaExpanded }),
         ...(onMouseEnter && { onMouseEnter }),
+        ...(title && { title }),
       };
 
       return (

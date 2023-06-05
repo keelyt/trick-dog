@@ -2,7 +2,7 @@ import styles from './Checkbox.module.scss';
 
 import type { UseFormRegister, FieldValues, RegisterOptions, Path } from 'react-hook-form';
 
-interface FormInputProps<TFormValues extends FieldValues> {
+interface CheckboxProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   label: string;
@@ -18,7 +18,7 @@ export default function Checkbox<TFormValues extends FieldValues>({
   value,
   id,
   validation = {},
-}: FormInputProps<TFormValues>): JSX.Element {
+}: CheckboxProps<TFormValues>): JSX.Element {
   return (
     <div className={`${styles.checkbox}`}>
       <input

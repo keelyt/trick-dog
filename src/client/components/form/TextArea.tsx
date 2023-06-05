@@ -13,7 +13,7 @@ import type {
   Path,
 } from 'react-hook-form';
 
-interface FormInputProps<TFormValues extends FieldValues> {
+interface TextAreaProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   label: string;
@@ -29,7 +29,7 @@ export default function TextArea<TFormValues extends FieldValues>({
   validation = {},
   errors,
   placeholder = '',
-}: FormInputProps<TFormValues>): JSX.Element {
+}: TextAreaProps<TFormValues>): JSX.Element {
   const { ref, ...rest } = register(name, validation);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   useAutoExpandTextArea(textareaRef);
