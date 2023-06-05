@@ -16,7 +16,7 @@ export default function Navbar(): JSX.Element {
   const [showNav, setShowNav] = useState<boolean>(false);
   const [navbarHidden, setNavbarHidden] = useState<boolean>(false);
 
-  const scroll = useScrollListener();
+  const scroll = useScrollListener(150);
 
   useEffect(() => {
     if (scroll.y > 150 && scroll.y - scroll.prevY > 0) setNavbarHidden(true);
