@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 import BackButton from '../components/ui/BackButton';
 import Button from '../components/ui/Button';
-import LoadingIndicator from '../components/ui/LoadingIndicator';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import QueryError from '../components/ui/QueryError';
 import useGetStudyCards from '../helpers/useGetStudyCards';
