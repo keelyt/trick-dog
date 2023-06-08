@@ -8,6 +8,7 @@ export const deckSerializer = RestSerializer.extend({
   embed: true,
   serialize(): DeckResponse | DecksResponse {
     // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
+    // @ts-expect-error: following docs (https://miragejs.com/api/classes/serializer/#serialize)
     const json: DeckObject | DecksObject = RestSerializer.prototype.serialize.apply(
       this,
       arguments
