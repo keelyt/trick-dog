@@ -29,9 +29,7 @@ export function useAuth(): AuthContextType {
  * @returns A React component that provides the auth context to its child components.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // TODO: Change to useState(false) -- set to true by default for development
-  // const [authed, setAuthed] = useState(false);
-  const [authed, setAuthed] = useState(true);
+  const [authed, setAuthed] = useState(false);
 
   // Logs in the user.
   // This is currently a placeholder that will set authed to true and resolve immediately.
