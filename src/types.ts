@@ -83,6 +83,14 @@ export interface ExpressError {
   message: { error: string };
 }
 
+export interface UserInfoData {
+  email?: string;
+  picture?: string;
+}
+export interface UserInfoResponse {
+  userInfo: UserInfoData;
+}
+
 // export interface GoogleCredentialPayload {
 //   // The JWT's issuer (https://accounts.google.com)
 //   iss?: string;
