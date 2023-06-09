@@ -8,13 +8,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { makeServer } from '../mock-api/server';
+// import { makeServer } from '../mock-api/server';
 
 import './styles/GlobalStyles.scss';
 
-if (process.env.NODE_ENV === 'development') {
-  makeServer({ environment: 'development' });
-}
+// if (process.env.NODE_ENV === 'development') {
+//   makeServer({ environment: 'development' });
+// }
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
