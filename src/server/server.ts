@@ -6,6 +6,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 
+import authRouter from './routes/authRoutes';
+
 import type { ExpressError } from '../types';
 import type { Express, NextFunction, Request, Response } from 'express';
 
@@ -19,6 +21,9 @@ app.use(express.json());
 // Parse cookies.
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 app.use(cookieParser());
+
+// Define routes.
+app.use('/api/auth', authRouter);
 
 // In production mode, serve static files from dist folder.
 if (process.env.NODE_ENV === 'production') {
