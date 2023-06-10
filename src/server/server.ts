@@ -5,6 +5,7 @@ import path from 'path';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
 import authRouter from './routes/authRoutes';
@@ -14,6 +15,9 @@ import type { Express, NextFunction, Request, Response } from 'express';
 const app: Express = express();
 
 const PORT = Number(process.env.VITE_PORT ?? '3000');
+
+// Set security headers.
+app.use(helmet());
 
 // Parse incoming requests as JSON.
 app.use(express.json());
