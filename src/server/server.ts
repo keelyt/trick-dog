@@ -5,10 +5,10 @@ import path from 'path';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import { HttpError } from 'http-errors';
 
 import authRouter from './routes/authRoutes';
 
-import type { ExpressError } from '../types';
 import type { Express, NextFunction, Request, Response } from 'express';
 
 const app: Express = express();
@@ -32,15 +32,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Global error handler
-app.use((err: ExpressError, req: Request, res: Response, next: NextFunction) => {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
-    message: { error: 'An error occurred.' },
-  };
-  const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
+app.use((err: Error | HttpError, req: Request, res: Response, next: NextFunction) => {
+  console.log(
+    err instanceof HttpError ? err.log : 'Express error handler caught unknown middleware error.'
+  );
+  console.log(err.stack);
+  const status = err instanceof HttpError ? err.status : 500;
+  const message = err instanceof HttpError ? err.message : 'An error occurred.';
+  return res.status(status).json({ error: message });
 });
 
 // Start server

@@ -77,12 +77,6 @@ export interface ServerError {
   error: string;
 }
 
-export interface ExpressError {
-  log: string;
-  status: number;
-  message: { error: string };
-}
-
 export interface UserInfoData {
   email?: string;
   picture?: string;

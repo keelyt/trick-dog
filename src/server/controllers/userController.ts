@@ -1,25 +1,23 @@
+import createError from 'http-errors';
+
 import { query } from '../models/db';
 import asyncMiddleware from '../utils/asyncMiddleware';
-import createError from '../utils/createError';
+import createErrorLog from '../utils/createErrorLog';
 
 import type { UserInfoData } from '../../types';
 import type { ReqBodyLogin, ResLocalsLogin } from '../types';
 
 const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
   async (req, res, next) => {
-    const err = {
-      method: 'userController.verifyOrAddUser',
-      errMessage: 'Error logging in. Please try again.',
-    };
+    const method = 'userController.verifyOrAddUser';
+    const errMessage = 'Error logging in. Please try again.';
 
     const { googlePayload } = res.locals;
 
     if (!googlePayload)
       return next(
-        createError({
-          ...err,
-          status: 401,
-          errDetail: 'Previous middleware error.',
+        createError(401, errMessage, {
+          log: createErrorLog(method, 'Previous middleware error.'),
         })
       );
 
@@ -49,10 +47,11 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
       return next();
     } catch (error) {
       return next(
-        createError({
-          ...err,
-          status: 500,
-          errDetail: 'Database error.',
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
         })
       );
     }

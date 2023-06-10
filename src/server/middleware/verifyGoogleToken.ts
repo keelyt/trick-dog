@@ -1,7 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
+import createError from 'http-errors';
 
 import asyncMiddleware from '../utils/asyncMiddleware';
-import createError from '../utils/createError';
+import createErrorLog from '../utils/createErrorLog';
 
 import type { ReqBodyLogin, ResLocalsLogin } from '../types';
 
@@ -12,19 +13,15 @@ const client = new OAuth2Client(process.env.VITE_GOOGLE_CLIENT_ID);
  */
 const verifyGoogleToken = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
   async (req, res, next) => {
-    const err = {
-      method: 'verifyGoogleToken',
-      errMessage: 'Invalid login attempt. Please try again.',
-    };
+    const method = 'verifyGoogleToken';
+    const errMessage = 'Invalid login attempt. Please try again.';
 
     const { credential } = req.body;
 
     if (!credential)
       return next(
-        createError({
-          ...err,
-          status: 400,
-          errDetail: 'Google token missing from request body.',
+        createError(400, errMessage, {
+          log: createErrorLog(method, 'Google token missing from request body.'),
         })
       );
 
@@ -37,10 +34,8 @@ const verifyGoogleToken = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknow
       return next();
     } catch (error) {
       return next(
-        createError({
-          ...err,
-          status: 401,
-          errDetail: 'Unable to validate Google token.',
+        createError(401, errMessage, {
+          log: createErrorLog(method, 'Unable to validate Google token.'),
         })
       );
     }
