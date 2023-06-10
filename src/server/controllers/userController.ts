@@ -28,7 +28,9 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
     const queryString = `
     INSERT INTO users (sub, email, name, given_name, family_name, picture)
     VALUES ($1, $2, $3, $4, $5, $6)
-    ON CONFLICT (sub) DO UPDATE SET last_login_at = $7
+    ON CONFLICT (sub)
+    DO UPDATE
+    SET name = $3, given_name = $4, family_name = $5, picture = $6, last_login_at = $7
     RETURNING email, picture;
     `;
     const queryParams = [
