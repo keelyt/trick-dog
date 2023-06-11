@@ -13,3 +13,7 @@ export interface ResLocalsLogin extends ResLocals {
   googlePayload?: TokenPayload;
   userInfo?: UserInfoData;
 }
+
+export interface ResLocalsStatus extends ResLocals {
+  userInfo?: UserInfoData;
+}
