@@ -29,7 +29,7 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
     ON CONFLICT (sub)
     DO UPDATE
     SET name = $3, given_name = $4, family_name = $5, picture = $6, last_login_at = $7
-    RETURNING email, picture;
+    RETURNING id, email, picture;
     `;
     const queryParams = [
       sub,
@@ -42,8 +42,9 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
     ];
 
     try {
-      const user = await query<UserInfoData>(queryString, queryParams);
+      const user = await query<UserInfoData & { id: string }>(queryString, queryParams);
       res.locals.userInfo = { email: user.rows[0].email, picture: user.rows[0].picture };
+      res.locals.userId = user.rows[0].id;
       return next();
     } catch (error) {
       return next(
