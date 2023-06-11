@@ -8,6 +8,7 @@ import session from 'express-session';
 import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
+import checkSession from './middleware/checkSession';
 import { getSessionStore } from './models/db';
 import authRouter from './routes/authRoutes';
 
@@ -47,6 +48,9 @@ app.use(
     },
   })
 );
+
+// Check session status and get current user's userId.
+app.use(checkSession);
 
 // Define routes.
 app.use('/api/auth', authRouter);
