@@ -11,8 +11,4 @@ const checkSession: RequestHandler<unknown, unknown, unknown, unknown, ResLocals
   return next();
 };
 
-export const sessionController = {
-  checkSession,
-};
-
 export default checkSession;
