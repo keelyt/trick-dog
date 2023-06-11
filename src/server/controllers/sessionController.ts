@@ -2,7 +2,7 @@ import createError from 'http-errors';
 
 import createErrorLog from '../utils/createErrorLog';
 
-import type { ReqBodyLogin, ResLocalsLogin } from '../types';
+import type { ReqBodyLogin, ResLocals, ResLocalsLogin } from '../types';
 import type { RequestHandler } from 'express-serve-static-core';
 
 const createSession: RequestHandler<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin> = (
@@ -22,6 +22,17 @@ const createSession: RequestHandler<unknown, unknown, ReqBodyLogin, unknown, Res
   return next();
 };
 
+const getStatus: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> = (
+  req,
+  res,
+  next
+) => {
+  const authed = !!res.locals.userId;
+  if (!authed) return res.status(200).json({ authed: false });
+  return next();
+};
+
 export const sessionController = {
   createSession,
+  getStatus,
 };
