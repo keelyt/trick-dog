@@ -3,14 +3,21 @@ config();
 
 import path from 'path';
 
-import cookieParser from 'cookie-parser';
 import express from 'express';
+import session from 'express-session';
 import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
+import { getSessionStore } from './models/db';
 import authRouter from './routes/authRoutes';
 
 import type { Express, NextFunction, Request, Response } from 'express';
+
+declare module 'express-session' {
+  interface SessionData {
+    userId: string;
+  }
+}
 
 const app: Express = express();
 
@@ -22,9 +29,24 @@ app.use(helmet());
 // Parse incoming requests as JSON.
 app.use(express.json());
 
-// Parse cookies.
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-app.use(cookieParser());
+// Set up express sessions using PostgreSQL for session store.
+// Note: since version 1.5.0 of express-session, cookie-parser is no longer needed.
+// (See: https://expressjs.com/en/resources/middleware/session.html)
+app.use(
+  session({
+    store: getSessionStore(session),
+    name: 'tdsid',
+    secret: process.env.COOKIE_SECRET as string | string[],
+    resave: false,
+    rolling: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      sameSite: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
+  })
+);
 
 // Define routes.
 app.use('/api/auth', authRouter);
