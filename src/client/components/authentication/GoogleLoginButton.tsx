@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useAuth } from '../../contexts/AuthContext';
-import fetchWithError from '../../helpers/fetchWithError';
 import FormError from '../form/FormError';
 
-export default function GoogleLoginButton() {
+export default function GoogleLoginButton(): JSX.Element {
   const { login } = useAuth();
   const divRef = useRef<HTMLDivElement>(null);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
@@ -12,17 +11,8 @@ export default function GoogleLoginButton() {
 
   const handleCallbackResponse = async (response: google.accounts.id.CredentialResponse) => {
     setError(null);
-    console.log(response);
-    console.log('Encoded JWT ID token: ', response.credential);
     try {
-      await fetchWithError('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ credential: response.credential }),
-      });
-      // TODO: Handle remainder of login.
+      await login(response.credential);
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Unknown error. Please try again.');
     }
@@ -38,14 +28,16 @@ export default function GoogleLoginButton() {
       window.google.accounts.id.initialize({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         callback: handleCallbackResponse,
-        login_uri: 'api/auth/google',
       });
-      window.google.accounts.id.renderButton(divRef.current, {
-        shape: 'pill',
+
+      const buttonConfiguration: google.accounts.id.GsiButtonConfiguration = {
+        shape: 'rectangular',
         size: 'large',
         theme: 'filled_blue',
         type: 'standard',
-      });
+      };
+
+      window.google.accounts.id.renderButton(divRef.current, buttonConfiguration);
     };
 
     // Add the google identity script.
