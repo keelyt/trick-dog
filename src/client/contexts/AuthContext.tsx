@@ -6,7 +6,7 @@ import type { AuthStatusResponse, UserInfoData, UserInfoResponse } from '../../t
 import type { ReactNode } from 'react';
 
 interface AuthContextType {
-  authed: boolean;
+  authed: boolean | null;
   userInfo: UserInfoData | null;
   login: (credential: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -30,7 +30,7 @@ export function useAuth(): AuthContextType {
  * @returns A React component that provides the auth context to its child components.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [authed, setAuthed] = useState<boolean>(false);
+  const [authed, setAuthed] = useState<boolean | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfoData | null>(null);
 
   useEffect(() => {
