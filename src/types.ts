@@ -78,12 +78,24 @@ export interface ServerError {
 }
 
 export interface UserInfoData {
-  email?: string;
-  picture?: string;
+  email: string;
+  picture: string;
 }
+
 export interface UserInfoResponse {
   userInfo: UserInfoData;
 }
+
+export interface AuthedResponse {
+  authed: true;
+  userInfo: UserInfoData;
+}
+
+export interface UnauthedResponse {
+  authed: false;
+  userInfo?: never;
+}
+export type AuthStatusResponse = AuthedResponse | UnauthedResponse;
 
 // export interface GoogleCredentialPayload {
 //   // The JWT's issuer (https://accounts.google.com)
