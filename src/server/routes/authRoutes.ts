@@ -4,7 +4,7 @@ import { sessionController } from '../controllers/sessionController';
 import { userController } from '../controllers/userController';
 import verifyGoogleToken from '../middleware/verifyGoogleToken';
 
-import type { ReqBodyLogin, ResLocalsLogin, ResLocalsStatus } from '../types';
+import type { ReqBodyLogin, ResLocals, ResLocalsLogin, ResLocalsStatus } from '../types';
 
 const authRouter = Router();
 
@@ -24,6 +24,14 @@ authRouter.post<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
   sessionController.createSession,
   (req, res) => {
     return res.status(200).json({ userInfo: res.locals.userInfo });
+  }
+);
+
+authRouter.delete<unknown, unknown, unknown, unknown, ResLocals>(
+  '/logout',
+  sessionController.deleteSession,
+  (req, res) => {
+    return res.status(200).json({ message: 'Logout successful.' });
   }
 );
 
