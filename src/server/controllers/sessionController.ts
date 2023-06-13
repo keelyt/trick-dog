@@ -22,6 +22,26 @@ const createSession: RequestHandler<unknown, unknown, ReqBodyLogin, unknown, Res
   return next();
 };
 
+const deleteSession: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> = (
+  req,
+  res,
+  next
+) => {
+  req.session.destroy((err) => {
+    if (err)
+      return next(
+        createError(500, 'An error occurred during logout.', {
+          log: createErrorLog(
+            'sessionController.deleteSession',
+            'Error occurred while destroying session.'
+          ),
+        })
+      );
+    res.clearCookie('tdsid');
+    return next();
+  });
+};
+
 const getStatus: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> = (
   req,
   res,
@@ -34,5 +54,6 @@ const getStatus: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> =
 
 export const sessionController = {
   createSession,
+  deleteSession,
   getStatus,
 };
