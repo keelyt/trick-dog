@@ -11,6 +11,7 @@ import { HttpError } from 'http-errors';
 import checkSession from './middleware/checkSession';
 import { getSessionStore } from './models/db';
 import authRouter from './routes/authRoutes';
+import deckRouter from './routes/deckRoutes';
 
 import type { Express, NextFunction, Request, Response } from 'express';
 
@@ -54,6 +55,7 @@ app.use(checkSession);
 
 // Define routes.
 app.use('/api/auth', authRouter);
+app.use('/api/decks', deckRouter);
 
 // In production mode, serve static files from dist folder.
 if (process.env.NODE_ENV === 'production') {
