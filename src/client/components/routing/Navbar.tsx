@@ -11,10 +11,11 @@ import DarkLightToggle from '../ui/DarkLightToggle';
 import styles from './Navbar.module.scss';
 
 export default function Navbar(): JSX.Element {
-  const { authed } = useAuth();
+  const { authed, userInfo } = useAuth();
   const { pathname } = useLocation();
   const [showNav, setShowNav] = useState<boolean>(false);
   const [navbarHidden, setNavbarHidden] = useState<boolean>(false);
+  const [showPicture, setShowPicture] = useState<boolean>(true);
 
   const scroll = useScrollListener(150);
 
@@ -93,7 +94,19 @@ export default function Navbar(): JSX.Element {
                   aria-label='Profile'
                   className={`${styles.nav__link} ${styles['nav__link--icon']}`}
                 >
-                  <BiUser aria-hidden='true' focusable='false' />
+                  {showPicture && userInfo?.picture && (
+                    <img
+                      src={userInfo.picture}
+                      alt='Profile'
+                      referrerPolicy='no-referrer'
+                      onLoad={() => setShowPicture(true)}
+                      onError={() => setShowPicture(false)}
+                      className={styles.picture}
+                    />
+                  )}
+                  {(!showPicture || !userInfo || !userInfo.picture) && (
+                    <BiUser aria-hidden='true' focusable='false' />
+                  )}
                 </NavLink>
               </li>
             )}

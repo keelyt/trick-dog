@@ -33,6 +33,7 @@ describe('PrivateRoute', () => {
   it('renders the child components when the user is authenticated', async () => {
     const authedAuthContext = {
       authed: true,
+      userInfo: { email: 'email', picture: 'picture' },
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
     };
@@ -51,6 +52,7 @@ describe('PrivateRoute', () => {
   it('redirects to login page when the user is not authenticated', async () => {
     const unauthedAuthContext = {
       authed: false,
+      userInfo: null,
       login: () => Promise.resolve(),
       logout: () => Promise.resolve(),
     };

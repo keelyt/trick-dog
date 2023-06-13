@@ -36,10 +36,10 @@ export default function DeckCards(): JSX.Element {
   const location: Location = useLocation();
 
   const [tag, setTag] = useState<number | null>(
-    location.state ? (location.state as CardsFilterState).tagId : null
+    location.state && 'tagId' in location.state ? (location.state as CardsFilterState).tagId : null
   );
   const [search, setSearch] = useState<string>(
-    location.state ? (location.state as CardsFilterState).search : ''
+    location.state && 'search' in location.state ? (location.state as CardsFilterState).search : ''
   );
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [searchInputFocused, setSearchInputFocused] = useState<boolean>(false);
@@ -54,7 +54,10 @@ export default function DeckCards(): JSX.Element {
 
   const { register, handleSubmit, getValues } = useForm<FormValues>({
     defaultValues: {
-      searchInput: location.state ? (location.state as CardsFilterState).search : '',
+      searchInput:
+        location.state && 'search' in location.state
+          ? (location.state as CardsFilterState).search
+          : '',
     },
   });
 

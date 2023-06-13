@@ -84,6 +84,11 @@
             "pattern": "{./*.scss,../../*/*.scss}",
             "group": "sibling",
             "position": "after"
+          },
+          {
+            "pattern": "dotenv",
+            "group": "builtin",
+            "position": "before"
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],

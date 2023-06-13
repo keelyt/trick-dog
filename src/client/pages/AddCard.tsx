@@ -12,8 +12,10 @@ export default function AddCard(): JSX.Element {
   const { deckId, deckTags } = useDeckContext();
   const location: Location = useLocation();
 
-  const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
-  const search: string = location.state ? (location.state as CardsFilterState).search : '';
+  const tagId: number | null =
+    location.state && 'tagId' in location.state ? (location.state as CardsFilterState).tagId : null;
+  const search: string =
+    location.state && 'search' in location.state ? (location.state as CardsFilterState).search : '';
 
   return (
     <div className={styles['add-container']}>

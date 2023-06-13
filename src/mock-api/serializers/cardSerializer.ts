@@ -6,6 +6,7 @@ import type { CardObject, CardsObject } from '../types';
 export const cardSerializer = RestSerializer.extend({
   serialize(): CardResponse | CardsResponse {
     // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
+    // @ts-expect-error: following docs (https://miragejs.com/api/classes/serializer/#serialize)
     const json: CardObject | CardsObject = RestSerializer.prototype.serialize.apply(
       this,
       arguments
