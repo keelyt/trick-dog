@@ -1,5 +1,5 @@
 import type { ResLocals } from '../types';
-import type { RequestHandler } from 'express-serve-static-core';
+import type { RequestHandler } from 'express';
 
 const checkSession: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> = (
   req,
