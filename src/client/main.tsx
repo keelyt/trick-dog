@@ -30,15 +30,15 @@ const root: HTMLElement | null = document.getElementById('root');
 if (root)
   createRoot(root).render(
     <StrictMode>
-      <AuthProvider>
-        <ThemeProvider>
-          <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider>
             <BrowserRouter>
               <App />
             </BrowserRouter>
             <ReactQueryDevtools />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </AuthProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </StrictMode>
   );
