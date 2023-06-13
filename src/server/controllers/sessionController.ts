@@ -10,12 +10,13 @@ const createSession: RequestHandler<unknown, unknown, ReqBodyLogin, unknown, Res
   res,
   next
 ) => {
+  const method = 'sessionController.createSession';
+  const errMessage = 'Error logging in. Please try again.';
+
   const { userId } = res.locals;
   if (!userId)
     return next(
-      createError(401, 'Error logging in. Please try again.', {
-        log: createErrorLog('sessionController.createSession', 'Previous middleware error.'),
-      })
+      createError(401, errMessage, { log: createErrorLog(method, 'Previous middleware error.') })
     );
 
   req.session.userId = userId;
@@ -27,14 +28,14 @@ const deleteSession: RequestHandler<unknown, unknown, unknown, unknown, ResLocal
   res,
   next
 ) => {
+  const method = 'sessionController.deleteSession';
+  const errMessage = 'An error occurred during logout.';
+
   req.session.destroy((err) => {
     if (err)
       return next(
-        createError(500, 'An error occurred during logout.', {
-          log: createErrorLog(
-            'sessionController.deleteSession',
-            'Error occurred while destroying session.'
-          ),
+        createError(500, errMessage, {
+          log: createErrorLog(method, 'Error occurred while destroying session.'),
         })
       );
     res.clearCookie('tdsid');
