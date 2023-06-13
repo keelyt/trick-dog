@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import fetchWithError from '../helpers/fetchWithError';
 
 import type { AuthStatusResponse, UserInfoData, UserInfoResponse } from '../../types';
@@ -32,6 +34,7 @@ export function useAuth(): AuthContextType {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfoData | null>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     fetchWithError<AuthStatusResponse>('/api/auth/status')
@@ -62,11 +65,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   // Logs out the user.
-  // This is currently a placeholder that will set authed to false and resolve immediately.
-  // TODO: Remove session cookie.
+  // Note: Errors thrown in this function are handled by the component that call it.
   async function logout(): Promise<void> {
+    await fetchWithError('/api/auth/logout', { method: 'DELETE' });
     setAuthed(false);
-    return Promise.resolve();
+    setUserInfo(null);
+    queryClient.clear();
   }
 
   return (
