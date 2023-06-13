@@ -22,7 +22,7 @@ export default function PublicRoute({ children }: { children?: JSX.Element }): J
     return (
       <Navigate
         to={
-          location.pathname === '/login' && location.state
+          location.pathname === '/login' && location.state && 'path' in location.state
             ? (location.state as LocationState).path
             : '/'
         }

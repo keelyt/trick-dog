@@ -21,8 +21,10 @@ export default function EditCard(): JSX.Element {
   const location: Location = useLocation();
 
   const cardId = Number(params.cardId!);
-  const tagId: number | null = location.state ? (location.state as CardsFilterState).tagId : null;
-  const search: string = location.state ? (location.state as CardsFilterState).search : '';
+  const tagId: number | null =
+    location.state && 'tagId' in location.state ? (location.state as CardsFilterState).tagId : null;
+  const search: string =
+    location.state && 'search' in location.state ? (location.state as CardsFilterState).search : '';
 
   const cardQuery = useGetCard(deckId, cardId);
   const deleteCard = useDeleteCard();
