@@ -7,22 +7,18 @@ import type { ReqBodyDeckPost, ResLocalsDeck, ResLocalsDecks } from '../types';
 
 const deckRouter = Router();
 
-deckRouter.get<unknown, unknown, unknown, unknown, ResLocalsDecks>(
-  '/',
-  requireLogin,
-  deckController.getDecks,
-  (req, res) => {
-    return res.status(200).json({ decks: res.locals.decks });
-  }
-);
+deckRouter.use(requireLogin);
 
-deckRouter.post<unknown, unknown, ReqBodyDeckPost, unknown, ResLocalsDeck>(
-  '/',
-  requireLogin,
-  deckController.addDeck,
-  (req, res) => {
-    return res.status(200).json({ deck: res.locals.deck });
-  }
-);
+deckRouter
+  .route('/')
+  .get<unknown, unknown, unknown, unknown, ResLocalsDecks>(deckController.getDecks, (req, res) => {
+    return res.status(200).json({ decks: res.locals.decks });
+  })
+  .post<unknown, unknown, ReqBodyDeckPost, unknown, ResLocalsDeck>(
+    deckController.addDeck,
+    (req, res) => {
+      return res.status(201).json({ deck: res.locals.deck });
+    }
+  );
 
 export default deckRouter;
