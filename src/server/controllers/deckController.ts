@@ -5,7 +5,7 @@ import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
 import type { DeckData } from '../../types';
-import type { ReqBodyDeckPost, ResLocalsDeck, ResLocalsDecks } from '../types';
+import type { ReqBodyDeckPost, ReqParamsDeck, ResLocalsDeck, ResLocalsDecks } from '../types';
 
 const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeckPost, unknown, ResLocalsDeck>(
   async (req, res, next) => {
@@ -109,7 +109,69 @@ const getDecks = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocalsDe
   }
 );
 
+const getDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLocalsDeck>(
+  async (req, res, next) => {
+    const method = 'deckController.getDeck';
+    const errMessage = 'Error retrieving deck from server.';
+
+    const { userId } = res.locals;
+    if (!userId)
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(method, 'Previous middleware error.'),
+        })
+      );
+
+    const { deckId } = req.params;
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
+
+    const queryString = `
+    SELECT dc.*, ct.tags
+    FROM (
+      SELECT d.id, d.deck_name AS "deckName", COUNT(c.id) AS "cardCount"
+      FROM decks d
+      LEFT OUTER JOIN cards c
+      ON c.deck_id = d.id
+      WHERE d.user_id = $1 AND d.id = $2
+      GROUP BY d.id
+    ) dc
+    LEFT OUTER JOIN (
+      SELECT deck_id, json_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id)) AS tags
+      FROM tags
+      GROUP BY deck_id
+    ) ct
+    ON ct.deck_id = dc.id;
+    `;
+    const queryParams = [userId, deckId];
+
+    try {
+      const deck = await query<DeckData>(queryString, queryParams);
+      if (!deck.rows.length)
+        return next(
+          createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found') })
+        );
+      res.locals.deck = deck.rows[0];
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
+
 export const deckController = {
   addDeck,
+  getDeck,
   getDecks,
 };
