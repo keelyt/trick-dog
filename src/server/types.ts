@@ -1,8 +1,12 @@
-import type { DecksResponse, UserInfoData, UserInfoResponse } from '../types';
+import type { DeckResponse, DecksResponse, UserInfoData, UserInfoResponse } from '../types';
 import type { TokenPayload } from 'google-auth-library';
 
 export interface ReqBodyLogin {
   credential: google.accounts.id.CredentialResponse['credential'];
+}
+
+export interface ReqBodyDeckPost {
+  deckName: string;
 }
 
 export interface ResLocals {
@@ -14,5 +18,6 @@ export interface ResLocalsLogin extends ResLocals {
   userInfo?: UserInfoData;
 }
 
+export type ResLocalsDeck = ResLocals & DeckResponse;
 export type ResLocalsDecks = ResLocals & DecksResponse;
 export type ResLocalsStatus = ResLocals & UserInfoResponse;

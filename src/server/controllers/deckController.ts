@@ -5,7 +5,60 @@ import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
 import type { DeckData } from '../../types';
-import type { ResLocalsDecks } from '../types';
+import type { ReqBodyDeckPost, ResLocalsDeck, ResLocalsDecks } from '../types';
+
+const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeckPost, unknown, ResLocalsDeck>(
+  async (req, res, next) => {
+    const method = 'deckController.addDeck';
+    const errMessage = 'Error adding deck. Please try again';
+
+    const { userId } = res.locals;
+    if (!userId)
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(method, 'Previous middleware error.'),
+        })
+      );
+
+    const { deckName } = req.body;
+
+    if (!deckName)
+      return next(
+        createError(400, 'Deck name is required.', {
+          log: createErrorLog(method, 'Deck name missing from request body.'),
+        })
+      );
+
+    if (deckName.length > 100)
+      return next(
+        createError(400, 'Deck name must not exceed 100 characters.', {
+          log: createErrorLog(method, 'Deck name in request exceeds 100 characters.'),
+        })
+      );
+
+    const queryString = `
+    INSERT INTO decks (deck_name, user_id)
+    VALUES ($1, $2)
+    RETURNING id, deck_name AS deckName;
+    `;
+    const queryParams = [deckName, userId];
+
+    try {
+      const deck = await query<Pick<DeckData, 'id' | 'deckName'>>(queryString, queryParams);
+      res.locals.deck = { ...deck.rows[0], cardCount: 0, tags: [] };
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
 
 const getDecks = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocalsDecks>(
   async (req, res, next) => {
@@ -57,5 +110,6 @@ const getDecks = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocalsDe
 );
 
 export const deckController = {
+  addDeck,
   getDecks,
 };
