@@ -5,9 +5,15 @@ import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
 import type { DeckData } from '../../types';
-import type { ReqBodyDeckPost, ReqParamsDeck, ResLocalsDeck, ResLocalsDecks } from '../types';
+import type {
+  ReqBodyDeck,
+  ReqParamsDeck,
+  ResLocalsDeck,
+  ResLocalsDeckPatch,
+  ResLocalsDecks,
+} from '../types';
 
-const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeckPost, unknown, ResLocalsDeck>(
+const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeck, unknown, ResLocalsDeck>(
   async (req, res, next) => {
     const method = 'deckController.addDeck';
     const errMessage = 'Error adding deck. Please try again';
@@ -32,7 +38,7 @@ const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeckPost, unknown, ResL
     const queryString = `
     INSERT INTO decks (deck_name, user_id)
     VALUES ($1, $2)
-    RETURNING id, deck_name AS deckName;
+    RETURNING id, deck_name AS "deckName";
     `;
     const queryParams = [deckName, userId];
 
@@ -79,7 +85,7 @@ const deleteDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, Res
       const deck = await query(queryString, queryParams);
       if (!deck.rowCount)
         return next(
-          createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found') })
+          createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found.') })
         );
       return next();
     } catch (error) {
@@ -166,6 +172,7 @@ const getDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLoc
     LEFT OUTER JOIN (
       SELECT deck_id, json_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id)) AS tags
       FROM tags
+      WHERE deck_id = $2
       GROUP BY deck_id
     ) ct
     ON ct.deck_id = dc.id;
@@ -176,7 +183,7 @@ const getDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLoc
       const deck = await query<DeckData>(queryString, queryParams);
       if (!deck.rows.length)
         return next(
-          createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found') })
+          createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found.') })
         );
       res.locals.deck = deck.rows[0];
       return next();
@@ -193,9 +200,73 @@ const getDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLoc
   }
 );
 
+const updateDeck = asyncMiddleware<
+  ReqParamsDeck,
+  unknown,
+  ReqBodyDeck,
+  unknown,
+  ResLocalsDeckPatch
+>(async (req, res, next) => {
+  const method = 'deckController.updateDeck';
+  const errMessage = 'Error updating deck. Please try again';
+
+  const { userId } = res.locals;
+  const { deckName } = req.body;
+  const { deckId } = req.params;
+
+  if (!deckId || isNaN(Number(deckId)))
+    return next(
+      createError(400, 'Invalid Deck ID.', {
+        log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+      })
+    );
+
+  if (!deckName)
+    return next(
+      createError(400, 'Deck name is required.', {
+        log: createErrorLog(method, 'Deck name missing from request body.'),
+      })
+    );
+
+  if (deckName.length > 100)
+    return next(
+      createError(400, 'Deck name must not exceed 100 characters.', {
+        log: createErrorLog(method, 'Deck name in request exceeds 100 characters.'),
+      })
+    );
+
+  const queryString = `
+    UPDATE decks
+    SET deck_name = $1
+    WHERE user_id = $2 AND id = $3
+    RETURNING id, deck_name AS "deckName";
+    `;
+  const queryParams = [deckName, userId, deckId];
+
+  try {
+    const deck = await query<Pick<DeckData, 'id' | 'deckName'>>(queryString, queryParams);
+    if (!deck.rows.length)
+      return next(
+        createError(404, 'Deck not found.', { log: createErrorLog(method, 'Deck not found.') })
+      );
+    res.locals.deck = deck.rows[0];
+    return next();
+  } catch (error) {
+    return next(
+      createError(500, errMessage, {
+        log: createErrorLog(
+          method,
+          error instanceof Error ? error.message : 'Unknown database error.'
+        ),
+      })
+    );
+  }
+});
+
 export const deckController = {
   addDeck,
   deleteDeck,
   getDeck,
   getDecks,
+  updateDeck,
 };
