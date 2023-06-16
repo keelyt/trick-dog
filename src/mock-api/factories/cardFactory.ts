@@ -12,7 +12,7 @@ export const cardFactory = Factory.extend({
     return faker.word.words(faker.number.int({ min: 2, max: 50 }));
   },
   dateCreated() {
-    return faker.date.past().toString();
+    return new Date().toString();
   },
   attemptCount() {
     return 0;

@@ -19,7 +19,7 @@ interface FetchParams {
   deckId: number;
   tagId?: number | null;
   search?: string;
-  before?: string;
+  before?: number | null;
   limit?: number;
 }
 
@@ -50,7 +50,7 @@ export function getCardsQueryKey({ deckId, tagId, search, limit = LIMIT }: Query
  * @param params.deckId The ID of the deck to fetch cards from.
  * @param [params.tagId=null] The ID of the tag to filter cards by. Defaults to null.
  * @param [params.search=''] The search query to filter cards by. Defaults to empty string.
- * @param [params.before=''] The date to fetch cards before. Defaults to empty string.
+ * @param [params.before=''] The id to fetch cards before. Defaults to empty string.
  * @param [params.limit] The number of cards to limit the results to. Optional.
  * @returns The card data for the requested page.
  */
@@ -59,7 +59,7 @@ export const fetchCards = async ({
   deckId,
   tagId = null,
   search = '',
-  before = '',
+  before = null,
   limit,
 }: FetchParams): Promise<CardData[]> => {
   const query = [];
@@ -97,7 +97,13 @@ export function useGetInfiniteCards({
   const queryClient = useQueryClient();
   return useInfiniteQuery({
     queryKey: getCardsQueryKey({ deckId, tagId, search, limit }),
-    queryFn: async ({ signal, pageParam = '' }: { signal?: AbortSignal; pageParam?: string }) => {
+    queryFn: async ({
+      signal,
+      pageParam = null,
+    }: {
+      signal?: AbortSignal;
+      pageParam?: number | null;
+    }) => {
       const cards = await fetchCards({ signal, deckId, tagId, search, before: pageParam, limit });
 
       // Add each individual card to the cache.
@@ -107,8 +113,8 @@ export function useGetInfiniteCards({
     },
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < limit) return;
-      // Get the timestamp from the oldest card we have.
-      return lastPage[lastPage.length - 1].dateCreated;
+      // Get the id from the oldest card we have.
+      return lastPage[lastPage.length - 1].id;
     },
     staleTime: Infinity,
   });
