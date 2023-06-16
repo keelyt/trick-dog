@@ -51,7 +51,7 @@ export function getCardsQueryKey({ deckId, tagId, search, limit = LIMIT }: Query
  * @param [params.tagId=null] The ID of the tag to filter cards by. Defaults to null.
  * @param [params.search=''] The search query to filter cards by. Defaults to empty string.
  * @param [params.before=''] The id to fetch cards before. Defaults to empty string.
- * @param [params.limit] The number of cards to limit the results to. Optional.
+ * @param [params.limit = 12] The number of cards to limit the results to. Defaults to 12.
  * @returns The card data for the requested page.
  */
 export const fetchCards = async ({
@@ -60,13 +60,12 @@ export const fetchCards = async ({
   tagId = null,
   search = '',
   before = null,
-  limit,
+  limit = LIMIT,
 }: FetchParams): Promise<CardData[]> => {
-  const query = [];
+  const query = [`limit=${encodeURIComponent(limit)}`];
   if (tagId) query.push(`tag=${encodeURIComponent(tagId)}`);
   if (search) query.push(`q=${encodeURIComponent(search)}`);
   if (before) query.push(`before=${encodeURIComponent(before)}`);
-  if (limit) query.push(`limit=${encodeURIComponent(limit)}`);
   const deckIdParam = encodeURIComponent(deckId);
 
   const response = await fetchWithError<CardsResponse>(
