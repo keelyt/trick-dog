@@ -77,7 +77,7 @@ const deleteDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, Res
     // The database was configured with cascading deletes, so only need to delete from decks table.
     const queryString = `
     DELETE from decks
-    WHERE user_id = $1 AND id = $2
+    WHERE user_id = $1 AND id = $2;
     `;
     const queryParams = [userId, deckId];
 

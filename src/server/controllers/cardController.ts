@@ -7,6 +7,7 @@ import createErrorLog from '../utils/createErrorLog';
 import type { CardData } from '../../types';
 import type {
   ReqBodyCard,
+  ReqParamsCard,
   ReqParamsDeck,
   ReqQueryCards,
   ResLocalsCard,
@@ -81,6 +82,68 @@ const addCard = asyncMiddleware<ReqParamsDeck, unknown, ReqBodyCard, unknown, Re
   }
 );
 
+const getCard = asyncMiddleware<ReqParamsCard, unknown, unknown, unknown, ResLocalsCard>(
+  async (req, res, next) => {
+    const method = 'cardController.getCard';
+    const errMessage = 'Error retrieving card from server.';
+
+    const { userId } = res.locals;
+    const { deckId, cardId } = req.params;
+
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
+
+    if (!cardId || isNaN(Number(cardId)))
+      return next(
+        createError(400, 'Invalid Card ID.', {
+          log: createErrorLog(method, `Provided card ID (${cardId}) is not a number.`),
+        })
+      );
+
+    const queryString = `
+    SELECT
+      c.id,
+      c.deck_id AS "deckId",
+      c.question,
+      c.answer,
+      c.attempt_count as "attemptCount",
+      c.correct_count AS "correctCount",
+      c.created_at as "dateCreated"
+    FROM cards c
+    INNER JOIN decks d
+    ON d.id = c.deck_id
+    WHERE c.id = $1
+      AND d.id = $2
+      AND d.user_id = $3;
+    `;
+
+    const queryParams = [cardId, deckId, userId];
+
+    try {
+      const card = await query<CardData>(queryString, queryParams);
+      if (!card.rows.length)
+        return next(
+          createError(404, 'Card not found.', { log: createErrorLog(method, 'Card not found.') })
+        );
+      res.locals.card = card.rows[0];
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
+
 const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards, ResLocalsCards>(
   async (req, res, next) => {
     const method = 'cardController.getCards';
@@ -89,6 +152,13 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
     const { userId } = res.locals;
     const { deckId } = req.params;
     const { before, tag, q, limit } = req.query;
+
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
 
     if (!limit || isNaN(Number(limit)) || Number(limit) > 100)
       return next(
@@ -127,7 +197,7 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
       ${before !== undefined ? `AND c.id < $${paramIndex++}` : ''}
       ${tag !== undefined ? `AND ct.tag_id = $${paramIndex++}` : ''}
     ORDER BY c.id DESC
-    LIMIT $${paramIndex}
+    LIMIT $${paramIndex};
     `;
 
     const queryParams = [
@@ -158,5 +228,6 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
 
 export const cardController = {
   addCard,
+  getCard,
   getCards,
 };
