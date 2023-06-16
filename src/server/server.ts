@@ -17,7 +17,7 @@ import type { Express, NextFunction, Request, Response } from 'express';
 
 declare module 'express-session' {
   interface SessionData {
-    userId: string;
+    userId: number;
   }
 }
 

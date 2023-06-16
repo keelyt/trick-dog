@@ -42,7 +42,7 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
     ];
 
     try {
-      const user = await query<UserInfoData & { id: string }>(queryString, queryParams);
+      const user = await query<UserInfoData & { id: number }>(queryString, queryParams);
       res.locals.userInfo = { email: user.rows[0].email, picture: user.rows[0].picture };
       res.locals.userId = user.rows[0].id;
       return next();
@@ -81,7 +81,7 @@ const getUserInfo = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocal
 
     try {
       const user = await query<UserInfoData>(queryString, queryParams);
-      if (user.rows.length === 0)
+      if (!user.rows.length)
         return next(
           createError(401, errMessage, {
             log: createErrorLog(method, 'UserId not found in database.'),

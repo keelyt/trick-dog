@@ -1,4 +1,5 @@
 import type {
+  CardsResponse,
   DeckPatchResponse,
   DeckResponse,
   DecksResponse,
@@ -22,8 +23,15 @@ export interface ReqBodyDeck {
   deckName?: string;
 }
 
+export interface ReqQueryCards {
+  before?: string;
+  tag?: string;
+  q?: string;
+  limit: string;
+}
+
 export interface ResLocals {
-  userId?: string;
+  userId?: number;
 }
 
 export interface ResLocalsLogin extends ResLocals {
@@ -31,6 +39,7 @@ export interface ResLocalsLogin extends ResLocals {
   userInfo?: UserInfoData;
 }
 
+export type ResLocalsCards = ResLocals & CardsResponse;
 export type ResLocalsDeck = ResLocals & DeckResponse;
 export type ResLocalsDeckPatch = ResLocals & DeckPatchResponse;
 export type ResLocalsDecks = ResLocals & DecksResponse;
