@@ -41,14 +41,18 @@ export interface ResLocals {
   userId?: number;
 }
 
+export interface ResLocalsAuth {
+  userId: number;
+}
+
 export interface ResLocalsLogin extends ResLocals {
   googlePayload?: TokenPayload;
   userInfo?: UserInfoData;
 }
 
-export type ResLocalsCard = ResLocals & CardResponse;
-export type ResLocalsCards = ResLocals & CardsResponse;
-export type ResLocalsDeck = ResLocals & DeckResponse;
-export type ResLocalsDeckPatch = ResLocals & DeckPatchResponse;
-export type ResLocalsDecks = ResLocals & DecksResponse;
-export type ResLocalsStatus = ResLocals & UserInfoResponse;
+export type ResLocalsCard = ResLocalsAuth & CardResponse;
+export type ResLocalsCards = ResLocalsAuth & CardsResponse;
+export type ResLocalsDeck = ResLocalsAuth & DeckResponse;
+export type ResLocalsDeckPatch = ResLocalsAuth & DeckPatchResponse;
+export type ResLocalsDecks = ResLocalsAuth & DecksResponse;
+export type ResLocalsStatus = ResLocalsAuth & UserInfoResponse;

@@ -8,8 +8,8 @@ import session from 'express-session';
 import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
+import { getSessionStore } from './database/db';
 import checkSession from './middleware/checkSession';
-import { getSessionStore } from './models/db';
 import authRouter from './routes/authRoutes';
 import deckRouter from './routes/deckRoutes';
 

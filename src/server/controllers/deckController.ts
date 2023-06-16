@@ -1,6 +1,6 @@
 import createError from 'http-errors';
 
-import { query } from '../models/db';
+import { query } from '../database/db';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
