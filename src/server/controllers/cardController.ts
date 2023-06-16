@@ -5,7 +5,81 @@ import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
 import type { CardData } from '../../types';
-import type { ReqParamsDeck, ReqQueryCards, ResLocalsCards } from '../types';
+import type {
+  ReqBodyCard,
+  ReqParamsDeck,
+  ReqQueryCards,
+  ResLocalsCard,
+  ResLocalsCards,
+} from '../types';
+
+const addCard = asyncMiddleware<ReqParamsDeck, unknown, ReqBodyCard, unknown, ResLocalsCard>(
+  async (req, res, next) => {
+    const method = 'cardController.addCard';
+    const errMessage = 'Error adding card. Please try again.';
+
+    const { userId } = res.locals;
+    const { deckId } = req.params;
+    const { question, answer, tags = [] } = req.body;
+
+    if (!question)
+      return next(
+        createError(400, 'Front is required.', {
+          log: createErrorLog(method, `Question missing from request body.`),
+        })
+      );
+    if (!answer)
+      return next(
+        createError(400, 'Back is required.', {
+          log: createErrorLog(method, `Answer missing from request body.`),
+        })
+      );
+
+    const queryString = `
+    WITH
+    ins_card AS (
+      INSERT INTO cards (question, answer, deck_id)
+      SELECT $1, $2, $3
+      WHERE EXISTS (
+        SELECT 1
+        FROM decks
+        WHERE id = $3
+        AND user_id = $4
+      )
+      RETURNING id, deck_id AS "deckId", question, answer, attempt_count as "attemptCount", correct_count AS "correctCount", created_at as "dateCreated"
+    ),
+    ins_tags as (
+      INSERT INTO card_tags (tag_id, card_id)
+      SELECT unnest($5::integer[]), id
+      FROM ins_card
+    )
+    SELECT * FROM ins_card;
+    `;
+
+    const queryParams = [question, answer, deckId, userId, tags];
+
+    try {
+      const card = await query<CardData>(queryString, queryParams);
+      if (!card.rows.length)
+        return next(
+          createError(400, errMessage, {
+            log: createErrorLog(method, 'Insert card operation returned 0 rows.'),
+          })
+        );
+      res.locals.card = card.rows[0];
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
 
 const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards, ResLocalsCards>(
   async (req, res, next) => {
@@ -83,5 +157,6 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
 );
 
 export const cardController = {
+  addCard,
   getCards,
 };

@@ -1,4 +1,5 @@
 import type {
+  CardResponse,
   CardsResponse,
   DeckPatchResponse,
   DeckResponse,
@@ -17,6 +18,12 @@ export type ReqParamsTag = ReqParamsDeck & { tagId: string };
 
 export interface ReqBodyLogin {
   credential: google.accounts.id.CredentialResponse['credential'];
+}
+
+export interface ReqBodyCard {
+  question: string;
+  answer: string;
+  tags?: number[];
 }
 
 export interface ReqBodyDeck {
@@ -39,6 +46,7 @@ export interface ResLocalsLogin extends ResLocals {
   userInfo?: UserInfoData;
 }
 
+export type ResLocalsCard = ResLocals & CardResponse;
 export type ResLocalsCards = ResLocals & CardsResponse;
 export type ResLocalsDeck = ResLocals & DeckResponse;
 export type ResLocalsDeckPatch = ResLocals & DeckPatchResponse;
