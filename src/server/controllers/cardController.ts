@@ -1,11 +1,9 @@
 import createError from 'http-errors';
 
-import { selectCardsQuery } from '../database/cardQueries';
-import { query } from '../database/db';
+import { insertCardQuery, selectCardQuery, selectCardsQuery } from '../database/cardQueries';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
-import type { CardData } from '../../types';
 import type {
   ReqBodyCard,
   ReqParamsCard,
@@ -37,31 +35,8 @@ const addCard = asyncMiddleware<ReqParamsDeck, unknown, ReqBodyCard, unknown, Re
         })
       );
 
-    const queryString = `
-    WITH
-    ins_card AS (
-      INSERT INTO cards (question, answer, deck_id)
-      SELECT $1, $2, $3
-      WHERE EXISTS (
-        SELECT 1
-        FROM decks
-        WHERE id = $3
-        AND user_id = $4
-      )
-      RETURNING id, deck_id AS "deckId", question, answer, attempt_count as "attemptCount", correct_count AS "correctCount", created_at as "dateCreated"
-    ),
-    ins_tags as (
-      INSERT INTO card_tags (tag_id, card_id)
-      SELECT unnest($5::integer[]), id
-      FROM ins_card
-    )
-    SELECT * FROM ins_card;
-    `;
-
-    const queryParams = [question, answer, deckId, userId, tags];
-
     try {
-      const card = await query<CardData>(queryString, queryParams);
+      const card = await insertCardQuery({ question, answer, deckId, userId, tags });
       if (!card.rows.length)
         return next(
           createError(400, errMessage, {
@@ -105,27 +80,8 @@ const getCard = asyncMiddleware<ReqParamsCard, unknown, unknown, unknown, ResLoc
         })
       );
 
-    const queryString = `
-    SELECT
-      c.id,
-      c.deck_id AS "deckId",
-      c.question,
-      c.answer,
-      c.attempt_count as "attemptCount",
-      c.correct_count AS "correctCount",
-      c.created_at as "dateCreated"
-    FROM cards c
-    INNER JOIN decks d
-    ON d.id = c.deck_id
-    WHERE c.id = $1
-      AND d.id = $2
-      AND d.user_id = $3;
-    `;
-
-    const queryParams = [cardId, deckId, userId];
-
     try {
-      const card = await query<CardData>(queryString, queryParams);
+      const card = await selectCardQuery({ cardId, deckId, userId });
       if (!card.rows.length)
         return next(
           createError(404, 'Card not found.', { log: createErrorLog(method, 'Card not found.') })
