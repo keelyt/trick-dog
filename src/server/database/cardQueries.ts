@@ -13,14 +13,13 @@ export const deleteCardQuery = ({
 }) => {
   // The database was configured with cascading deletes, so deleting card will delete related rows in card_tags.
   const queryString = `
-    DELETE from cards c
-    INNER JOIN decks d
-    ON d.id = c.deck_id
-    WHERE d.user_id = $1
-      AND c.deck_id = $2
-      AND c.id = $3;
-    `;
-  const queryParams = [userId, Number(deckId), Number(cardId)];
+  DELETE FROM cards
+  WHERE id = $1
+    AND deck_id = $2
+    AND deck_id IN (SELECT id FROM decks WHERE user_id = $3);
+  `;
+
+  const queryParams = [Number(cardId), Number(deckId), userId];
 
   return query(queryString, queryParams);
 };
