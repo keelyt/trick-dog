@@ -174,8 +174,7 @@ export const updateCardQuery = ({
         AND user_id = $5
       )
     RETURNING id, deck_id AS "deckId", question, answer, attempt_count AS "attemptCount", correct_count AS "correctCount", created_at AS "dateCreated"
-  )
-  ${
+  )${
     tags !== undefined
       ? `,
   del_tags AS (
@@ -198,7 +197,7 @@ export const updateCardQuery = ({
     Number(cardId),
     Number(deckId),
     userId,
-    ...(tags !== undefined ? tags : []),
+    ...(tags !== undefined ? [tags] : []),
   ];
 
   return query<CardData>(queryString, queryParams);
