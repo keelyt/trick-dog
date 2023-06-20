@@ -204,7 +204,7 @@ const updateCard = asyncMiddleware<ReqParamsCard, unknown, ReqBodyCard, unknown,
 
     const { userId } = res.locals;
     const { deckId, cardId } = req.params;
-    const { question, answer, tags = [] } = req.body;
+    const { question, answer, tags } = req.body;
 
     if (!deckId || isNaN(Number(deckId)))
       return next(

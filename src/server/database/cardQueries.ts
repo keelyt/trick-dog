@@ -42,12 +42,9 @@ export const insertCardQuery = ({
     ins_card AS (
       INSERT INTO cards (question, answer, deck_id)
       SELECT $1, $2, $3
-      WHERE EXISTS (
-        SELECT 1
-        FROM decks
-        WHERE id = $3
+      FROM decks
+      WHERE id = $3
         AND user_id = $4
-      )
       RETURNING id, deck_id AS "deckId", question, answer, attempt_count AS "attemptCount", correct_count AS "correctCount", created_at AS "dateCreated"
     ),
     ins_tags AS (
@@ -162,7 +159,7 @@ export const updateCardQuery = ({
   cardId: string;
   deckId: string;
   userId: number;
-  tags: number[];
+  tags?: number[];
 }) => {
   const queryString = `
   WITH
@@ -177,7 +174,10 @@ export const updateCardQuery = ({
         AND user_id = $5
       )
     RETURNING id, deck_id AS "deckId", question, answer, attempt_count AS "attemptCount", correct_count AS "correctCount", created_at AS "dateCreated"
-  ),
+  )
+  ${
+    tags !== undefined
+      ? `,
   del_tags AS (
     DELETE from card_tags
     WHERE card_id = $3
@@ -186,11 +186,20 @@ export const updateCardQuery = ({
     INSERT INTO card_tags (tag_id, card_id)
     SELECT unnest($6::integer[]), id
     FROM upd_card
-  )
+  )`
+      : ''
+  }
   SELECT * FROM upd_card;
   `;
 
-  const queryParams = [question, answer, Number(cardId), Number(deckId), userId, tags];
+  const queryParams = [
+    question,
+    answer,
+    Number(cardId),
+    Number(deckId),
+    userId,
+    ...(tags !== undefined ? tags : []),
+  ];
 
   return query<CardData>(queryString, queryParams);
 };
