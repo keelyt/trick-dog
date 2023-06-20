@@ -4,6 +4,7 @@ import type {
   DeckPatchResponse,
   DeckResponse,
   DecksResponse,
+  TagsResponse,
   UserInfoData,
   UserInfoResponse,
 } from '../types';
@@ -56,3 +57,4 @@ export type ResLocalsDeck = ResLocalsAuth & DeckResponse;
 export type ResLocalsDeckPatch = ResLocalsAuth & DeckPatchResponse;
 export type ResLocalsDecks = ResLocalsAuth & DecksResponse;
 export type ResLocalsStatus = ResLocalsAuth & UserInfoResponse;
+export type ResLocalsTags = ResLocalsAuth & TagsResponse;
