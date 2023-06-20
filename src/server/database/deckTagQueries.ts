@@ -2,6 +2,31 @@ import { query } from './db';
 
 import type { TagData } from '../../types';
 
+export const insertDeckTagQuery = ({
+  userId,
+  deckId,
+  tagName,
+}: {
+  userId: number;
+  deckId: string;
+  tagName: string;
+}) => {
+  const queryString = `
+  INSERT INTO tags (tag_name, deck_id)
+  SELECT $1, $2
+  WHERE EXISTS (
+    SELECT 1
+    FROM decks
+    WHERE id = $2
+      AND user_id = $3
+  )
+  RETURNING id, tag_name AS "tagName", deck_id AS "deckId";
+  `;
+  const queryParams = [tagName, Number(deckId), userId];
+
+  return query<TagData>(queryString, queryParams);
+};
+
 export const selectDeckTagsQuery = ({ userId, deckId }: { userId: number; deckId: string }) => {
   const queryString = `
   SELECT t.id, t.tag_name, t.deck_id
