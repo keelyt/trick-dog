@@ -5,6 +5,7 @@ import {
   insertCardQuery,
   selectCardQuery,
   selectCardsQuery,
+  updateCardQuery,
 } from '../database/cardQueries';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
@@ -27,6 +28,13 @@ const addCard = asyncMiddleware<ReqParamsDeck, unknown, ReqBodyCard, unknown, Re
     const { userId } = res.locals;
     const { deckId } = req.params;
     const { question, answer, tags = [] } = req.body;
+
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
 
     if (!question)
       return next(
@@ -189,9 +197,67 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
   }
 );
 
+const updateCard = asyncMiddleware<ReqParamsCard, unknown, ReqBodyCard, unknown, ResLocalsCard>(
+  async (req, res, next) => {
+    const method = 'cardController.updateCard';
+    const errMessage = 'Error updating card. Please try again.';
+
+    const { userId } = res.locals;
+    const { deckId, cardId } = req.params;
+    const { question, answer, tags = [] } = req.body;
+
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
+
+    if (!cardId || isNaN(Number(cardId)))
+      return next(
+        createError(400, 'Invalid Card ID.', {
+          log: createErrorLog(method, `Provided card ID (${cardId}) is not a number.`),
+        })
+      );
+
+    if (!question)
+      return next(
+        createError(400, 'Front is required.', {
+          log: createErrorLog(method, `Question missing from request body.`),
+        })
+      );
+    if (!answer)
+      return next(
+        createError(400, 'Back is required.', {
+          log: createErrorLog(method, `Answer missing from request body.`),
+        })
+      );
+
+    try {
+      const card = await updateCardQuery({ question, answer, cardId, deckId, userId, tags });
+      if (!card.rows.length)
+        return next(
+          createError(404, 'Card not found.', { log: createErrorLog(method, 'Card not found.') })
+        );
+      res.locals.card = card.rows[0];
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
+
 export const cardController = {
   addCard,
   deleteCard,
   getCard,
   getCards,
+  updateCard,
 };

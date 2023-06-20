@@ -22,7 +22,7 @@ import type {
 const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeck, unknown, ResLocalsDeck>(
   async (req, res, next) => {
     const method = 'deckController.addDeck';
-    const errMessage = 'Error adding deck. Please try again';
+    const errMessage = 'Error adding deck. Please try again.';
 
     const { userId } = res.locals;
     const { deckName } = req.body;
@@ -161,7 +161,7 @@ const updateDeck = asyncMiddleware<
   ResLocalsDeckPatch
 >(async (req, res, next) => {
   const method = 'deckController.updateDeck';
-  const errMessage = 'Error updating deck. Please try again';
+  const errMessage = 'Error updating deck. Please try again.';
 
   const { userId } = res.locals;
   const { deckName } = req.body;

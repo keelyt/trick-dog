@@ -18,7 +18,7 @@ export const deleteCardQuery = ({
     ON d.id = c.deck_id
     WHERE d.user_id = $1
       AND c.deck_id = $2
-      AND c.id = $3
+      AND c.id = $3;
     `;
   const queryParams = [userId, Number(deckId), Number(cardId)];
 
@@ -49,9 +49,9 @@ export const insertCardQuery = ({
         WHERE id = $3
         AND user_id = $4
       )
-      RETURNING id, deck_id AS "deckId", question, answer, attempt_count as "attemptCount", correct_count AS "correctCount", created_at as "dateCreated"
+      RETURNING id, deck_id AS "deckId", question, answer, attempt_count AS "attemptCount", correct_count AS "correctCount", created_at AS "dateCreated"
     ),
-    ins_tags as (
+    ins_tags AS (
       INSERT INTO card_tags (tag_id, card_id)
       SELECT unnest($5::integer[]), id
       FROM ins_card
@@ -79,9 +79,9 @@ export const selectCardQuery = ({
     c.deck_id AS "deckId",
     c.question,
     c.answer,
-    c.attempt_count as "attemptCount",
+    c.attempt_count AS "attemptCount",
     c.correct_count AS "correctCount",
-    c.created_at as "dateCreated"
+    c.created_at AS "dateCreated"
   FROM cards c
   INNER JOIN decks d
   ON d.id = c.deck_id
@@ -118,9 +118,9 @@ export const selectCardsQuery = ({
       c.deck_id AS "deckId",
       c.question,
       c.answer,
-      c.attempt_count as "attemptCount",
+      c.attempt_count AS "attemptCount",
       c.correct_count AS "correctCount",
-      c.created_at as "dateCreated"
+      c.created_at AS "dateCreated"
     FROM cards c
     INNER JOIN decks d
     ON d.id = c.deck_id
@@ -146,6 +146,52 @@ export const selectCardsQuery = ({
     ...(tag !== undefined ? [Number(tag)] : []),
     Number(limit),
   ];
+
+  return query<CardData>(queryString, queryParams);
+};
+
+export const updateCardQuery = ({
+  question,
+  answer,
+  cardId,
+  deckId,
+  userId,
+  tags,
+}: {
+  question: string;
+  answer: string;
+  cardId: string;
+  deckId: string;
+  userId: number;
+  tags: number[];
+}) => {
+  const queryString = `
+  WITH
+  upd_card AS (
+    UPDATE cards
+    SET question = $1, answer = $2
+    WHERE id = $3
+      AND EXISTS (
+        SELECT 1
+        FROM decks
+        WHERE id = $4
+        AND user_id = $5
+      )
+    RETURNING id, deck_id AS "deckId", question, answer, attempt_count AS "attemptCount", correct_count AS "correctCount", created_at AS "dateCreated"
+  ),
+  del_tags AS (
+    DELETE from card_tags
+    WHERE card_id = $3
+  ),
+  ins_tags AS (
+    INSERT INTO card_tags (tag_id, card_id)
+    SELECT unnest($6::integer[]), id
+    FROM upd_card
+  )
+  SELECT * FROM upd_card;
+  `;
+
+  const queryParams = [question, answer, Number(cardId), Number(deckId), userId, tags];
 
   return query<CardData>(queryString, queryParams);
 };
