@@ -36,7 +36,7 @@ export const selectDeckQuery = ({ userId, deckId }: { userId: number; deckId: st
     GROUP BY d.id
   ) dc
   LEFT OUTER JOIN (
-    SELECT deck_id, json_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id)) AS tags
+    SELECT deck_id, jsonb_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id) ORDER BY tag_name ASC) AS tags
     FROM tags
     WHERE deck_id = $2
     GROUP BY deck_id
@@ -60,7 +60,7 @@ export const selectDecksQuery = (userId: number) => {
     GROUP BY d.id
   ) dc
   LEFT OUTER JOIN (
-    SELECT deck_id, json_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id)) AS tags
+    SELECT deck_id, jsonb_agg(json_build_object('id', id, 'tagName', tag_name, 'deckId', deck_id) ORDER BY tag_name ASC) AS tags
     FROM tags
     GROUP BY deck_id
   ) ct
