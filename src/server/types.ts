@@ -1,5 +1,6 @@
 import type {
   CardResponse,
+  CardTagsResponse,
   CardsResponse,
   DeckPatchResponse,
   DeckResponse,
@@ -58,6 +59,7 @@ export interface ResLocalsLogin extends ResLocals {
 
 export type ResLocalsCard = ResLocalsAuth & CardResponse;
 export type ResLocalsCards = ResLocalsAuth & CardsResponse;
+export type ResLocalsCardTags = ResLocalsAuth & CardTagsResponse;
 export type ResLocalsDeck = ResLocalsAuth & DeckResponse;
 export type ResLocalsDeckPatch = ResLocalsAuth & DeckPatchResponse;
 export type ResLocalsDecks = ResLocalsAuth & DecksResponse;

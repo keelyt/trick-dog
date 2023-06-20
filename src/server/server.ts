@@ -12,10 +12,14 @@ import { getSessionStore } from './database/db';
 import checkSession from './middleware/checkSession';
 import authRouter from './routes/authRoutes';
 import cardRouter from './routes/cardRoutes';
+import cardTagRouter from './routes/cardTagRoutes';
 import deckRouter from './routes/deckRoutes';
 import deckTagRouter from './routes/deckTagRoutes';
 
 import type { Express, NextFunction, Request, Response } from 'express';
+
+// TODO: Improve validation (using Zod?).
+// TODO: Add testing.
 
 declare module 'express-session' {
   interface SessionData {
@@ -73,6 +77,7 @@ app.use(checkSession);
 
 // Define routes.
 app.use('/api/auth', authRouter);
+app.use('/api/decks/:deckId/cards/:cardId/tags', cardTagRouter);
 app.use('/api/decks/:deckId/cards', cardRouter);
 app.use('/api/decks/:deckId/tags', deckTagRouter);
 app.use('/api/decks', deckRouter);
