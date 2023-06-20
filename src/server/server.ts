@@ -11,6 +11,7 @@ import { HttpError } from 'http-errors';
 import { getSessionStore } from './database/db';
 import checkSession from './middleware/checkSession';
 import authRouter from './routes/authRoutes';
+import cardRouter from './routes/cardRoutes';
 import deckRouter from './routes/deckRoutes';
 
 import type { Express, NextFunction, Request, Response } from 'express';
@@ -71,6 +72,7 @@ app.use(checkSession);
 
 // Define routes.
 app.use('/api/auth', authRouter);
+app.use('/api/decks/:deckId/cards', cardRouter);
 app.use('/api/decks', deckRouter);
 
 // In production mode, serve index.html from dist folder.
