@@ -43,6 +43,12 @@ const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeck, unknown, ResLocal
 
     try {
       const deck = await insertDeckQuery({ deckName, userId });
+      if (!deck.rows.length)
+        return next(
+          createError(400, errMessage, {
+            log: createErrorLog(method, 'Insert deck operation returned 0 rows.'),
+          })
+        );
       res.locals.deck = { ...deck.rows[0], cardCount: 0, tags: [] };
       return next();
     } catch (error) {
