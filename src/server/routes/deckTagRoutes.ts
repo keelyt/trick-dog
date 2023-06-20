@@ -3,7 +3,14 @@ import { Router } from 'express';
 import { deckTagController } from '../controllers/deckTagController';
 import requireLogin from '../middleware/requireLogin';
 
-import type { ReqBodyTag, ReqParamsDeck, ResLocalsTag, ResLocalsTags } from '../types';
+import type {
+  ReqBodyTag,
+  ReqParamsDeck,
+  ReqParamsTag,
+  ResLocalsAuth,
+  ResLocalsTag,
+  ResLocalsTags,
+} from '../types';
 
 const deckTagRouter = Router({ mergeParams: true });
 
@@ -22,6 +29,16 @@ deckTagRouter
     deckTagController.addTag,
     (req, res) => {
       return res.status(201).json({ tag: res.locals.tag });
+    }
+  );
+
+// Handle requests to /api/decks/:deckId/tags/:tagId (DELETE, PATCH).
+deckTagRouter
+  .route('/:tagId')
+  .delete<ReqParamsTag, unknown, unknown, unknown, ResLocalsAuth>(
+    deckTagController.deleteTag,
+    (req, res) => {
+      return res.status(200).json({ message: 'Successfully deleted.' });
     }
   );
 

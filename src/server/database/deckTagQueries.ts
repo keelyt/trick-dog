@@ -2,6 +2,27 @@ import { query } from './db';
 
 import type { TagData } from '../../types';
 
+export const deleteTagQuery = ({
+  userId,
+  deckId,
+  tagId,
+}: {
+  userId: number;
+  deckId: string;
+  tagId: string;
+}) => {
+  const queryString = `
+  DELETE FROM tags
+  WHERE id = $1
+    AND deck_id = $2
+    AND deck_id IN (SELECT id FROM decks WHERE user_id = $3);
+  `;
+
+  const queryParams = [Number(tagId), Number(deckId), userId];
+
+  return query(queryString, queryParams);
+};
+
 export const insertDeckTagQuery = ({
   userId,
   deckId,
