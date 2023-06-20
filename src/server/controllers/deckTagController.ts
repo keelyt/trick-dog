@@ -164,7 +164,7 @@ const updateTag = asyncMiddleware<ReqParamsTag, unknown, ReqBodyTag, unknown, Re
     if (!tagId || isNaN(Number(tagId)))
       return next(
         createError(400, 'Invalid Tag ID.', {
-          log: createErrorLog(method, `Provided card ID (${tagId}) is not a number.`),
+          log: createErrorLog(method, `Provided tag ID (${tagId}) is not a number.`),
         })
       );
 
