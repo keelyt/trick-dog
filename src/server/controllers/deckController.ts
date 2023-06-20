@@ -13,6 +13,7 @@ import createErrorLog from '../utils/createErrorLog';
 import type {
   ReqBodyDeck,
   ReqParamsDeck,
+  ResLocalsAuth,
   ResLocalsDeck,
   ResLocalsDeckPatch,
   ResLocalsDecks,
@@ -57,7 +58,7 @@ const addDeck = asyncMiddleware<unknown, unknown, ReqBodyDeck, unknown, ResLocal
   }
 );
 
-const deleteDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLocalsDeck>(
+const deleteDeck = asyncMiddleware<ReqParamsDeck, unknown, unknown, unknown, ResLocalsAuth>(
   async (req, res, next) => {
     const method = 'deckController.deleteDeck';
     const errMessage = 'Error deleting deck.';

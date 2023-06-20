@@ -6,6 +6,7 @@ import requireLogin from '../middleware/requireLogin';
 import type {
   ReqBodyDeck,
   ReqParamsDeck,
+  ResLocalsAuth,
   ResLocalsDeck,
   ResLocalsDeckPatch,
   ResLocalsDecks,
@@ -31,7 +32,7 @@ deckRouter
 // Handle requests to /api/decks/:deckId (DELETE, GET, PATCH).
 deckRouter
   .route('/:deckId')
-  .delete<ReqParamsDeck, unknown, unknown, unknown, ResLocalsDeck>(
+  .delete<ReqParamsDeck, unknown, unknown, unknown, ResLocalsAuth>(
     deckController.deleteDeck,
     (req, res) => {
       return res.status(200).json({ message: 'Successfully deleted.' });
