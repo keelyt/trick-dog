@@ -26,7 +26,7 @@ export const insertDeckQuery = ({ deckName, userId }: { deckName: string; userId
 
 export const selectDeckQuery = ({ userId, deckId }: { userId: number; deckId: string }) => {
   const queryString = `
-  SELECT dc.*, ct.tags
+  SELECT dc.*, COALESCE(ct.tags, '[]') AS tags
   FROM (
     SELECT d.id, d.deck_name AS "deckName", COUNT(c.id) AS "cardCount"
     FROM decks d
@@ -50,7 +50,7 @@ export const selectDeckQuery = ({ userId, deckId }: { userId: number; deckId: st
 
 export const selectDecksQuery = (userId: number) => {
   const queryString = `
-  SELECT dc.*, ct.tags
+  SELECT dc.*, COALESCE(ct.tags, '[]') AS tags
   FROM (
     SELECT d.id, d.deck_name AS "deckName", COUNT(c.id) AS "cardCount"
     FROM decks d
