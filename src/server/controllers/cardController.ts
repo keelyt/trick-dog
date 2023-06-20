@@ -1,6 +1,11 @@
 import createError from 'http-errors';
 
-import { insertCardQuery, selectCardQuery, selectCardsQuery } from '../database/cardQueries';
+import {
+  deleteCardQuery,
+  insertCardQuery,
+  selectCardQuery,
+  selectCardsQuery,
+} from '../database/cardQueries';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
@@ -9,6 +14,7 @@ import type {
   ReqParamsCard,
   ReqParamsDeck,
   ReqQueryCards,
+  ResLocalsAuth,
   ResLocalsCard,
   ResLocalsCards,
 } from '../types';
@@ -44,6 +50,48 @@ const addCard = asyncMiddleware<ReqParamsDeck, unknown, ReqBodyCard, unknown, Re
           })
         );
       res.locals.card = card.rows[0];
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
+
+const deleteCard = asyncMiddleware<ReqParamsCard, unknown, unknown, unknown, ResLocalsAuth>(
+  async (req, res, next) => {
+    const method = 'cardController.deleteCard';
+    const errMessage = 'Error deleting card.';
+
+    const { userId } = res.locals;
+    const { deckId, cardId } = req.params;
+
+    if (!deckId || isNaN(Number(deckId)))
+      return next(
+        createError(400, 'Invalid Deck ID.', {
+          log: createErrorLog(method, `Provided deck ID (${deckId}) is not a number.`),
+        })
+      );
+
+    if (!cardId || isNaN(Number(cardId)))
+      return next(
+        createError(400, 'Invalid Card ID.', {
+          log: createErrorLog(method, `Provided card ID (${cardId}) is not a number.`),
+        })
+      );
+
+    try {
+      const card = await deleteCardQuery({ userId, deckId, cardId });
+      if (!card.rowCount)
+        return next(
+          createError(404, 'Card not found.', { log: createErrorLog(method, 'Card not found.') })
+        );
       return next();
     } catch (error) {
       return next(
@@ -143,6 +191,7 @@ const getCards = asyncMiddleware<ReqParamsDeck, unknown, unknown, ReqQueryCards,
 
 export const cardController = {
   addCard,
+  deleteCard,
   getCard,
   getCards,
 };

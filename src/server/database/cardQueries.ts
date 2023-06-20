@@ -2,6 +2,29 @@ import { query } from './db';
 
 import type { CardData } from '../../types';
 
+export const deleteCardQuery = ({
+  userId,
+  deckId,
+  cardId,
+}: {
+  userId: number;
+  deckId: string;
+  cardId: string;
+}) => {
+  // The database was configured with cascading deletes, so deleting card will delete related rows in card_tags.
+  const queryString = `
+    DELETE from cards c
+    INNER JOIN decks d
+    ON d.id = c.deck_id
+    WHERE d.user_id = $1
+      AND c.deck_id = $2
+      AND c.id = $3
+    `;
+  const queryParams = [userId, Number(deckId), Number(cardId)];
+
+  return query(queryString, queryParams);
+};
+
 export const insertCardQuery = ({
   question,
   answer,
