@@ -40,6 +40,12 @@ deckTagRouter
     (req, res) => {
       return res.status(200).json({ message: 'Successfully deleted.' });
     }
+  )
+  .patch<ReqParamsTag, unknown, ReqBodyTag, unknown, ResLocalsTag>(
+    deckTagController.updateTag,
+    (req, res) => {
+      return res.status(200).json({ tag: res.locals.tag });
+    }
   );
 
 export default deckTagRouter;
