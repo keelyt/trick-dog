@@ -15,6 +15,7 @@ import cardRouter from './routes/cardRoutes';
 import cardTagRouter from './routes/cardTagRoutes';
 import deckRouter from './routes/deckRoutes';
 import deckTagRouter from './routes/deckTagRoutes';
+import studyRouter from './routes/studyRoutes';
 
 import type { Express, NextFunction, Request, Response } from 'express';
 
@@ -77,6 +78,7 @@ app.use(checkSession);
 
 // Define routes.
 app.use('/api/auth', authRouter);
+app.use('/api/study', studyRouter);
 app.use('/api/decks/:deckId/cards/:cardId/tags', cardTagRouter);
 app.use('/api/decks/:deckId/cards', cardRouter);
 app.use('/api/decks/:deckId/tags', deckTagRouter);

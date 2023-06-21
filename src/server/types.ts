@@ -33,6 +33,10 @@ export interface ReqBodyDeck {
   deckName?: string;
 }
 
+export interface ReqBodyDifficulty {
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+}
+
 export interface ReqBodyTag {
   tagName: string;
 }
@@ -42,6 +46,10 @@ export interface ReqQueryCards {
   tag?: string;
   q?: string;
   limit: string;
+}
+
+export interface ReqQueryStudy {
+  sel: string;
 }
 
 export interface ResLocals {
