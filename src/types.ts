@@ -5,6 +5,10 @@ export interface DeckData {
   tags: TagData[];
 }
 
+export interface DeckPatchResponse {
+  deck: Pick<DeckData, 'id' | 'deckName'>;
+}
+
 export interface DeckResponse {
   deck: DeckData;
 }

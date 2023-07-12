@@ -1,17 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
 import indexObjectByText from './indexObjectByText';
+import useFetchWithAuth from './useFetchWithAuth';
 import { getCardsQueryKey } from './useGetInfiniteCards';
 
 import type { DeckData, DeckResponse } from '../../types';
 
 export default function useAddDeck() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async (deckName: string) =>
-      fetchWithError<DeckResponse>('/api/decks', {
+      fetchWithAuth<DeckResponse>('/api/decks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

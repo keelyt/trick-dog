@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, DeckResponse } from '../../types';
 
@@ -11,11 +11,12 @@ import type { DeckData, DeckResponse } from '../../types';
  */
 export default function useGetDeck(deckId: number) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useQuery({
     queryKey: ['decks', deckId],
     queryFn: async ({ signal }): Promise<DeckData> => {
-      const result = await fetchWithError<DeckResponse>(`/api/decks/${deckId}`, { signal });
+      const result = await fetchWithAuth<DeckResponse>(`/api/decks/${deckId}`, { signal });
 
       // Add the deck's tags to the cache.
       queryClient.setQueryData(['decks', deckId, 'tags'], result.deck.tags);

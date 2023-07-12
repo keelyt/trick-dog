@@ -20,8 +20,8 @@ export default function StudyReviewer({ selection }: { selection: string }) {
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
       if (![' ', '1', '2', '3'].includes(event.key)) return;
-      if (event.key === ' ' && !answerRevealed) setAnswerRevealed(true);
-      else if (['1', '2', '3'].includes(event.key) && answerRevealed)
+      if (event.key === ' ' && !answerRevealed && cardsQuery.data) setAnswerRevealed(true);
+      else if (['1', '2', '3'].includes(event.key) && answerRevealed && cardsQuery.data)
         handleSubmit(['Easy', 'Medium', 'Hard'][Number(event.key) - 1]);
     },
     [answerRevealed, cardsQuery.data, currentIndex, mutatingLast]
@@ -72,57 +72,69 @@ export default function StudyReviewer({ selection }: { selection: string }) {
       <div className={styles['card-container']}>
         {cardsQuery.isError && (
           <QueryError
-            label='Error retrieving information from server.'
+            label={
+              cardsQuery.error instanceof Error
+                ? cardsQuery.error.message
+                : 'Error retrieving information from server.'
+            }
             refetchFn={cardsQuery.refetch}
           />
         )}
         {updateDifficulty.isError && (
           <div>There was an error updating the previous card&apos;s difficulty on the server.</div>
         )}
-        <div className={styles.card}>
-          {(cardsQuery.isLoading || cardsQuery.isRefetching || mutatingLast) && (
-            <span className={styles.centered}>
-              <LoadingSpinner />
-            </span>
-          )}
-          {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
-            <>
-              <div className={styles.card__text}>{cardsQuery.data[currentIndex].question}</div>
-              {answerRevealed && (
+        {!cardsQuery.isError && (
+          <>
+            <div className={styles.card}>
+              {(cardsQuery.isLoading || cardsQuery.isRefetching || mutatingLast) && (
+                <span className={styles.centered}>
+                  <LoadingSpinner />
+                </span>
+              )}
+              {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
                 <>
-                  <hr className={styles.card__divider} />
-                  <div className={styles.card__text}>{cardsQuery.data[currentIndex].answer}</div>
+                  <div className={styles.card__text}>{cardsQuery.data[currentIndex].question}</div>
+                  {answerRevealed && (
+                    <>
+                      <hr className={styles.card__divider} />
+                      <div className={styles.card__text}>
+                        {cardsQuery.data[currentIndex].answer}
+                      </div>
+                    </>
+                  )}
                 </>
               )}
-            </>
-          )}
-        </div>
-        <div className={styles.buttons}>
-          {!answerRevealed && (
-            <Button
-              as='button'
-              type='button'
-              colorScheme='secondary'
-              title='Press space bar on keyboard'
-              onClick={() => setAnswerRevealed(true)}
-            >
-              Show Answer
-            </Button>
-          )}
-          {answerRevealed &&
-            ['Easy', 'Medium', 'Hard'].map((difficulty, i) => (
-              <Button
-                key={difficulty}
-                as='button'
-                type='button'
-                colorScheme='secondary'
-                title={`Press ${[1, 2, 3][i]} on keyboard`}
-                onClick={() => handleSubmit(difficulty)}
-              >
-                {difficulty}
-              </Button>
-            ))}
-        </div>
+            </div>
+            <div className={styles.buttons}>
+              {!answerRevealed && (
+                <Button
+                  as='button'
+                  type='button'
+                  colorScheme='secondary'
+                  title='Press space bar on keyboard'
+                  onClick={() => {
+                    if (cardsQuery.data) setAnswerRevealed(true);
+                  }}
+                >
+                  Show Answer
+                </Button>
+              )}
+              {answerRevealed &&
+                ['Easy', 'Medium', 'Hard'].map((difficulty, i) => (
+                  <Button
+                    key={difficulty}
+                    as='button'
+                    type='button'
+                    colorScheme='secondary'
+                    title={`Press ${[1, 2, 3][i]} on keyboard`}
+                    onClick={() => handleSubmit(difficulty)}
+                  >
+                    {difficulty}
+                  </Button>
+                ))}
+            </div>
+          </>
+        )}
       </div>
     </main>
   );

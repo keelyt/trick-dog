@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
 import indexObjectByText from './indexObjectByText';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, TagData, TagResponse } from '../../types';
 
@@ -17,10 +17,11 @@ interface RenameTagParams {
  */
 export default function useRenameTag() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, tagId, tagName }: RenameTagParams) =>
-      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, {
+      fetchWithAuth<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

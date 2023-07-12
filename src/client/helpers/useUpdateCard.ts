@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 import { getCardsQueryKey } from './useGetInfiniteCards';
 
 import type {
@@ -21,10 +21,11 @@ import type {
  */
 export default function useUpdateCard({ tagId, search }: CardsFilterState) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ cardId, deckId, question, answer, tags }: UpdateCardParams) =>
-      fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, {
+      fetchWithAuth<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -52,26 +53,32 @@ export default function useUpdateCard({ tagId, search }: CardsFilterState) {
         // If the tags were modified so that the current card would no longer be included in the
         // tag filter or if the question/answer were modified so that the card would no longer
         // be included in the search, update by removing the card from the page.
-        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
-          ...old,
-          pages: old?.pages?.map((page) => page.filter((card) => card.id !== variables.cardId)),
-        }));
+        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => {
+          if (old)
+            return {
+              ...old,
+              pages: old.pages?.map((page) => page.filter((card) => card.id !== variables.cardId)),
+            };
+        });
       } else {
         // Otherwise, update the card with the new question/answer.
-        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => ({
-          ...old,
-          pages: old?.pages?.map((page) =>
-            page.map((card) =>
-              card.id === variables.cardId
-                ? {
-                    ...card,
-                    question: variables.question,
-                    answer: variables.answer,
-                  }
-                : card
-            )
-          ),
-        }));
+        queryClient.setQueryData<InfiniteCardData>(cardsQueryKey, (old) => {
+          if (old)
+            return {
+              ...old,
+              pages: old.pages?.map((page) =>
+                page.map((card) =>
+                  card.id === variables.cardId
+                    ? {
+                        ...card,
+                        question: variables.question,
+                        answer: variables.answer,
+                      }
+                    : card
+                )
+              ),
+            };
+        });
       }
     },
     onSettled: (data, error, variables) => {

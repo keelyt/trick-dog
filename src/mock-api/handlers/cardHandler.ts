@@ -135,13 +135,13 @@ export default function cardHandler(server: AppServer) {
         'card',
         (card) =>
           card.deckId === deckId &&
-          (!before || Date.parse(card.dateCreated) < Date.parse(before)) &&
+          (!before || Number(card.id) < Number(before)) &&
           (!tag || card.tagIds.includes(tag)) &&
           (!q ||
             card.question.toLowerCase().includes(q.toLowerCase()) ||
             card.answer.toLowerCase().includes(q.toLowerCase()))
       )
-      .sort((a, b) => Date.parse(b.dateCreated) - Date.parse(a.dateCreated)) // Sort by date descending.
+      .sort((a, b) => Number(b.id) - Number(a.id))
       .slice(0, Math.min(Number(limit), 100)); // Limit to the provided limit (up to 100 cards per page).
   });
 

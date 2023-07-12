@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, DecksResponse } from '../../types';
 
@@ -10,11 +10,12 @@ import type { DeckData, DecksResponse } from '../../types';
  */
 export default function useGetDecks() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useQuery({
     queryKey: ['decks'],
     queryFn: async ({ signal }): Promise<DeckData[]> => {
-      const result = await fetchWithError<DecksResponse>('/api/decks', { signal });
+      const result = await fetchWithAuth<DecksResponse>('/api/decks', { signal });
 
       result.decks.forEach((deck) => {
         // Add each deck to the cache.

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 import { getCardsQueryKey } from './useGetInfiniteCards';
 
 import type { CardResponse, InfiniteCardData } from '../../types';
@@ -18,10 +18,11 @@ interface DeleteCardParams {
  */
 export default function useDeleteCard() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, cardId }: DeleteCardParams) =>
-      fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, { method: 'DELETE' }),
+      fetchWithAuth<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, { method: 'DELETE' }),
     onMutate: async ({ deckId, cardId, tagId, search }: DeleteCardParams) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks', deckId]);

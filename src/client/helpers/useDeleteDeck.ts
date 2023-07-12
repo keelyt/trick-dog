@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
-import type { DeckData, DeckResponse } from '../../types';
+import type { DeckData } from '../../types';
 
 /**
  * A React hook that provides a mutation function for deleting a deck.
@@ -10,10 +10,11 @@ import type { DeckData, DeckResponse } from '../../types';
  */
 export default function useDeleteDeck() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async (deckId: number) =>
-      fetchWithError<DeckResponse>(`/api/decks/${deckId}`, { method: 'DELETE' }),
+      fetchWithAuth<{ message: string }>(`/api/decks/${deckId}`, { method: 'DELETE' }),
     onMutate: async (deckId: number) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks']);

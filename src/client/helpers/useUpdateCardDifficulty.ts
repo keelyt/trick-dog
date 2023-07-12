@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { CardsResponse } from '../../types';
 
@@ -11,9 +11,11 @@ interface UpdateCardDifficultyParams {
 }
 
 export default function useUpdateCardDifficulty() {
+  const fetchWithAuth = useFetchWithAuth();
+
   return useMutation({
     mutationFn: ({ deckId, cardId, difficulty }: UpdateCardDifficultyParams) =>
-      fetchWithError<CardsResponse>(`/api/decks/${deckId}/cards/${cardId}/difficulty`, {
+      fetchWithAuth<CardsResponse>(`/api/decks/${deckId}/cards/${cardId}/difficulty`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

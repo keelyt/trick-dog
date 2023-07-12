@@ -12,6 +12,7 @@ interface AuthContextType {
   userInfo: UserInfoData | null;
   login: (credential: string) => Promise<void>;
   logout: () => Promise<void>;
+  invalidate: () => void;
 }
 
 // Create a new React context for auth.
@@ -68,13 +69,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Note: Errors thrown in this function are handled by the component that call it.
   async function logout(): Promise<void> {
     await fetchWithError('/api/auth/logout', { method: 'DELETE' });
+    invalidate();
+  }
+
+  function invalidate() {
     setAuthed(false);
     setUserInfo(null);
     queryClient.clear();
   }
 
   return (
-    <AuthContext.Provider value={{ authed, userInfo, login, logout }}>
+    <AuthContext.Provider value={{ authed, userInfo, login, logout, invalidate }}>
       {children}
     </AuthContext.Provider>
   );
