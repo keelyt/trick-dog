@@ -1,8 +1,8 @@
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
-import type { CardData, CardsResponse } from '../../types';
+import type { CardsResponse } from '../../types';
 
 // Hardcoded page limit of 12 cards per page.
 const LIMIT = 12;
@@ -54,28 +54,20 @@ export function getCardsQueryKey({ deckId, tagId, search, limit = LIMIT }: Query
  * @param [params.limit = 12] The number of cards to limit the results to. Defaults to 12.
  * @returns The card data for the requested page.
  */
-export const fetchCards = async ({
-  signal,
+export const getCardsURL = ({
   deckId,
   tagId = null,
   search = '',
   before = null,
   limit = LIMIT,
-}: FetchParams): Promise<CardData[]> => {
+}: FetchParams): string => {
   const query = [`limit=${encodeURIComponent(limit)}`];
   if (tagId) query.push(`tag=${encodeURIComponent(tagId)}`);
   if (search) query.push(`q=${encodeURIComponent(search)}`);
   if (before) query.push(`before=${encodeURIComponent(before)}`);
   const deckIdParam = encodeURIComponent(deckId);
 
-  const response = await fetchWithError<CardsResponse>(
-    `/api/decks/${deckIdParam}/cards${query.length ? '?' + query.join('&') : ''}`,
-    {
-      signal,
-    }
-  );
-
-  return response.cards;
+  return `/api/decks/${deckIdParam}/cards${query.length ? '?' + query.join('&') : ''}`;
 };
 
 /**
@@ -94,6 +86,8 @@ export function useGetInfiniteCards({
   limit = LIMIT,
 }: InfiniteQueryParams) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
+
   return useInfiniteQuery({
     queryKey: getCardsQueryKey({ deckId, tagId, search, limit }),
     queryFn: async ({
@@ -103,7 +97,14 @@ export function useGetInfiniteCards({
       signal?: AbortSignal;
       pageParam?: number | null;
     }) => {
-      const cards = await fetchCards({ signal, deckId, tagId, search, before: pageParam, limit });
+      const response = await fetchWithAuth<CardsResponse>(
+        getCardsURL({ signal, deckId, tagId, search, before: pageParam, limit }),
+        {
+          signal,
+        }
+      );
+
+      const cards = response.cards;
 
       // Add each individual card to the cache.
       cards.forEach((card) => queryClient.setQueryData(['decks', deckId, 'cards', card.id], card));
@@ -127,10 +128,16 @@ export function useGetInfiniteCards({
  */
 export function usePrefetchInfiniteCards(deckId: number, limit = LIMIT) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return () =>
     queryClient.prefetchInfiniteQuery({
       queryKey: getCardsQueryKey({ deckId, tagId: null, search: '', limit }),
-      queryFn: () => fetchCards({ deckId, limit }),
+      queryFn: async ({ signal }) => {
+        const response = await fetchWithAuth<CardsResponse>(getCardsURL({ deckId, limit }), {
+          signal,
+        });
+        return response.cards;
+      },
     });
 }

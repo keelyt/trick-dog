@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
 import indexObjectByText from './indexObjectByText';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, TagData, TagResponse } from '../../types';
 
@@ -16,10 +16,11 @@ interface AddTagParams {
  */
 export default function useAddTag() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, tagName }: AddTagParams) =>
-      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags`, {
+      fetchWithAuth<TagResponse>(`/api/decks/${deckId}/tags`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

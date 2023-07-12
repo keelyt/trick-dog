@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, TagResponse } from '../../types';
 
@@ -15,10 +15,11 @@ interface DeleteTagParams {
  */
 export default function useDeleteTag() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, tagId }: DeleteTagParams) =>
-      fetchWithError<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, { method: 'DELETE' }),
+      fetchWithAuth<TagResponse>(`/api/decks/${deckId}/tags/${tagId}`, { method: 'DELETE' }),
     onMutate: async ({ deckId, tagId }: DeleteTagParams) => {
       // Cancel outgoing refetches (so they don't overwrite our optimistic update).
       await queryClient.cancelQueries(['decks', deckId]);

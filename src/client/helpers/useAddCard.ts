@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 import { getCardsQueryKey } from './useGetInfiniteCards';
 
 import type {
@@ -21,10 +21,11 @@ import type {
  */
 export default function useAddCard({ tagId, search }: CardsFilterState) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, question, answer, tags }: AddCardParams) =>
-      fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/`, {
+      fetchWithAuth<CardResponse>(`/api/decks/${deckId}/cards/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

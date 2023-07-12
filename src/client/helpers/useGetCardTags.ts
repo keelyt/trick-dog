@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { CardTagsResponse } from '../../types';
 
@@ -11,10 +11,12 @@ import type { CardTagsResponse } from '../../types';
  * @returns The result of the query.
  */
 export default function useGetCardTags(deckId: number, cardId: number) {
+  const fetchWithAuth = useFetchWithAuth();
+
   return useQuery({
     queryKey: ['decks', deckId, 'cards', cardId, 'tags'],
     queryFn: async ({ signal }): Promise<number[]> => {
-      const result = await fetchWithError<CardTagsResponse>(
+      const result = await fetchWithAuth<CardTagsResponse>(
         `/api/decks/${deckId}/cards/${cardId}/tags`,
         { signal }
       );
@@ -31,12 +33,13 @@ export default function useGetCardTags(deckId: number, cardId: number) {
  */
 export function usePrefetchCardTags(deckId: number, cardId: number) {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return () =>
     queryClient.prefetchQuery({
       queryKey: ['decks', deckId, 'cards', cardId, 'tags'],
       queryFn: async (): Promise<number[]> => {
-        const result = await fetchWithError<CardTagsResponse>(
+        const result = await fetchWithAuth<CardTagsResponse>(
           `/api/decks/${deckId}/cards/${cardId}/tags`
         );
         return result.tags;

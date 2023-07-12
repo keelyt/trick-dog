@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { DeckData, DeckPatchResponse } from '../../types';
 
@@ -11,10 +11,11 @@ interface RenameDeckParams {
 
 export default function useRenameDeck() {
   const queryClient = useQueryClient();
+  const fetchWithAuth = useFetchWithAuth();
 
   return useMutation({
     mutationFn: async ({ deckId, deckName }: RenameDeckParams) =>
-      fetchWithError<DeckPatchResponse>(`/api/decks/${deckId}`, {
+      fetchWithAuth<DeckPatchResponse>(`/api/decks/${deckId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

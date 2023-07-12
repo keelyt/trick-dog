@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { TagData, TagsResponse } from '../../types';
 
@@ -10,10 +10,12 @@ import type { TagData, TagsResponse } from '../../types';
  * @returns The result of the query.
  */
 export default function useGetDeckTags(deckId: number) {
+  const fetchWithAuth = useFetchWithAuth();
+
   return useQuery({
     queryKey: ['decks', deckId, 'tags'],
     queryFn: async ({ signal }): Promise<TagData[]> => {
-      const result = await fetchWithError<TagsResponse>(`/api/decks/${deckId}/tags`, { signal });
+      const result = await fetchWithAuth<TagsResponse>(`/api/decks/${deckId}/tags`, { signal });
       return result.tags;
     },
   });

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import fetchWithError from './fetchWithError';
+import useFetchWithAuth from './useFetchWithAuth';
 
 import type { CardResponse, CardData } from '../../types';
 
@@ -11,10 +11,12 @@ import type { CardResponse, CardData } from '../../types';
  * @returns The result of the query.
  */
 export default function useGetCard(deckId: number, cardId: number) {
+  const fetchWithAuth = useFetchWithAuth();
+
   return useQuery({
     queryKey: ['decks', deckId, 'cards', cardId],
     queryFn: async ({ signal }): Promise<CardData> => {
-      const result = await fetchWithError<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, {
+      const result = await fetchWithAuth<CardResponse>(`/api/decks/${deckId}/cards/${cardId}`, {
         signal,
       });
       return result.card;
