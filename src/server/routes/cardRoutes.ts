@@ -1,10 +1,12 @@
 import { Router } from 'express';
 
 import { cardController } from '../controllers/cardController';
+import { studyController } from '../controllers/studyController';
 import requireLogin from '../middleware/requireLogin';
 
 import type {
   ReqBodyCard,
+  ReqBodyDifficulty,
   ReqParamsCard,
   ReqParamsDeck,
   ReqQueryCards,
@@ -50,6 +52,16 @@ cardRouter
   )
   .patch<ReqParamsCard, unknown, ReqBodyCard, unknown, ResLocalsCard>(
     cardController.updateCard,
+    (req, res) => {
+      return res.status(200).json({ card: res.locals.card });
+    }
+  );
+
+// Handle requests to /api/decks/:deckId/cards/:cardId/difficulty (PATCH).
+cardRouter
+  .route('/:cardId/difficulty')
+  .patch<ReqParamsCard, unknown, ReqBodyDifficulty, unknown, ResLocalsCard>(
+    studyController.updateCardDifficulty,
     (req, res) => {
       return res.status(200).json({ card: res.locals.card });
     }
