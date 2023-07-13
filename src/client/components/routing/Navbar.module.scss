@@ -97,7 +97,8 @@
       }
     }
 
-    &--left, &--left-collapsible {
+    &--left,
+    &--left-collapsible {
       flex-grow: 1;
     }
 
@@ -108,7 +109,8 @@
       }
     }
 
-    &--left li, &--left-collapsible li {
+    &--left li,
+    &--left-collapsible li {
       height: 100%;
     }
 
@@ -118,7 +120,8 @@
       }
     }
 
-    &--right, &--right-collapsible {
+    &--right,
+    &--right-collapsible {
       padding-right: 0.75rem;
       gap: 1rem;
       justify-content: flex-end;

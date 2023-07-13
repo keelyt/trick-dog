@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BiUser } from 'react-icons/bi';
+import { BsGithub } from 'react-icons/bs';
 import { RiMenuLine, RiCloseLine } from 'react-icons/ri';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -73,13 +74,6 @@ export default function Navbar(): JSX.Element {
           >
             {authed && (
               <li className={styles.skew}>
-                <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                  <span className={styles.unskew}>Home</span>
-                </NavLink>
-              </li>
-            )}
-            {authed && (
-              <li className={styles.skew}>
                 <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
                   <span className={styles.unskew}>Decks</span>
                 </NavLink>
@@ -128,6 +122,17 @@ export default function Navbar(): JSX.Element {
                 </NavLink>
               </li>
             )}
+            <li>
+              <a
+                className={`${styles.nav__link} ${styles['nav__link--icon']}`}
+                href='https://github.com/keelyt/trick-dog'
+                target='_blank'
+                rel='noreferrer noopener'
+                aria-label='View on GitHub'
+              >
+                <BsGithub />
+              </a>
+            </li>
             <li>
               <DarkLightToggle />
             </li>

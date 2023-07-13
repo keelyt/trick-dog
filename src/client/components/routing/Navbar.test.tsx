@@ -52,10 +52,9 @@ describe('Navbar', () => {
     );
   });
 
-  it('shows home, decks, study, stats, and profile links and theme toggle button when user is logged in', () => {
+  it('shows decks, study, stats, and profile links and theme toggle button when user is logged in', () => {
     authed = true;
     render(<RouterProvider router={router} />);
-    expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Decks')).toBeInTheDocument();
     expect(screen.getByText('Study')).toBeInTheDocument();
     expect(screen.getByText('Stats')).toBeInTheDocument();
@@ -70,14 +69,6 @@ describe('Navbar', () => {
     expect(screen.queryByText('Study')).not.toBeInTheDocument();
     expect(screen.queryByText('Stats')).not.toBeInTheDocument();
     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
-  });
-
-  it('navigates to "/" when the home link is clicked', async () => {
-    authed = true;
-    render(<RouterProvider router={router} />);
-    const link = screen.getByRole('link', { name: 'Home' });
-    await userEvent.click(link);
-    expect(router.state.location.pathname).toEqual('/');
   });
 
   it('navigates to "/decks" when the decks link is clicked', async () => {
