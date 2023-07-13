@@ -17,9 +17,16 @@
   -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
   transform: rotate(0deg);
   transition: transform 1s;
+
   @include themes.themed {
     border-color: themes.t('text');
     color: themes.t('text');
+  }
+
+  &:hover {
+    @include themes.themed {
+      background-color: themes.t('bg-nav-hover');
+    }
   }
 
   &.rotate {
