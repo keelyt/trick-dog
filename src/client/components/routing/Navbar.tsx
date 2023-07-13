@@ -74,13 +74,6 @@ export default function Navbar(): JSX.Element {
           >
             {authed && (
               <li className={styles.skew}>
-                <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                  <span className={styles.unskew}>Home</span>
-                </NavLink>
-              </li>
-            )}
-            {authed && (
-              <li className={styles.skew}>
                 <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
                   <span className={styles.unskew}>Decks</span>
                 </NavLink>

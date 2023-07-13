@@ -15,8 +15,7 @@ const DeckSettings = lazy(() => import('./pages/DeckSettings'));
 const DeckTags = lazy(() => import('./pages/DeckTags'));
 const EditCard = lazy(() => import('./pages/EditCard'));
 const EditDeck = lazy(() => import('./pages/EditDeck'));
-const HomeLoggedIn = lazy(() => import('./pages/HomeLoggedIn'));
-const HomeLoggedOut = lazy(() => import('./pages/HomeLoggedOut'));
+const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 const Profile = lazy(() => import('./pages/Profile'));
@@ -38,7 +37,7 @@ export default function App() {
           <Suspense fallback={<Fallback />}>
             <Navbar />
             <Routes>
-              <Route path='/' element={authed ? <HomeLoggedIn /> : <HomeLoggedOut />} />
+              <Route path='/' element={authed ? <Navigate to='study' replace /> : <Home />} />
               <Route element={<PrivateRoute />}>
                 <Route path='/decks' element={<Decks />} />
                 <Route path='/decks/:deckId' element={<EditDeck />}>

@@ -1,9 +1,9 @@
 import { ReactComponent as Logo } from '../assets/logo-noBg.svg';
 import GoogleLoginButton from '../components/authentication/GoogleLoginButton';
 
-import styles from './HomeLoggedOut.module.scss';
+import styles from './Home.module.scss';
 
-export default function HomeLoggedOut() {
+export default function Home() {
   return (
     <main className={styles.content}>
       <div className={styles.text}>
