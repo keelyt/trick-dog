@@ -13,26 +13,30 @@ import styles from './Navbar.module.scss';
 export default function Navbar(): JSX.Element {
   const { authed, userInfo } = useAuth();
   const { pathname } = useLocation();
-  const [showNav, setShowNav] = useState<boolean>(false);
+  // menuExpanded indicates whether the mobile nav menu is expanded (true) or collapsed (false).
+  const [menuExpanded, setMenuExpanded] = useState<boolean>(false);
+  // navbarHidden indicates whether the top navbar is hidden because the user has scrolled down.
   const [navbarHidden, setNavbarHidden] = useState<boolean>(false);
+  // showPicture indicates whether the user's profile picture (true) or the default
+  // profile picture (false) should be used.
   const [showPicture, setShowPicture] = useState<boolean>(true);
 
   const scroll = useScrollListener(150);
 
   useEffect(() => {
-    if (scroll.y > 150 && scroll.y - scroll.prevY > 0) setNavbarHidden(true);
+    if (scroll.y > 150 && scroll.y - scroll.prevY > 0 && authed) setNavbarHidden(true);
     else setNavbarHidden(false);
   }, [scroll.y, scroll.prevY]);
 
   // Remove focus from nav link when path changes.
   useEffect(() => {
-    setShowNav(false);
+    setMenuExpanded(false);
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
   }, [pathname]);
 
-  const toggleNav = () => setShowNav((prevShowNav) => !prevShowNav);
+  const toggleNav = () => setMenuExpanded((prevMenuExpanded) => !prevMenuExpanded);
 
   return (
     <div className={`${styles.navbar} ${navbarHidden ? styles['navbar--hidden'] : ''}`}>
@@ -41,29 +45,39 @@ export default function Navbar(): JSX.Element {
           <Logo className={styles.nav__logo} />
           Trick Dog
         </NavLink>
-        <button
-          className={`${styles.nav__toggle} ${showNav ? styles.rotate : ''}`}
-          onClick={toggleNav}
-          aria-label={showNav ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={showNav}
-          aria-controls='nav-menu'
-        >
-          {showNav ? (
-            <RiCloseLine aria-hidden='true' focusable='false' />
-          ) : (
-            <RiMenuLine aria-hidden='true' focusable='false' />
-          )}
-        </button>
+        {authed && (
+          <button
+            className={`${styles.nav__toggle} ${menuExpanded ? styles.rotate : ''}`}
+            onClick={toggleNav}
+            aria-label={menuExpanded ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={menuExpanded}
+            aria-controls='nav-menu'
+          >
+            {menuExpanded ? (
+              <RiCloseLine aria-hidden='true' focusable='false' />
+            ) : (
+              <RiMenuLine aria-hidden='true' focusable='false' />
+            )}
+          </button>
+        )}
         <div
           id='nav-menu'
-          className={`${styles.nav__menu} ${showNav ? '' : styles['nav__menu--collapsed']}`}
+          className={`${styles.nav__menu} ${authed ? styles['nav__menu--collapsible'] : ''} ${
+            authed && !menuExpanded ? styles['nav__menu--collapsed'] : ''
+          }`}
         >
-          <ul className={`${styles.nav__list} ${styles['nav__list--left']}`}>
-            <li className={styles.skew}>
-              <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
-                <span className={styles.unskew}>Home</span>
-              </NavLink>
-            </li>
+          <ul
+            className={`${styles.nav__list} ${authed ? styles['nav__list--collapsible'] : ''} ${
+              authed ? styles['nav__list--left-collapsible'] : styles['nav__list--left']
+            }`}
+          >
+            {authed && (
+              <li className={styles.skew}>
+                <NavLink to='/' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
+                  <span className={styles.unskew}>Home</span>
+                </NavLink>
+              </li>
+            )}
             {authed && (
               <li className={styles.skew}>
                 <NavLink to='/decks' className={`${styles.nav__link} ${styles['nav__link--text']}`}>
@@ -86,7 +100,11 @@ export default function Navbar(): JSX.Element {
               </li>
             )}
           </ul>
-          <ul className={`${styles.nav__list} ${styles['nav__list--right']}`}>
+          <ul
+            className={`${styles.nav__list} ${authed ? styles['nav__list--collapsible'] : ''} ${
+              authed ? styles['nav__list--right-collapsible'] : styles['nav__list--right']
+            }`}
+          >
             {authed && (
               <li>
                 <NavLink
@@ -107,17 +125,6 @@ export default function Navbar(): JSX.Element {
                   {(!showPicture || !userInfo || !userInfo.picture) && (
                     <BiUser aria-hidden='true' focusable='false' />
                   )}
-                </NavLink>
-              </li>
-            )}
-            {!authed && (
-              <li>
-                <NavLink
-                  to='/login'
-                  aria-label='Login'
-                  className={`${styles.nav__link} ${styles['nav__link--icon']}`}
-                >
-                  <BiUser aria-hidden='true' focusable='false' />
                 </NavLink>
               </li>
             )}

@@ -63,20 +63,6 @@ describe('Navbar', () => {
     expect(screen.getByRole('button', { name: /activate (dark|light) mode/i })).toBeInTheDocument();
   });
 
-  it('shows home and login links and theme toggle button when user is not logged in', () => {
-    authed = false;
-    render(<RouterProvider router={router} />);
-    expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Login' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /activate (dark|light) mode/i })).toBeInTheDocument();
-  });
-
-  it('does not show login link when user is logged in', () => {
-    authed = true;
-    render(<RouterProvider router={router} />);
-    expect(screen.queryByText('Login')).not.toBeInTheDocument();
-  });
-
   it('does not show decks, study, stats, or profile links when user is not logged in', () => {
     authed = false;
     render(<RouterProvider router={router} />);
@@ -124,14 +110,6 @@ describe('Navbar', () => {
     const link = screen.getByRole('link', { name: 'Profile' });
     await userEvent.click(link);
     expect(router.state.location.pathname).toEqual('/profile');
-  });
-
-  it('navigates to "/login" when the login link is clicked', async () => {
-    authed = false;
-    render(<RouterProvider router={router} />);
-    const link = screen.getByRole('link', { name: 'Login' });
-    await userEvent.click(link);
-    expect(router.state.location.pathname).toEqual('/login');
   });
 
   it('toggles aria-label when mobile menu toggle button is clicked', async () => {
