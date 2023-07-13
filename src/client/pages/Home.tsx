@@ -10,8 +10,11 @@ export default function Home() {
         <h1 className={styles.heading}>Trick Dog</h1>
         <h2 className={styles.subheading}>Learn Fast, Learn Well</h2>
         <p className={styles.details}>
-          Trick Dog&apos;s online flashcards help you master any subject with its spaced repetition
-          algorithm and efficient, intuitive interface.
+          Trick Dog&apos;s online flashcards help you master any subject though an intuitive and
+          user-friendly interface. Whether you&apos;re studying for exams, learning a new language,
+          or simply expanding your knowledge, our intelligent spaced repetition algorithm adapts to
+          your individual learning pace, ensuring efficient and effective learning sessions. Take
+          control of your education and unlock your full potential today!
         </p>
         <GoogleLoginButton />
       </div>
