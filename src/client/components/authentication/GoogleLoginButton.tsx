@@ -33,7 +33,7 @@ export default function GoogleLoginButton(): JSX.Element {
       const buttonConfiguration: google.accounts.id.GsiButtonConfiguration = {
         shape: 'rectangular',
         size: 'large',
-        theme: 'filled_blue',
+        theme: 'outline',
         type: 'standard',
       };
 
