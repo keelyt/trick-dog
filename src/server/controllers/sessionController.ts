@@ -1,8 +1,10 @@
 import createError from 'http-errors';
 
+import { deleteSessionsQuery } from '../database/sessionQueries';
+import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
-import type { ReqBodyLogin, ResLocals, ResLocalsLogin } from '../types';
+import type { ReqBodyLogin, ResLocals, ResLocalsAuth, ResLocalsLogin } from '../types';
 import type { RequestHandler } from 'express-serve-static-core';
 
 const createSession: RequestHandler<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin> = (
@@ -43,6 +45,36 @@ const deleteSession: RequestHandler<unknown, unknown, unknown, unknown, ResLocal
   });
 };
 
+const deleteSessions = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocalsAuth>(
+  async (req, res, next) => {
+    const method = 'sessionController.deleteSessions';
+    const errMessage = 'An error occurred during logout.';
+
+    const { userId } = res.locals;
+
+    try {
+      // Delete all sessions for the user.
+      await deleteSessionsQuery(userId);
+      req.session.destroy((err) => {
+        if (err)
+          return next(
+            createError(500, errMessage, {
+              log: createErrorLog(method, 'Error occurred while destroying session.'),
+            })
+          );
+        res.clearCookie('tdsid');
+        return next();
+      });
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(method, 'Error occurred while deleting sessions.'),
+        })
+      );
+    }
+  }
+);
+
 const getStatus: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> = (
   req,
   res,
@@ -56,5 +88,6 @@ const getStatus: RequestHandler<unknown, unknown, unknown, unknown, ResLocals> =
 export const sessionController = {
   createSession,
   deleteSession,
+  deleteSessions,
   getStatus,
 };
