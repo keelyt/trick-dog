@@ -52,4 +52,14 @@ authRouter.delete<unknown, unknown, unknown, unknown, ResLocalsAuth>(
   }
 );
 
+authRouter.delete<unknown, unknown, unknown, unknown, ResLocalsAuth>(
+  '/delete-account',
+  requireLogin,
+  userController.deleteUser,
+  sessionController.deleteSessions,
+  (req, res) => {
+    return res.status(200).json({ message: 'Account deleted successfully.' });
+  }
+);
+
 export default authRouter;

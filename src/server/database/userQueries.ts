@@ -2,6 +2,17 @@ import { query } from './db';
 
 import type { UserInfoData } from '../../types';
 
+export const deleteUserQuery = (userId: number) => {
+  // The database was configured with cascading deletes, so deleting user will delete all of the user's data.
+  const queryString = `
+  DELETE from users
+  WHERE id = $1
+  `;
+  const queryParams = [userId];
+
+  return query(queryString, queryParams);
+};
+
 export const selectUserQuery = (userId: number) => {
   const queryString = `
   SELECT email, picture, name

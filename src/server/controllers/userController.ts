@@ -1,35 +1,30 @@
 import createError from 'http-errors';
 
-import { selectUserQuery, upsertUserQuery } from '../database/userQueries';
+import { deleteUserQuery, selectUserQuery, upsertUserQuery } from '../database/userQueries';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
-import type { ReqBodyLogin, ResLocalsLogin, ResLocalsStatus } from '../types';
+import type { ReqBodyLogin, ResLocalsAuth, ResLocalsLogin, ResLocalsStatus } from '../types';
 
-const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
+const deleteUser = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocalsAuth>(
   async (req, res, next) => {
-    const method = 'userController.verifyOrAddUser';
-    const errMessage = 'Error logging in. Please try again.';
+    const method = 'userController.deleteUser';
+    const errMessage = 'Error deleting account.';
 
-    const { googlePayload } = res.locals;
-
-    if (!googlePayload)
+    const { userId } = res.locals;
+    if (!userId)
       return next(
-        createError(401, errMessage, {
+        createError(500, errMessage, {
           log: createErrorLog(method, 'Previous middleware error.'),
         })
       );
 
-    const { sub, email, name, given_name, family_name, picture } = googlePayload;
-
     try {
-      const user = await upsertUserQuery({ sub, email, name, given_name, family_name, picture });
-      res.locals.userInfo = {
-        email: user.rows[0].email,
-        picture: user.rows[0].picture,
-        name: user.rows[0].name,
-      };
-      res.locals.userId = user.rows[0].id;
+      const user = await deleteUserQuery(userId);
+      if (!user.rowCount)
+        return next(
+          createError(404, 'User not found.', { log: createErrorLog(method, 'User not found.') })
+        );
       return next();
     } catch (error) {
       return next(
@@ -84,7 +79,46 @@ const getUserInfo = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocal
   }
 );
 
+const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
+  async (req, res, next) => {
+    const method = 'userController.verifyOrAddUser';
+    const errMessage = 'Error logging in. Please try again.';
+
+    const { googlePayload } = res.locals;
+
+    if (!googlePayload)
+      return next(
+        createError(401, errMessage, {
+          log: createErrorLog(method, 'Previous middleware error.'),
+        })
+      );
+
+    const { sub, email, name, given_name, family_name, picture } = googlePayload;
+
+    try {
+      const user = await upsertUserQuery({ sub, email, name, given_name, family_name, picture });
+      res.locals.userInfo = {
+        email: user.rows[0].email,
+        picture: user.rows[0].picture,
+        name: user.rows[0].name,
+      };
+      res.locals.userId = user.rows[0].id;
+      return next();
+    } catch (error) {
+      return next(
+        createError(500, errMessage, {
+          log: createErrorLog(
+            method,
+            error instanceof Error ? error.message : 'Unknown database error.'
+          ),
+        })
+      );
+    }
+  }
+);
+
 export const userController = {
-  verifyOrAddUser,
+  deleteUser,
   getUserInfo,
+  verifyOrAddUser,
 };
