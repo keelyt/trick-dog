@@ -34,7 +34,7 @@ export const upsertUserQuery = ({
     ON CONFLICT (sub)
     DO UPDATE
     SET name = $3, given_name = $4, family_name = $5, picture = $6, last_login_at = $7
-    RETURNING id, email, picture;
+    RETURNING id, email, picture, name;
     `;
   const queryParams = [
     sub,
