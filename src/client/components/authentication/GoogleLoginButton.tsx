@@ -3,19 +3,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import FormError from '../form/FormError';
 
+import styles from './GoogleLoginButton.module.scss';
+
 export default function GoogleLoginButton(): JSX.Element {
   const { login } = useAuth();
   const divRef = useRef<HTMLDivElement>(null);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleCallbackResponse = async (response: google.accounts.id.CredentialResponse) => {
-    setError(null);
-    try {
-      await login(response.credential);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Unknown error. Please try again.');
-    }
+  const handleCallbackResponse = (response: google.accounts.id.CredentialResponse) => {
+    login.mutate(response.credential);
   };
 
   useEffect(() => {
@@ -56,9 +52,15 @@ export default function GoogleLoginButton(): JSX.Element {
   }, [divRef.current]);
 
   return (
-    <div>
+    <div className={styles.button}>
       <div ref={divRef} />
-      {error && <FormError errorMessage={error} />}
+      {login.isError && (
+        <FormError
+          errorMessage={
+            login.error instanceof Error ? login.error.message : 'Unknown error. Please try again.'
+          }
+        />
+      )}
     </div>
   );
 }
