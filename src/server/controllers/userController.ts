@@ -1,11 +1,9 @@
 import createError from 'http-errors';
 
-import { query } from '../database/db';
 import { selectUserQuery, upsertUserQuery } from '../database/userQueries';
 import asyncMiddleware from '../utils/asyncMiddleware';
 import createErrorLog from '../utils/createErrorLog';
 
-import type { UserInfoData } from '../../types';
 import type { ReqBodyLogin, ResLocalsLogin, ResLocalsStatus } from '../types';
 
 const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown, ResLocalsLogin>(
@@ -26,7 +24,11 @@ const verifyOrAddUser = asyncMiddleware<unknown, unknown, ReqBodyLogin, unknown,
 
     try {
       const user = await upsertUserQuery({ sub, email, name, given_name, family_name, picture });
-      res.locals.userInfo = { email: user.rows[0].email, picture: user.rows[0].picture };
+      res.locals.userInfo = {
+        email: user.rows[0].email,
+        picture: user.rows[0].picture,
+        name: user.rows[0].name,
+      };
       res.locals.userId = user.rows[0].id;
       return next();
     } catch (error) {
@@ -63,7 +65,11 @@ const getUserInfo = asyncMiddleware<unknown, unknown, unknown, unknown, ResLocal
             log: createErrorLog(method, 'UserId not found in database.'),
           })
         );
-      res.locals.userInfo = { email: user.rows[0].email, picture: user.rows[0].picture };
+      res.locals.userInfo = {
+        email: user.rows[0].email,
+        picture: user.rows[0].picture,
+        name: user.rows[0].name,
+      };
       return next();
     } catch (error) {
       return next(

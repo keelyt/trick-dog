@@ -42,10 +42,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((data) => {
         setAuthed(data.authed);
         if (data.authed)
-          setUserInfo({ email: data.userInfo.email, picture: data.userInfo.picture });
+          setUserInfo({
+            email: data.userInfo.email,
+            picture: data.userInfo.picture,
+            name: data.userInfo.name,
+          });
         return null;
       })
-      .catch((error) => {
+      .catch(() => {
         setAuthed(false);
         setUserInfo(null);
       });
@@ -62,7 +66,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({ credential }),
     });
     setAuthed(true);
-    setUserInfo({ email: data.userInfo.email, picture: data.userInfo.picture });
+    setUserInfo({
+      email: data.userInfo.email,
+      picture: data.userInfo.picture,
+      name: data.userInfo.name,
+    });
   }
 
   // Logs out the user.

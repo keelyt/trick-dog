@@ -4,7 +4,7 @@ import type { UserInfoData } from '../../types';
 
 export const selectUserQuery = (userId: number) => {
   const queryString = `
-  SELECT email, picture
+  SELECT email, picture, name
   FROM users
   WHERE id = $1;
   `;
