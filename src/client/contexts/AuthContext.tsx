@@ -11,8 +11,10 @@ import type { ReactNode } from 'react';
 interface AuthContextType {
   authed: boolean | null;
   userInfo: UserInfoData | null;
+  deleteUser: UseMutationResult<unknown, unknown, void, unknown>;
   login: UseMutationResult<UserInfoResponse, unknown, string, unknown>;
   logout: UseMutationResult<unknown, unknown, void, unknown>;
+  logoutAll: UseMutationResult<unknown, unknown, void, unknown>;
   invalidate: () => void;
 }
 
@@ -56,6 +58,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
   }, []);
 
+  // Deletes the user's account.
+  const deleteUser = useMutation({
+    mutationFn: () => fetchWithError('/api/auth/delete-account', { method: 'DELETE' }),
+    cacheTime: 0,
+    onSuccess: () => invalidate(),
+  });
+
   // Logs in the user.
   const login = useMutation({
     mutationFn: (credential: string) =>
@@ -84,6 +93,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: () => invalidate(),
   });
 
+  // Logs the user out of all devices.
+  const logoutAll = useMutation({
+    mutationFn: () => fetchWithError('/api/auth/logout-all', { method: 'DELETE' }),
+    cacheTime: 0,
+    onSuccess: () => invalidate(),
+  });
+
   function invalidate() {
     setAuthed(false);
     setUserInfo(null);
@@ -91,7 +107,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ authed, userInfo, login, logout, invalidate }}>
+    <AuthContext.Provider
+      value={{ authed, userInfo, deleteUser, login, logout, logoutAll, invalidate }}
+    >
       {children}
     </AuthContext.Provider>
   );
