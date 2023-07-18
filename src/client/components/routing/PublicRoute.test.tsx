@@ -5,6 +5,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import PublicRoute from './PublicRoute';
 import { AuthContext } from '../../contexts/AuthContext';
 
+import type { AuthContextType } from '../../contexts/AuthContext';
+
 describe('PublicRoute', () => {
   let router: ReturnType<typeof createMemoryRouter>;
 
@@ -31,15 +33,8 @@ describe('PublicRoute', () => {
   });
 
   it('redirects to home page when the user is authenticated', async () => {
-    const authedAuthContext = {
-      authed: true,
-      userInfo: { email: 'email', picture: 'picture' },
-      login: () => Promise.resolve(),
-      logout: () => Promise.resolve(),
-    };
-
     render(
-      <AuthContext.Provider value={authedAuthContext}>
+      <AuthContext.Provider value={{ authed: true } as AuthContextType}>
         <RouterProvider router={router} />
       </AuthContext.Provider>
     );
@@ -50,15 +45,8 @@ describe('PublicRoute', () => {
   });
 
   it('renders the child components when the user is not authenticated', async () => {
-    const unauthedAuthContext = {
-      authed: false,
-      userInfo: null,
-      login: () => Promise.resolve(),
-      logout: () => Promise.resolve(),
-    };
-
     render(
-      <AuthContext.Provider value={unauthedAuthContext}>
+      <AuthContext.Provider value={{ authed: false } as AuthContextType}>
         <RouterProvider router={router} />
       </AuthContext.Provider>
     );
