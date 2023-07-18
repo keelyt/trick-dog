@@ -2,13 +2,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import FormError from '../form/FormError';
 import Button from '../ui/Button';
 
-import styles from './LogoutButton.module.scss';
+import styles from './LogoutAllButton.module.scss';
 
-export default function LogoutButton(): JSX.Element {
-  const { logout } = useAuth();
+export default function LogoutAllButton(): JSX.Element {
+  const { logoutAll } = useAuth();
 
   const handleLogout = () => {
-    logout.mutate();
+    logoutAll.mutate();
   };
 
   return (
@@ -18,16 +18,16 @@ export default function LogoutButton(): JSX.Element {
         type='button'
         rounded={false}
         onClick={handleLogout}
-        aria-disabled={logout.isLoading}
-        disabled={logout.isLoading}
+        aria-disabled={logoutAll.isLoading}
+        disabled={logoutAll.isLoading}
       >
-        {logout.isLoading ? 'Signing' : 'Sign'} Out
+        {logoutAll.isLoading ? 'Signing' : 'Sign'} Out Everywhere
       </Button>
-      {logout.isError && (
+      {logoutAll.isError && (
         <FormError
           errorMessage={
-            logout.error instanceof Error
-              ? logout.error.message
+            logoutAll.error instanceof Error
+              ? logoutAll.error.message
               : 'Unknown error. Please try again.'
           }
         />

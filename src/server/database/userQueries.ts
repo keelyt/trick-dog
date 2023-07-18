@@ -2,9 +2,20 @@ import { query } from './db';
 
 import type { UserInfoData } from '../../types';
 
+export const deleteUserQuery = (userId: number) => {
+  // The database was configured with cascading deletes, so deleting user will delete all of the user's data.
+  const queryString = `
+  DELETE from users
+  WHERE id = $1
+  `;
+  const queryParams = [userId];
+
+  return query(queryString, queryParams);
+};
+
 export const selectUserQuery = (userId: number) => {
   const queryString = `
-  SELECT email, picture
+  SELECT email, picture, name
   FROM users
   WHERE id = $1;
   `;
@@ -34,7 +45,7 @@ export const upsertUserQuery = ({
     ON CONFLICT (sub)
     DO UPDATE
     SET name = $3, given_name = $4, family_name = $5, picture = $6, last_login_at = $7
-    RETURNING id, email, picture;
+    RETURNING id, email, picture, name;
     `;
   const queryParams = [
     sub,

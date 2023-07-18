@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { useQueryClient } from '@tanstack/react-query';
+import type { UseMutationResult } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import fetchWithError from '../helpers/fetchWithError';
 
@@ -10,8 +11,10 @@ import type { ReactNode } from 'react';
 interface AuthContextType {
   authed: boolean | null;
   userInfo: UserInfoData | null;
-  login: (credential: string) => Promise<void>;
-  logout: () => Promise<void>;
+  deleteUser: UseMutationResult<unknown, unknown, void, unknown>;
+  login: UseMutationResult<UserInfoResponse, unknown, string, unknown>;
+  logout: UseMutationResult<unknown, unknown, void, unknown>;
+  logoutAll: UseMutationResult<unknown, unknown, void, unknown>;
   invalidate: () => void;
 }
 
@@ -42,35 +45,60 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then((data) => {
         setAuthed(data.authed);
         if (data.authed)
-          setUserInfo({ email: data.userInfo.email, picture: data.userInfo.picture });
+          setUserInfo({
+            email: data.userInfo.email,
+            picture: data.userInfo.picture,
+            name: data.userInfo.name,
+          });
         return null;
       })
-      .catch((error) => {
+      .catch(() => {
         setAuthed(false);
         setUserInfo(null);
       });
   }, []);
 
+  // Deletes the user's account.
+  const deleteUser = useMutation({
+    mutationFn: () => fetchWithError('/api/auth/delete-account', { method: 'DELETE' }),
+    cacheTime: 0,
+    onSuccess: () => invalidate(),
+  });
+
   // Logs in the user.
-  // Note: Errors thrown in this function are handled by the component that call it.
-  async function login(credential: string): Promise<void> {
-    const data = await fetchWithError<UserInfoResponse>('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ credential }),
-    });
-    setAuthed(true);
-    setUserInfo({ email: data.userInfo.email, picture: data.userInfo.picture });
-  }
+  const login = useMutation({
+    mutationFn: (credential: string) =>
+      fetchWithError<UserInfoResponse>('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credential }),
+      }),
+    cacheTime: 0,
+    onSuccess: (data) => {
+      setAuthed(true);
+      setUserInfo({
+        email: data.userInfo.email,
+        picture: data.userInfo.picture,
+        name: data.userInfo.name,
+      });
+    },
+  });
 
   // Logs out the user.
-  // Note: Errors thrown in this function are handled by the component that call it.
-  async function logout(): Promise<void> {
-    await fetchWithError('/api/auth/logout', { method: 'DELETE' });
-    invalidate();
-  }
+  const logout = useMutation({
+    mutationFn: () => fetchWithError('/api/auth/logout', { method: 'DELETE' }),
+    cacheTime: 0,
+    onSuccess: () => invalidate(),
+  });
+
+  // Logs the user out of all devices.
+  const logoutAll = useMutation({
+    mutationFn: () => fetchWithError('/api/auth/logout-all', { method: 'DELETE' }),
+    cacheTime: 0,
+    onSuccess: () => invalidate(),
+  });
 
   function invalidate() {
     setAuthed(false);
@@ -79,7 +107,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ authed, userInfo, login, logout, invalidate }}>
+    <AuthContext.Provider
+      value={{ authed, userInfo, deleteUser, login, logout, logoutAll, invalidate }}
+    >
       {children}
     </AuthContext.Provider>
   );

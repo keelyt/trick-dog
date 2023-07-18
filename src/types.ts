@@ -84,6 +84,7 @@ export interface ServerError {
 export interface UserInfoData {
   email: string;
   picture: string;
+  name: string;
 }
 
 export interface UserInfoResponse {
