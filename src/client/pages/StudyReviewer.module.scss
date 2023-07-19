@@ -30,6 +30,7 @@
   flex-grow: 1;
   border-radius: 0.25rem;
   padding: 0.75rem;
+  overflow: auto;
 
   @include themes.themed {
     background-color: themes.t('bg-secondary');
@@ -46,7 +47,6 @@
   padding: 2rem 1.5rem 1.5rem;
   font-size: 1.5rem;
   text-align: center;
-
   width: 100%;
   height: 400px;
   max-width: 700px;
@@ -70,7 +70,9 @@
 
   @include themes.themed {
     background-color: themes.t('bg-card');
-    box-shadow: 0 1px 3px 0 themes.t('shadow-card'), 0 1px 2px -1px themes.t('shadow-card');
+    box-shadow:
+      0 1px 3px 0 themes.t('shadow-card'),
+      0 1px 2px -1px themes.t('shadow-card');
   }
 
   &__text {
@@ -94,9 +96,8 @@
 
 .buttons {
   display: flex;
-  justify-content: center;
   gap: 1rem;
-  margin-top: 0.75rem;
+  margin: 0.75rem auto 0;
 
   @media (max-width: var.$breakpoint-sm) {
     gap: 0.25rem;
