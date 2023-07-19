@@ -111,6 +111,7 @@ export function useGetInfiniteCards({
 
       return cards;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.length < limit) return;
       // Get the id from the oldest card we have.

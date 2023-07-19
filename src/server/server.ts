@@ -90,6 +90,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Global error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error | HttpError, req: Request, res: Response, next: NextFunction) => {
   console.log(
     err instanceof HttpError ? err.log : 'Express error handler caught unknown middleware error.'

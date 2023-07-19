@@ -20,7 +20,7 @@ export default function EditCard(): JSX.Element {
   const navigate = useNavigate();
   const location: Location = useLocation();
 
-  const cardId = Number(params.cardId!);
+  const cardId = Number(params.cardId);
   const tagId: number | null =
     location.state && 'tagId' in location.state ? (location.state as CardsFilterState).tagId : null;
   const search: string =

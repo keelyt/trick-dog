@@ -16,7 +16,7 @@ export default function EditDeck(): JSX.Element {
   // Get the deckId from the URL.
   const { deckId: id } = useParams();
 
-  const deckId = Number(id!);
+  const deckId = Number(id);
 
   const containerFixed = useMatch('/decks/:deckId/cards');
 
