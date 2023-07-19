@@ -1,0 +1,23 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
+.image {
+  width: 500px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.heading {
+  margin: 0 0 1rem;
+}
+.text {
+  margin: 0;
+  margin-bottom: 2rem;
+}
