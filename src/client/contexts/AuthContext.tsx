@@ -8,7 +8,7 @@ import fetchWithError from '../helpers/fetchWithError';
 import type { AuthStatusResponse, UserInfoData, UserInfoResponse } from '../../types';
 import type { ReactNode } from 'react';
 
-interface AuthContextType {
+export interface AuthContextType {
   authed: boolean | null;
   userInfo: UserInfoData | null;
   deleteUser: UseMutationResult<unknown, unknown, void, unknown>;

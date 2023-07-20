@@ -9,18 +9,12 @@
   justify-content: flex-start;
   width: 100%;
   flex-grow: 1;
-  overflow-y: hidden;
+  overflow-y: auto;
   margin-bottom: 0.75rem;
   border-radius: 0.25rem;
 
   @include themes.themed {
     background-color: themes.t('bg-secondary');
-  }
-
-  // Enable scrolling - must match media query used
-  // in EditDeck component.
-  @media (max-height: 800px) {
-    overflow-y: auto;
   }
 }
 

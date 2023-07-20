@@ -48,6 +48,11 @@ app.use(
         'frame-src': ["'self'", 'accounts.google.com'],
       },
     },
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+    referrerPolicy: {
+      // policy: 'no-referrer-when-downgrade', // For testing using http and local host
+      policy: 'strict-origin-when-cross-origin',
+    },
   })
 );
 
@@ -68,7 +73,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       sameSite: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'production', // Disable if testing using http
     },
   })
 );
@@ -90,6 +95,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Global error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error | HttpError, req: Request, res: Response, next: NextFunction) => {
   console.log(
     err instanceof HttpError ? err.log : 'Express error handler caught unknown middleware error.'

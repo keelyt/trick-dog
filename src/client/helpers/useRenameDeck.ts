@@ -24,8 +24,10 @@ export default function useRenameDeck() {
       }),
     onSuccess: (data: DeckPatchResponse) => {
       // Update the decks list with the updated deck.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        old?.map((deck) => (deck.id === data.deck.id ? Object.assign(deck, data.deck) : deck))
+      queryClient.setQueryData(
+        ['decks'],
+        (old: DeckData[] | undefined) =>
+          old?.map((deck) => (deck.id === data.deck.id ? Object.assign(deck, data.deck) : deck))
       );
       // Update the deck in the cache.
       queryClient.setQueryData(['decks', data.deck.id], (old: DeckData | undefined) => ({

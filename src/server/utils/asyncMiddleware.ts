@@ -16,7 +16,7 @@ export default function asyncMiddleware<
   ResBody = any,
   ReqBody = any,
   ReqQuery = Query,
-  Locals extends Record<string, any> = Record<string, any>
+  Locals extends Record<string, any> = Record<string, any>,
 >(
   fn: (...args: Parameters<RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals>>) => Promise<void>
 ): RequestHandler<P, ResBody, ReqBody, ReqQuery, Locals> {

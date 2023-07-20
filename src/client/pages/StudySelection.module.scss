@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: 0 auto;
   width: 90%;
-  max-width: 500px;
+  max-width: 550px;
   gap: 0.75rem;
   flex-grow: 1;
 }
@@ -15,8 +15,35 @@
 
 .text {
   margin: 0;
-  text-align: justify;
 }
+
+.new {
+  display: flex;
+  font-size: 1.25rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.key {
+  border: 2px solid;
+  box-shadow: 2px 2px;
+  display: inline-block;
+  padding: 0 5px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  border-radius: 4px;
+  margin-right: 2px;
+
+  &:hover {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;

@@ -6,8 +6,14 @@
   align-items: flex-start;
   margin: auto;
   width: 100%;
-  height: calc(100vh - 4rem);
   flex-grow: 1;
+  overflow: auto;
+
+  height: calc(100vh - 4rem);
+
+  @media (max-height: 800px) {
+    height: 100%;
+  }
 }
 
 .content {

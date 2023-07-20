@@ -12,7 +12,7 @@ export default function indexObjectByText<
   T extends Record<K, string>,
   K extends keyof {
     [Key in keyof T]-?: T[Key] extends string ? Key : never;
-  }
+  },
 >(objects: T[], target: string, sortKey: K): number {
   let low = 0;
   let high = objects.length - 1;

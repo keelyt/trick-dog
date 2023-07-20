@@ -78,7 +78,6 @@ export default function DeckTags(): JSX.Element {
 
   return (
     <div className={styles['tags-container']}>
-      {/* <h2 className={styles.heading}>Manage Deck Tags</h2> */}
       {openModal && targetTag && (
         <Modal onClose={resetState}>
           {openModal === 'delete' && (

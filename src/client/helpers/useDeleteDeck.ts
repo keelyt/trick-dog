@@ -21,8 +21,9 @@ export default function useDeleteDeck() {
       // Snapshot the previous value.
       const previousDecks = queryClient.getQueryData(['decks']);
       // Optimistically update the deck data by removing the deck.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        old?.filter((deck) => deck.id !== deckId)
+      queryClient.setQueryData(
+        ['decks'],
+        (old: DeckData[] | undefined) => old?.filter((deck) => deck.id !== deckId)
       );
       // Return a rollback function.
       return () => queryClient.setQueryData(['decks'], previousDecks);

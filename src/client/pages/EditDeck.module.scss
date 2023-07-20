@@ -8,6 +8,7 @@
   margin: auto;
   width: 100%;
   flex-grow: 1;
+  overflow: auto;
 
   &--fixed {
     height: calc(100vh - 4rem);

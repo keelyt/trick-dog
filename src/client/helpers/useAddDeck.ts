@@ -46,8 +46,10 @@ export default function useAddDeck() {
     },
     onSuccess: (data: DeckResponse, variables, context) => {
       // Replace optimistic deck in deck list with actual deck.
-      queryClient.setQueryData(['decks'], (old: DeckData[] | undefined) =>
-        old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data.deck : deck))
+      queryClient.setQueryData(
+        ['decks'],
+        (old: DeckData[] | undefined) =>
+          old?.map((deck) => (deck.id === context?.optimisticDeck.id ? data.deck : deck))
       );
       // Add new deck to the cache.
       queryClient.setQueryData(['decks', data.deck.id], data.deck);
