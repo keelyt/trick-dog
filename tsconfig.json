@@ -13,14 +13,15 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
+    "outDir": "./build",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src"],
       "@/components/*": ["./src/client/components"],
       "@/styles/*": ["./src/client/styles"]
     }
   },
-  "include": ["src/**/*", "vite.config.ts", "vitest.setup.ts", ".eslintrc"],
+  "include": ["src/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
