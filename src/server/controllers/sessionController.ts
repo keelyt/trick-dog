@@ -1,8 +1,8 @@
 import createError from 'http-errors';
 
-import { deleteSessionsQuery } from '../database/sessionQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+import { deleteSessionsQuery } from '../database/sessionQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type { ReqBodyLogin, ResLocals, ResLocalsAuth, ResLocalsLogin } from '../types';
 import type { RequestHandler } from 'express-serve-static-core';

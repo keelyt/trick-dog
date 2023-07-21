@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { deckController } from '../controllers/deckController';
-import requireLogin from '../middleware/requireLogin';
+import { deckController } from '../controllers/deckController.js';
+import requireLogin from '../middleware/requireLogin.js';
 
 import type {
   ReqBodyDeck,

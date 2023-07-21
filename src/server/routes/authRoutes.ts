@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { sessionController } from '../controllers/sessionController';
-import { userController } from '../controllers/userController';
-import requireLogin from '../middleware/requireLogin';
-import verifyGoogleToken from '../middleware/verifyGoogleToken';
+import { sessionController } from '../controllers/sessionController.js';
+import { userController } from '../controllers/userController.js';
+import requireLogin from '../middleware/requireLogin.js';
+import verifyGoogleToken from '../middleware/verifyGoogleToken.js';
 
 import type {
   ReqBodyLogin,

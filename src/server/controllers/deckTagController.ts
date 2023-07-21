@@ -5,9 +5,9 @@ import {
   insertDeckTagQuery,
   selectDeckTagsQuery,
   updateDeckTagQuery,
-} from '../database/deckTagQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+} from '../database/deckTagQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type {
   ReqBodyTag,

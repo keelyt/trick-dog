@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { deckTagController } from '../controllers/deckTagController';
-import requireLogin from '../middleware/requireLogin';
+import { deckTagController } from '../controllers/deckTagController.js';
+import requireLogin from '../middleware/requireLogin.js';
 
 import type {
   ReqBodyTag,

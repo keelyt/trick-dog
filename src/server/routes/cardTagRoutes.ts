@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { cardTagController } from '../controllers/cardTagController';
-import requireLogin from '../middleware/requireLogin';
+import { cardTagController } from '../controllers/cardTagController.js';
+import requireLogin from '../middleware/requireLogin.js';
 
 import type { ReqParamsCard, ResLocalsCardTags } from '../types';
 

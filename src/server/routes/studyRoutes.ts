@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { studyController } from '../controllers/studyController';
-import requireLogin from '../middleware/requireLogin';
+import { studyController } from '../controllers/studyController.js';
+import requireLogin from '../middleware/requireLogin.js';
 
 import type { ReqQueryStudy, ResLocalsCards } from '../types';
 

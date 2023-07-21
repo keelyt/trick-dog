@@ -8,14 +8,14 @@ import session from 'express-session';
 import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
-import { getSessionStore } from './database/db';
-import checkSession from './middleware/checkSession';
-import authRouter from './routes/authRoutes';
-import cardRouter from './routes/cardRoutes';
-import cardTagRouter from './routes/cardTagRoutes';
-import deckRouter from './routes/deckRoutes';
-import deckTagRouter from './routes/deckTagRoutes';
-import studyRouter from './routes/studyRoutes';
+import { getSessionStore } from './database/db.js';
+import checkSession from './middleware/checkSession.js';
+import authRouter from './routes/authRoutes.js';
+import cardRouter from './routes/cardRoutes.js';
+import cardTagRouter from './routes/cardTagRoutes.js';
+import deckRouter from './routes/deckRoutes.js';
+import deckTagRouter from './routes/deckTagRoutes.js';
+import studyRouter from './routes/studyRoutes.js';
 
 import type { Express, NextFunction, Request, Response } from 'express';
 

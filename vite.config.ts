@@ -30,11 +30,15 @@ export default defineConfig(({ command, mode }) => {
           secure: false,
         },
       },
+      host: true, // allows the Docker container port mapping to work
+      strictPort: true, // enforces that only the specified port is used
+      port: 5173,
     },
     test: {
       globals: true,
       environment: 'jsdom',
       setupFiles: ['./vitest.setup.ts'],
+      exclude: ['**/node_modules/**', '**/dist/**', '**/build/**'],
     },
   };
 });

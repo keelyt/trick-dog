@@ -1,8 +1,8 @@
 import createError from 'http-errors';
 
-import { selectStudyCardsQuery, updateDifficultyQuery } from '../database/studyQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+import { selectStudyCardsQuery, updateDifficultyQuery } from '../database/studyQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type {
   ReqBodyDifficulty,

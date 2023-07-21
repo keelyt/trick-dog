@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import { cardController } from '../controllers/cardController';
-import { studyController } from '../controllers/studyController';
-import requireLogin from '../middleware/requireLogin';
+import { cardController } from '../controllers/cardController.js';
+import { studyController } from '../controllers/studyController.js';
+import requireLogin from '../middleware/requireLogin.js';
 
 import type {
   ReqBodyCard,

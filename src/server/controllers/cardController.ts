@@ -6,9 +6,9 @@ import {
   selectCardQuery,
   selectCardsQuery,
   updateCardQuery,
-} from '../database/cardQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+} from '../database/cardQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type {
   ReqBodyCard,
