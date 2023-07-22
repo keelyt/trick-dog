@@ -1,0 +1,54 @@
+# docker
+**/Dockerfile*
+**/docker-compose*
+**/.dockerignore
+
+# git
+**/.git
+**/.gitignore
+
+# npm & yarn
+**/node_modules
+**/npm-debug.log
+**/package-lock.json
+**/yarn-error.log
+**/yarn-debug.log
+**/pnpm-debug.log
+**/lerna-debug.log
+
+# misc
+**/app.pid
+**/.aws
+**/.DS_Store
+**/*.local
+**/.vs
+**/.vscode
+
+# environment files
+**/.env*
+**/*.env
+
+# app
+**/build
+**/coverage
+**/cypress
+**/dist
+**/dist-ssr
+**/*.log
+**/logs
+**/mock-api
+**/*.test.ts
+**/*.test.tsx
+**/tmp
+
+# Include README.md and LICENSE.md, exlcude the rest
+*.md
+!README.md
+!LICENSE.md
+
+# development config files
+**/.eslintrc
+**/.eslintignore
+**/.eslintcache
+**/.prettierrc
+**/.prettierignore
