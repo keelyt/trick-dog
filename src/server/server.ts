@@ -50,8 +50,10 @@ app.use(
     },
     crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
     referrerPolicy: {
-      // policy: 'no-referrer-when-downgrade', // For testing using http and local host
-      policy: 'strict-origin-when-cross-origin',
+      policy:
+        process.env.NODE_ENV === 'production'
+          ? 'strict-origin-when-cross-origin' // For production
+          : 'no-referrer-when-downgrade', // For testing using http and local host
     },
   })
 );
