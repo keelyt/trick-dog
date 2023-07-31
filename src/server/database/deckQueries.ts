@@ -64,7 +64,8 @@ export const selectDecksQuery = (userId: number) => {
     FROM tags
     GROUP BY deck_id
   ) ct
-  ON ct.deck_id = dc.id;
+  ON ct.deck_id = dc.id
+  ORDER BY "deckName" ASC;
   `;
   const queryParams = [userId];
 
