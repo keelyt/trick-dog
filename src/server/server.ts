@@ -68,14 +68,16 @@ app.use(
   session({
     store: getSessionStore(session),
     name: 'tdsid',
+    proxy: true,
     secret: process.env.COOKIE_SECRET as string | string[],
     resave: false,
     rolling: true,
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      sameSite: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : true,
       secure: process.env.NODE_ENV === 'production', // Disable if testing using http
+      domain: process.env.NODE_ENV === 'production' ? '.trickdog.keelyt.com' : undefined,
     },
   })
 );
