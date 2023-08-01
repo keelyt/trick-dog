@@ -6,9 +6,9 @@ import {
   selectDeckQuery,
   selectDecksQuery,
   updateDeckQuery,
-} from '../database/deckQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+} from '../database/deckQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type {
   ReqBodyDeck,

@@ -8,14 +8,14 @@ import session from 'express-session';
 import helmet from 'helmet';
 import { HttpError } from 'http-errors';
 
-import { getSessionStore } from './database/db';
-import checkSession from './middleware/checkSession';
-import authRouter from './routes/authRoutes';
-import cardRouter from './routes/cardRoutes';
-import cardTagRouter from './routes/cardTagRoutes';
-import deckRouter from './routes/deckRoutes';
-import deckTagRouter from './routes/deckTagRoutes';
-import studyRouter from './routes/studyRoutes';
+import { getSessionStore } from './database/db.js';
+import checkSession from './middleware/checkSession.js';
+import authRouter from './routes/authRoutes.js';
+import cardRouter from './routes/cardRoutes.js';
+import cardTagRouter from './routes/cardTagRoutes.js';
+import deckRouter from './routes/deckRoutes.js';
+import deckTagRouter from './routes/deckTagRoutes.js';
+import studyRouter from './routes/studyRoutes.js';
 
 import type { Express, NextFunction, Request, Response } from 'express';
 
@@ -50,8 +50,10 @@ app.use(
     },
     crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
     referrerPolicy: {
-      // policy: 'no-referrer-when-downgrade', // For testing using http and local host
-      policy: 'strict-origin-when-cross-origin',
+      policy:
+        process.env.NODE_ENV === 'production'
+          ? 'strict-origin-when-cross-origin' // For production
+          : 'no-referrer-when-downgrade', // For testing using http and local host
     },
   })
 );
@@ -66,14 +68,16 @@ app.use(
   session({
     store: getSessionStore(session),
     name: 'tdsid',
+    proxy: true,
     secret: process.env.COOKIE_SECRET as string | string[],
     resave: false,
     rolling: true,
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      sameSite: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : true,
       secure: process.env.NODE_ENV === 'production', // Disable if testing using http
+      domain: process.env.NODE_ENV === 'production' ? '.trickdog.keelyt.com' : undefined,
     },
   })
 );

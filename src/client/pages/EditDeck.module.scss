@@ -12,6 +12,7 @@
 
   &--fixed {
     height: calc(100vh - 4rem);
+    height: calc(100dvh - 4rem);
 
     // Enable scrolling - must match media query used in
     // CardList component.

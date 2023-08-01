@@ -1,8 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
 import createError from 'http-errors';
 
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type { ReqBodyLogin, ResLocalsLogin } from '../types';
 

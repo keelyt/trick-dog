@@ -1,6 +1,6 @@
 import createError from 'http-errors';
 
-import createErrorLog from '../utils/createErrorLog';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type { ResLocals } from '../types';
 import type { RequestHandler } from 'express';

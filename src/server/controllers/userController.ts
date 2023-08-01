@@ -1,8 +1,8 @@
 import createError from 'http-errors';
 
-import { deleteUserQuery, selectUserQuery, upsertUserQuery } from '../database/userQueries';
-import asyncMiddleware from '../utils/asyncMiddleware';
-import createErrorLog from '../utils/createErrorLog';
+import { deleteUserQuery, selectUserQuery, upsertUserQuery } from '../database/userQueries.js';
+import asyncMiddleware from '../utils/asyncMiddleware.js';
+import createErrorLog from '../utils/createErrorLog.js';
 
 import type { ReqBodyLogin, ResLocalsAuth, ResLocalsLogin, ResLocalsStatus } from '../types';
 

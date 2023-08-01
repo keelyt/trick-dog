@@ -105,10 +105,16 @@
       // Tells eslint-plugin-react to automatically detect the version of React to use.
       "version": "detect"
     },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
     // Tells eslint how to resolve imports
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": "./tsconfig.json"
       }
     }
   }

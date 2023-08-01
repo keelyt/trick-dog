@@ -1,4 +1,4 @@
-import { query } from './db';
+import { query } from './db.js';
 
 export const deleteSessionsQuery = (userId: number) => {
   const queryString = `
