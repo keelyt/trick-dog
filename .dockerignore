@@ -5,6 +5,7 @@
 
 # git
 **/.git
+**/.github
 **/.gitignore
 
 # npm & yarn
