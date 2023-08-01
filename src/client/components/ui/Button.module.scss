@@ -14,6 +14,7 @@
   color: inherit;
   white-space: nowrap;
   text-align: center;
+  font-weight: 400;
 
   &:disabled {
     opacity: 0.7;
@@ -68,7 +69,9 @@
   @include themes.themed {
     background-color: themes.t('bg-button');
     border-color: themes.t('border-button');
-    box-shadow: 0 1px 3px 0 themes.t('shadow-button'), 0 1px 2px -1px themes.t('shadow-button');
+    box-shadow:
+      0 1px 3px 0 themes.t('shadow-button'),
+      0 1px 2px -1px themes.t('shadow-button');
 
     &:active,
     &:hover {
@@ -82,7 +85,8 @@
     @include themes.themed {
       background-color: themes.t('bg-button');
       border-color: themes.t('border-button');
-      box-shadow: 0 1px 3px 0 themes.t('shadow-button-secondary'),
+      box-shadow:
+        0 1px 3px 0 themes.t('shadow-button-secondary'),
         0 1px 2px -1px themes.t('shadow-button-secondary');
 
       &:active,
@@ -98,7 +102,8 @@
     @include themes.themed {
       background-color: themes.t('bg-button-card');
       border-color: themes.t('border-button-card');
-      box-shadow: 0 1px 3px 0 themes.t('shadow-button-card'),
+      box-shadow:
+        0 1px 3px 0 themes.t('shadow-button-card'),
         0 1px 2px -1px themes.t('shadow-button-card');
 
       &:active,

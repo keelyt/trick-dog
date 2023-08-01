@@ -85,7 +85,7 @@ export default function DeckTags(): JSX.Element {
               onOk={handleDeleteDialogOk}
               onCancel={resetState}
               title='Are you sure?'
-              text={`Are you sure you want to delete this tag?\nThis will remove it from all cards in this deck.`}
+              text={`Are you sure you want to delete this tag?\nThis will remove it from all cards in the deck.`}
               okLabel={deleteTag.isLoading ? 'Deleting...' : 'Delete'}
               okDisabled={deleteTag.isLoading}
               {...(deleteTag.isError && {
