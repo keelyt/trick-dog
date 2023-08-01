@@ -1,0 +1,61 @@
+@use '@styles/themes';
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: auto;
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+
+  height: calc(100vh - 4rem);
+  height: calc(100dvh - 4rem);
+
+  @media (max-height: 800px) {
+    height: 100%;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.decks {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  margin: 0 0 0.75rem 0;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  gap: 0.75rem;
+  border-top: 0.75rem solid;
+  border-bottom: 0.75rem solid;
+
+  @include themes.themed {
+    background-color: themes.t('bg-secondary');
+    border-color: themes.t('bg-secondary');
+  }
+}

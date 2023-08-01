@@ -1,0 +1,53 @@
+@use '@styles/themes';
+
+.settings-container {
+  grid-area: main;
+}
+
+.content {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 0 0.5rem;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 2.5rem;
+  width: fit-content;
+
+  &__rename {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+  }
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__text {
+    margin: 0 1rem 0 0;
+    color: red;
+  }
+}
+
+.form {
+  display: flex;
+  align-items: first baseline;
+  gap: 0.25rem;
+}

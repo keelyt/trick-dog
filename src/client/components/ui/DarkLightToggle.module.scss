@@ -1,0 +1,38 @@
+@use '@styles/themes';
+
+.btn {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 0.5rem;
+  box-shadow: none;
+  border: 2px solid;
+  border-radius: 50%;
+  font-size: 1.5em;
+  width: fit-content;
+  height: fit-content;
+  -ms-transform: rotate(0deg); /* IE 9 */
+  -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+  transition: transform 1s;
+
+  @include themes.themed {
+    border-color: themes.t('text');
+    color: themes.t('text');
+  }
+
+  &:hover {
+    @include themes.themed {
+      background-color: themes.t('bg-nav-hover');
+    }
+  }
+
+  &.rotate {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transition: transform 1s;
+  }
+}

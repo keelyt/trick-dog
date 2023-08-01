@@ -1,0 +1,59 @@
+@use '@styles/variables' as var;
+@use '@styles/themes';
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 100%;
+  max-width: 450px;
+  padding: 4rem 2rem 5rem;
+  text-align: center;
+  border-radius: 10px;
+
+  @include themes.themed {
+    background-color: themes.t('bg-secondary');
+    box-shadow:
+      0 1px 3px 0 themes.t('shadow-primary'),
+      0 1px 2px -1px themes.t('shadow-primary');
+  }
+}
+
+.logo {
+  fill: var.$trick-dog;
+  height: 100px;
+  width: 100px;
+}
+
+.heading {
+  font-family: 'Figtree', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+
+  @media (max-width: var.$breakpoint-sm) {
+    font-size: 2.5rem;
+  }
+}
+
+.subheading {
+  font-family: 'Figtree', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.text {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.divider {
+  width: 90%;
+  border: 0.5px solid;
+  margin: 3rem 0;
+
+  @include themes.themed {
+    border-color: themes.t('bg-deck-hover');
+  }
+}

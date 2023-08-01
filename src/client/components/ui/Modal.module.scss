@@ -1,0 +1,59 @@
+@use '@styles/themes';
+@use '@styles/variables' as var;
+
+.modal {
+  position: fixed;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  &__inner {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100dvh;
+    padding: 2.5rem;
+    border-radius: 0.25rem;
+    box-shadow: rgba(0, 0, 0, 0.75) 0px 5px 15px;
+
+    @include themes.themed {
+      background-color: themes.t('bg');
+    }
+
+    @media (max-width: var.$breakpoint-md) {
+      padding: 1.5rem;
+    }
+  }
+}
+
+.btn {
+  position: absolute;
+  cursor: pointer;
+  top: 0px;
+  right: 0px;
+  margin: 0.5rem;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+
+  @include themes.themed {
+    color: themes.t('text');
+  }
+
+  @media (max-width: var.$breakpoint-md) {
+    margin: 0.15rem;
+  }
+}

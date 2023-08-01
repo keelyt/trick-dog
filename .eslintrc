@@ -10,8 +10,11 @@
     "plugin:import/errors",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "plugin:jest-dom/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:promise/recommended",
+    "plugin:testing-library/react",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict",
@@ -32,16 +35,23 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "indent": ["error", 2],
     "no-console": 1,
     "no-var": 1,
     "no-nested-ternary": 1,
     "no-template-curly-in-string": 1,
-    "camelcase": "error",
+    "camelcase": 1,
     "spaced-comment": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "type-imports" }],
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ],
     "import/order": [
       "error",
       {
@@ -49,12 +59,44 @@
           "builtin",
           "external",
           "internal",
-          "parent",
-          "sibling",
+          ["parent", "sibling"],
           "index",
           "object",
           "type"
-        ]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "vite",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "^react(-dom)?$",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "@tanstack/react-query*",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "{./*.scss,../../*/*.scss}",
+            "group": "sibling",
+            "position": "after"
+          },
+          {
+            "pattern": "dotenv",
+            "group": "builtin",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   },
@@ -63,10 +105,16 @@
       // Tells eslint-plugin-react to automatically detect the version of React to use.
       "version": "detect"
     },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
     // Tells eslint how to resolve imports
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": "./tsconfig.json"
       }
     }
   }

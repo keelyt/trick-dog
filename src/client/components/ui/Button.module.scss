@@ -1,0 +1,117 @@
+@use '@styles/themes';
+
+.button {
+  $self: &;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  border: none;
+  border-radius: 0.25rem;
+  line-height: 1.5em;
+  gap: 0.25rem;
+  color: inherit;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: 400;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &--lg {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+
+    @media (max-width: 350px) {
+      padding: 0.35rem 0.75rem;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+    }
+  }
+
+  &--md {
+    font-size: 1rem;
+    padding: 0.35rem 0.75rem;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+
+  &--sm {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+
+  &--rounded {
+    &#{$self}--lg {
+      border-radius: 1.15rem;
+
+      @media (max-width: 350px) {
+        border-radius: 1rem;
+      }
+    }
+
+    &#{$self}--md {
+      border-radius: 1rem;
+    }
+
+    &#{$self}--sm {
+      border-radius: 0.88rem;
+    }
+  }
+
+  @include themes.themed {
+    background-color: themes.t('bg-button');
+    border-color: themes.t('border-button');
+    box-shadow:
+      0 1px 3px 0 themes.t('shadow-button'),
+      0 1px 2px -1px themes.t('shadow-button');
+
+    &:active,
+    &:hover {
+      box-shadow: none;
+      border-color: themes.t('border-button-hover');
+      background-color: themes.t('bg-button-hover');
+    }
+  }
+
+  &--secondary {
+    @include themes.themed {
+      background-color: themes.t('bg-button');
+      border-color: themes.t('border-button');
+      box-shadow:
+        0 1px 3px 0 themes.t('shadow-button-secondary'),
+        0 1px 2px -1px themes.t('shadow-button-secondary');
+
+      &:active,
+      &:hover {
+        box-shadow: none;
+        border-color: themes.t('border-button-hover');
+        background-color: themes.t('bg-button-hover');
+      }
+    }
+  }
+
+  &--card {
+    @include themes.themed {
+      background-color: themes.t('bg-button-card');
+      border-color: themes.t('border-button-card');
+      box-shadow:
+        0 1px 3px 0 themes.t('shadow-button-card'),
+        0 1px 2px -1px themes.t('shadow-button-card');
+
+      &:active,
+      &:hover {
+        box-shadow: none;
+        border-color: themes.t('border-button-card-hover');
+        background-color: themes.t('bg-button-card-hover');
+      }
+    }
+  }
+}

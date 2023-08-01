@@ -1,0 +1,16 @@
+.edit-container {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 800px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
