@@ -1,5 +1,5 @@
 ---
-name: Feature request \U0001F680
+name: "Feature request \U0001F680"
 about: Suggest an idea for this project
 title: 'Please replace with a clear and descriptive title'
 labels: 'type: feature'
