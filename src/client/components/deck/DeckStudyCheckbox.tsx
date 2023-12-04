@@ -100,7 +100,7 @@ export default function DeckStudyCheckbox({
           id={`tl-${deckId}`}
           className={`${styles.tags} ${expanded ? '' : styles['tags--collapsed']}`}
         >
-          <h3 className={styles.tags__heading}>Narrow by tag:</h3>
+          <span className={styles.tags__heading}>Narrow by tag:</span>
           <ul className={styles.tags__list}>
             {tags.map((tag, i) => (
               <li

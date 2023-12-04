@@ -93,13 +93,11 @@ export default function StudyReviewer({ selection }: { selection: string }) {
               )}
               {cardsQuery.isSuccess && !cardsQuery.isRefetching && !mutatingLast && (
                 <>
-                  <div className={styles.card__text}>{cardsQuery.data[currentIndex].question}</div>
+                  <p className={styles.card__text}>{cardsQuery.data[currentIndex].question}</p>
                   {answerRevealed && (
                     <>
                       <hr className={styles.card__divider} />
-                      <div className={styles.card__text}>
-                        {cardsQuery.data[currentIndex].answer}
-                      </div>
+                      <p className={styles.card__text}>{cardsQuery.data[currentIndex].answer}</p>
                     </>
                   )}
                 </>
