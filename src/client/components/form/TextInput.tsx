@@ -38,7 +38,7 @@ export default function TextInput<TFormValues extends FieldValues>({
         <input
           {...register(name, validation)}
           id={name}
-          placeholder={placeholder}
+          {...(placeholder && { placeholder: placeholder })}
           aria-invalid={errors[name] ? 'true' : 'false'}
           className={styles.input}
         />

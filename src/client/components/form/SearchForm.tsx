@@ -61,7 +61,7 @@ export default function SearchForm<TFormValues extends FieldValues>({
           {...rest}
           type='search'
           id='search'
-          placeholder={placeholder}
+          {...(placeholder && { placeholder: placeholder })}
           enterKeyHint='search'
           autoComplete='off'
           autoCorrect='off'

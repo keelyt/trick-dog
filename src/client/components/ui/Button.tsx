@@ -83,7 +83,7 @@ const Button = forwardRef(
     ref?: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     const classes = `${styles.button} ${styles[`button--${size}`]} ${
-      styles[`button--${colorScheme}`]
+      colorScheme !== 'primary' && styles[`button--${colorScheme}`]
     } ${rounded ? styles[`button--rounded`] : ''}`;
 
     if (as === 'link') {
